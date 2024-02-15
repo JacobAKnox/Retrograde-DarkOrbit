@@ -11,6 +11,7 @@ const config = {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
   testEnvironment: 'jsdom',
+  
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 

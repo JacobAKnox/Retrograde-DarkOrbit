@@ -17,7 +17,7 @@ describe('DisplayNameForm', () => {
     // Here i need to use the join button to see if username is taken.
     fireEvent.click(joinButton);
 
-    expect(screen.getByText('Username is already taken, please choose another.')).toBeInTheDocument();
+    expect(screen.queryByText('Username is already taken, please choose another.')).toBeTruthy();
 
     expect(handleJoinMock).not.toHaveBeenCalled();
   });
