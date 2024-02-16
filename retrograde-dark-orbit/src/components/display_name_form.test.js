@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import DisplayNameForm from './DisplayNameForm';
+import DisplayNameForm from './display_name_form';
 
 describe('DisplayNameForm', () => {
   it('handles non-unique usernames correctly', () => {

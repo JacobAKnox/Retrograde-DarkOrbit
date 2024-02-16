@@ -1,4 +1,4 @@
-//todo
+//to finish
 import React, { useState } from 'react';
 
 export default function DisplayNameForm({ onJoin, existingUsernames }) {
