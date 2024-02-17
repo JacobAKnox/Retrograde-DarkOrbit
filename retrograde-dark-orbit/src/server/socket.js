@@ -2,7 +2,9 @@
 // socket.io interactions :)
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:4000');
+export let socket = io('http://localhost:4000');
 
-export default socket;
-
+export async function join_lobby(username, code) {
+    const result = await socket.emitWithAck('join', {username: username, code: code});
+    return result.status === 'ok';
+}
