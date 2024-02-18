@@ -12,5 +12,7 @@ export function join_lobby(lobby_code, username, lobby_list=lobbies) {
     const user_id = crypto.randomUUID()
     lobby_list[lobby_code][user_id] = username;
 
+    console.log(`Joined room ${lobby_code} with username ${username}`);
+
     return {status: 200, uuid: user_id};
 }

@@ -6,7 +6,7 @@ exports[`join lobby form renders join panel unchanged 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="bg-inherit p-4 m-4 flex flex-col"
+        class="bg-inherit p-4 m-4 items-center flex flex-col"
       >
         <input
           aria-label="Username"
@@ -26,12 +26,15 @@ exports[`join lobby form renders join panel unchanged 1`] = `
         >
           Join
         </button>
+        <p
+          class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+        />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="bg-inherit p-4 m-4 flex flex-col"
+      class="bg-inherit p-4 m-4 items-center flex flex-col"
     >
       <input
         aria-label="Username"
@@ -51,6 +54,9 @@ exports[`join lobby form renders join panel unchanged 1`] = `
       >
         Join
       </button>
+      <p
+        class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+      />
     </div>
   </div>,
   "debug": [Function],
