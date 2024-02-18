@@ -15,7 +15,7 @@ describe("retrograde-darkorbit socket.io server test", () => {
   });
 
   test("join confirmation", async () => {
-    const result = await clientSocket.emitWithAck('join' , {code: "abc", username: "test"});
-    expect(result.status).toBe('ok');
+    const result = await clientSocket.emitWithAck('join' , {code: "ABCD", username: "test"});
+    expect(result.status).toBe(200);
   });
 });

@@ -1,6 +1,7 @@
 import express from 'express';
 import {createServer} from 'node:http';
 import {Server} from 'socket.io';
+import { join_lobby } from './lobbies/lobbies';
 
 const app = express();
 const server = createServer(app);
@@ -14,9 +15,15 @@ io.on('connection', (socket) => {
   socket.on('join', (data, callback) => {
     // add join room logic here
     console.log(`Joined room ${data.code} with username ${data.username}`);
-    callback({
-      status: 'ok'
-    });
+    if (data.code === undefined || data.username === undefined) {
+      // this shouldn't happen unless someone is doing something outside the website
+      callback({
+        status: 400,
+        message: "bad packet"
+      });
+    }
+
+    callback(join_lobby(data.code, data.username));
   });
 });
 
