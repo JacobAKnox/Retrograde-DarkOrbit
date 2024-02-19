@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { navigate } from "./navigation";
+import { join_lobby } from "./../server/socket";
 
-export default function JoinPanel({try_join_lobby, navigation = navigate}) {
+export default function JoinPanel({try_join_lobby=join_lobby, navigation = navigate}) {
     const [usernameInput, setUsernameInput] = useState("");
     const [codeInput, setCodeInput] = useState("");
     const [errorMessage, setErrorMessage] = useState("");

@@ -1,4 +1,5 @@
 //to finish
+"use client"
 import React, { useState } from 'react';
 
 export default function DisplayNameForm({ onJoin, existingUsernames }) {
