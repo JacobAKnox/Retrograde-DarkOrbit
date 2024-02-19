@@ -18,4 +18,16 @@ describe("retrograde-darkorbit socket.io server test", () => {
     const result = await clientSocket.emitWithAck('join' , {code: "ABCD", username: "test"});
     expect(result.status).toBe(200);
   });
+
+  test("chat message", async () => {
+    const result = new Promise((resolve) => {
+      clientSocket.once('receive chat msg', (data) => {
+        resolve(data.message);
+      });
+    });
+
+    clientSocket.emit('send chat msg', { message: 'test' });
+
+    expect(await result).toBe('test');
+  });
 });

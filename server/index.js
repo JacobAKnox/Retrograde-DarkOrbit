@@ -8,8 +8,8 @@ const server = createServer(app);
 export const io = new Server(server);
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+  socket.on('send chat msg', (data) => {
+    socket.emit('receive chat msg', data);
   });
 
   socket.on('join', (data, callback) => {
