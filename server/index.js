@@ -1,18 +1,18 @@
-import express from 'express';
-import {createServer} from 'node:http';
-import {Server} from 'socket.io';
-import { join_lobby } from './lobbies/lobbies.js';
+import express from "express";
+import {createServer} from "node:http";
+import {Server} from "socket.io";
+import { join_lobby } from "./lobbies/lobbies.js";
 
 const app = express();
 const server = createServer(app);
 export const io = new Server(server);
 
-io.on('connection', (socket) => {
-  socket.on('send chat msg', (data) => {
-    socket.emit('receive chat msg', data);
+io.on("connection", (socket) => {
+  socket.on("send chat msg", (data) => {
+    socket.emit("receive chat msg", data);
   });
 
-  socket.on('join', (data, callback) => {
+  socket.on("join", (data, callback) => {
     // add join room logic here
     if (data.code === undefined || data.username === undefined) {
       // this shouldn't happen unless someone is doing something outside the website
@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(4000, () => {
-  console.log('server running at http://localhost:4000');
+  console.log("server running at http://localhost:4000");
 });
 
 export function closeServer() {
