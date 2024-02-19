@@ -1,9 +1,9 @@
+import ExitLobbyButton from "@/components/exit_lobby_button";
+
 export default function Page() {
     return (
         <main>
-            <p>
-                Lobby page
-            </p>
+            <ExitLobbyButton/>
         </main>
     );
 }
