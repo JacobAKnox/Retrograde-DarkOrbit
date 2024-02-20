@@ -9,7 +9,7 @@ export default function DisplayNameForm() {
     const handleJoin = async () => {
         try {
             // Attempt to join the lobby through the server
-            const result = await join_lobby(username, 'WXYZ'); // Replace 'some-code' with actual code if we need
+            const result = await join_lobby(username, 'WXYZ'); 
             if (result.status === '200') {
                 setFeedback('Joined successfully!');
             } else {
