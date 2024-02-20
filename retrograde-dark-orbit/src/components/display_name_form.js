@@ -9,8 +9,8 @@ export default function DisplayNameForm() {
     const handleJoin = async () => {
         try {
             // Attempt to join the lobby through the server
-            const result = await join_lobby(username, 'some-code'); // Replace 'some-code' with actual code if we need
-            if (result.status === 'ok') {
+            const result = await join_lobby(username, 'WXYZ'); // Replace 'some-code' with actual code if we need
+            if (result.status === '200') {
                 setFeedback('Joined successfully!');
             } else {
                 setFeedback(result.message);
@@ -22,7 +22,7 @@ export default function DisplayNameForm() {
     };
 
     return (
-        <div className="bg-inherit p-4 m-4 flex flex-col">
+        <div className="bg-inherit p-4 m-4 items-center flex flex-col">
             <input
                 className="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl"
                 placeholder="Username"
