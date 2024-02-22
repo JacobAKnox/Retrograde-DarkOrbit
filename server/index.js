@@ -1,11 +1,20 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby } from "./lobbies/lobbies.js";
+import { join_lobby, leave_lobby } from "./lobbies/lobbies.js";
+import { find_or_create_session } from "./sessions/sessions.js";
 
 const app = express();
 const server = createServer(app);
 export const io = new Server(server);
+
+io.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+  const result = find_or_create_session(sessionID);
+  socket.sessionID = result.sessionId;
+  socket.userID = result.userId;
+  next();
+});
 
 io.on("connection", (socket) => {
   socket.on("send chat msg", (data) => {
@@ -21,8 +30,22 @@ io.on("connection", (socket) => {
         message: "bad packet"
       });
     }
-    callback(join_lobby(data.code, data.username));
+    const result = join_lobby(data.code, data.username, socket.userID);
+    if (result.status === 200) {socket.username = data.username;}
+    callback(result);
   });
+
+  socket.on("leave", (callback) => {
+    console.log("left");
+    callback(leave_lobby(socket.userID));
+  });
+
+  socket.emit("session", {
+    sessionID: socket.sessionID,
+    userID: socket.userID
+  });
+
+  console.log("connect")
 });
 
 server.listen(4000, () => {
