@@ -4,8 +4,16 @@
 // socket.io interactions :)
 import { io } from 'socket.io-client';
 
-export let socket = io('http://localhost:4000');
+let socket = io('http://localhost:4000');
 
 export async function join_lobby(username, code) {
     return await socket.emitWithAck('join', {username: username, code: code});
 }
+
+export async function chat_message(message) {
+    socket.emit("send chat msg", message);
+}
+
+socket.on("receive chat msg", (message) => {
+    console.log(message, socket.id);
+})
