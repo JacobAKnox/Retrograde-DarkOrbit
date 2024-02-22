@@ -38,3 +38,11 @@ export async function leave_lobby() {
 export default function Connector() {
     useEffect(connect, []);
 }
+
+export async function chat_message(message) {
+    socket.emit("send chat msg", message);
+}
+
+socket.on("receive chat msg", (message) => {
+    console.log(message, socket.id);
+})

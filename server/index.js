@@ -17,8 +17,9 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-  socket.on("send chat msg", (data) => {
-    socket.emit("receive chat msg", data);
+  socket.on("send chat msg", (message) => {
+    console.log(`Message: ${message}`);
+    socket.emit("receive chat msg", message);
   });
 
   socket.on("join", (data, callback) => {
