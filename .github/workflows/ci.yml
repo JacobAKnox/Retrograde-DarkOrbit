@@ -18,14 +18,13 @@ jobs:
       with:
         node-version: '21'
 
-    # move to next project
-    - name: Move to project
-      run: cd retrograde-dark-orbit
-      
     # Install dependencies
     - name: Install Dependencies
       run: npm ci
+      working-directory: ./retrograde-dark-orbit
 
     # Run Jest tests
     - name: Run Tests
       run: npm run test
+      working-directory: ./retrograde-dark-orbit
+      
