@@ -43,7 +43,7 @@ describe("retrograde-darkorbit socket.io server test", () => {
       });
     });
 
-    clientSocket.emit("send chat msg", "test");
+    clientSocket.emit("send chat msg", {message: "test"});
     expect((await result)).toBe("test");
   });
 });
