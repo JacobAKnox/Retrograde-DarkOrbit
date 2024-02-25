@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main , CItesting]
   pull_request:
     branches: [ main ]
 
@@ -16,15 +16,15 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '21'
     # Install dependencies
     - name: Install Dependencies
       run: npm ci
 
-    # Build the project
-    - name: Build
-      run: npm run build
+    # move to next project
+    - name: Move to project
+      run: cd retrograde-dark-orbit
 
     # Run Jest tests
     - name: Run Tests
-      run: npm test
+      run: npm run test
