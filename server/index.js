@@ -23,9 +23,9 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   console.log("user connected");
 
-  socket.on("send chat msg", (message) => {
+  socket.on("send chat msg", ({message}) => {
     console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
-    io.in(socket.roomCode).emit("receive chat msg", socket.username + ': ' + message);
+    io.in(socket.roomCode).emit("receive chat msg", {username:socket.username, message});
   });
 
   socket.on("join", (data, callback) => {

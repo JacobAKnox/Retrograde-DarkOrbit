@@ -25,6 +25,10 @@ const connect = () => {
     });
 
     socket.connect();
+
+    socket.on("receive chat msg", ({username, message}) => {
+        console.log('[' + username + ']: ' + message);
+    })
 }
 
 export async function join_lobby(username, code) {
@@ -40,9 +44,5 @@ export default function Connector() {
 }
 
 export async function chat_message(message) {
-    socket.emit("send chat msg", message);
+    socket.emit("send chat msg", {message});
 }
-
-socket.on("receive chat msg", (message) => {
-    console.log(message);
-})
