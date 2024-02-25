@@ -34,4 +34,8 @@ describe("join lobby form", () => {
     expect(mockcb.mock.calls[0][0]).toBe("test");
     expect(mockcb.mock.calls[0][1]).toBe("ABCD");
   });
+
+  it("fails", () => {
+    expect(false).toBe(true);
+  });
 });
