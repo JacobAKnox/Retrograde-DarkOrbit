@@ -15,7 +15,7 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
 
     lobby_list[lobby_code][user_id] = username;
 
-    console.log(`Joined room ${lobby_code} with username ${username}`);
+    console.log(`UserID[${user_id}] joined room ${lobby_code} with username ${username}`);
 
     return {status: 200, uuid: user_id, username};
 }

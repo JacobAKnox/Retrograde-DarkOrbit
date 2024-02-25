@@ -35,9 +35,6 @@ export default function ChatBox() {
                 onClick={clickSendHandler}>
                     Send
                 </button>
-                <p className="text-white">
-                    MESSAGE HERE
-                </p>
             </div>
         </div>
     );

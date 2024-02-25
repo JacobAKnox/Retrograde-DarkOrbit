@@ -44,5 +44,5 @@ export async function chat_message(message) {
 }
 
 socket.on("receive chat msg", (message) => {
-    console.log(message, socket.id);
+    console.log(message);
 })

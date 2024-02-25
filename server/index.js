@@ -6,7 +6,11 @@ import { find_or_create_session } from "./sessions/sessions.js";
 
 const app = express();
 const server = createServer(app);
-export const io = new Server(server);
+export const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
@@ -17,13 +21,14 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
+  console.log("user connected");
+
   socket.on("send chat msg", (message) => {
-    console.log(`Message: ${message}`);
-    socket.emit("receive chat msg", message);
+    console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
+    io.in(socket.roomCode).emit("receive chat msg", socket.username + ': ' + message);
   });
 
   socket.on("join", (data, callback) => {
-    // add join room logic here
     if (data.code === undefined || data.username === undefined) {
       // this shouldn't happen unless someone is doing something outside the website
       callback({
@@ -32,7 +37,11 @@ io.on("connection", (socket) => {
       });
     }
     const result = join_lobby(data.code, data.username, socket.userID);
-    if (result.status === 200) {socket.username = data.username;}
+    if (result.status === 200) {
+      socket.join(data.code);
+      socket.username = data.username;
+      socket.roomCode = data.code;
+    }
     callback(result);
   });
 
@@ -46,7 +55,9 @@ io.on("connection", (socket) => {
     userID: socket.userID
   });
 
-  console.log("connect")
+  socket.on("disconnect", () => {
+    console.log("user disconnected")
+  });
 });
 
 server.listen(4000, () => {
