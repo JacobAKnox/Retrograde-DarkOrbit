@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
 
   socket.on("send chat msg", ({message}) => {
     console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
-    io.in(socket.roomCode).emit("receive chat msg", {username:socket.username, message});
+    io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
   });
 
   socket.on("join", (data, callback) => {
