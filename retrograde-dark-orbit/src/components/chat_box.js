@@ -27,7 +27,7 @@ export default function ChatBox() {
             <div id="message-container" className="bg-gray-700 w-full h-[600px] p-2 rounded-xl overflow-y-auto"> 
             </div>
             <div className="bg-inherit items-center justify-start w-full h-10 mt-4 flex justify-between">
-                <input className="bg-slate-700 text-white w-[415px] h-10 rounded-xl"
+                <input className="bg-slate-700 text-white w-[415px] h-10 rounded-xl p-2"
                 value={messageInput}
                 onChange={e => {setMessage(e.target.value)}}
                 placeholder="message"
