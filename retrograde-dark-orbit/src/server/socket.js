@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 let socket = io('http://localhost:4000');
+let recMessage = (e) => {};
 
 const connect = () => {
     if (typeof window !== 'undefined') {
@@ -25,10 +26,6 @@ const connect = () => {
     });
 
     socket.connect();
-
-    socket.on("receive chat msg", ({username, message}) => {
-        console.log('[' + username + ']: ' + message);
-    })
 }
 
 export async function join_lobby(username, code) {
@@ -46,3 +43,11 @@ export default function Connector() {
 export async function chat_message(message) {
     socket.emit("send chat msg", {message});
 }
+
+export function chat_message_listener(callback) {
+    recMessage = callback;
+}
+
+socket.on("receive chat msg", ({username, message}) => {
+    recMessage('[' + username + ']: ' + message)
+})
