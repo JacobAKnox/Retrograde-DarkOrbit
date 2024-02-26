@@ -13,7 +13,7 @@ describe("lobby system", () => {
     });
 
     test("try to join with a duplicate username", () => {
-        let lobbies = {"ABCD": {"123": "test"}};
+        let lobbies = {"ABCD": {"123": {username: "test"}}};
         const copy = JSON.parse(JSON.stringify(lobbies));
         const result = join_lobby("ABCD", "test", "456", lobbies);
 
@@ -24,7 +24,7 @@ describe("lobby system", () => {
     });
 
     test("try to join a lobby you are already in", () => {
-        let lobbies = {"ABCD": {"123": "test"}};
+        let lobbies = {"ABCD": {"123": {username: "test"}}};
         const copy = JSON.parse(JSON.stringify(lobbies));
         const result = join_lobby("ABCD", "test2", "123", lobbies);
         
@@ -42,7 +42,7 @@ describe("lobby system", () => {
         expect(result.status).toBe(200);
         expect(result.uuid).toBeDefined();
         expect(result.username).toBe("test");
-        expect(lobbies.ABCD[result.uuid]).toBe("test");
+        expect(lobbies.ABCD[result.uuid].username).toBe("test");
     });
 
     test("try to leave a lobby when not in one", () => {
@@ -54,10 +54,10 @@ describe("lobby system", () => {
     });
 
     test("successfully leave a lobby", () => {
-        let lobbies = {"ABCD": {"123" : "test", "789": "bar"}, "WXYZ": {"456": "foo"}};
+        let lobbies = {"ABCD": {"123" : {username: "test"}, "789": {username: "bar"}}, "WXYZ": {"456": {username: "foo"}}};
         const result = leave_lobby("123", lobbies);
 
         expect(result.status).toBe(200);
-        expect(lobbies).toEqual({"ABCD" : {"789": "bar"}, "WXYZ": {"456": "foo"}})
+        expect(lobbies).toEqual({"ABCD" : {"789": {username: "bar"}}, "WXYZ": {"456": {username: "foo"}}});
     });
 });

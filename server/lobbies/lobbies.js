@@ -6,14 +6,16 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
     }
 
     if (lobby_list[lobby_code][user_id] !== undefined) {
-        return {status: 200, uuid: user_id, username: lobby_list[lobby_code][user_id]};
+        return {status: 200, uuid: user_id, username: lobby_list[lobby_code][user_id].username};
     }
 
-    if (Object.values(lobby_list[lobby_code]).includes(username)) {
+    if (Object.values(lobby_list[lobby_code]).map((usr) => {
+        return usr.username;
+    }).includes(username)) {
         return {status: 400, message: `User named ${username} already in lobby ${lobby_code}`};
     }
 
-    lobby_list[lobby_code][user_id] = username;
+    lobby_list[lobby_code][user_id] = {username: username};
 
     console.log(`UserID[${user_id}] joined room ${lobby_code} with username ${username}`);
 

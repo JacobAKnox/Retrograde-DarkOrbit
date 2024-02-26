@@ -36,6 +36,10 @@ export async function leave_lobby() {
     return await socket.emitWithAck('leave');
 }
 
+export function start_game() {
+    socket.emit("start_game");
+}
+
 export default function Connector() {
     useEffect(connect, []);
 }
