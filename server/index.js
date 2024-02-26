@@ -50,6 +50,10 @@ io.on("connection", (socket) => {
     callback(leave_lobby(socket.userID));
   });
 
+  socket.on("start_game", () => {
+    console.log("game started")
+  });
+
   socket.emit("session", {
     sessionID: socket.sessionID,
     userID: socket.userID

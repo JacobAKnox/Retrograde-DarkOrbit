@@ -24,11 +24,11 @@ const connect = () => {
         socket.userID = userID;
     });
 
-    socket.connect();
-
     socket.on("receive chat msg", ({username, message}) => {
         console.log('[' + username + ']: ' + message);
-    })
+    });
+
+    socket.connect();
 }
 
 export async function join_lobby(username, code) {
@@ -37,6 +37,10 @@ export async function join_lobby(username, code) {
 
 export async function leave_lobby() {
     return await socket.emitWithAck('leave');
+}
+
+export function start_game() {
+    socket.emit("start_game");
 }
 
 export default function Connector() {
