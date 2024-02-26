@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { chat_message } from '@/server/socket';
-import { chat_message_listener } from "@/server/socket";
+import { chat_message, chat_message_listener } from './../server/socket';
 
 export default function ChatBox() {
     const [messageInput, setMessage] = useState("");
