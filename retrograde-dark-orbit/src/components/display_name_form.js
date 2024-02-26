@@ -6,15 +6,16 @@ export default function DisplayNameForm() {
     const [username, setUsername] = useState('');
     const [feedback, setFeedback] = useState('');
 
-    const handleJoin = async () => {
+    const handleJoin = () => {
         try {
             // Attempt to join the lobby through the server
-            const result = await join_lobby(username, 'WXYZ'); 
-            if (result.status === '200') {
-                setFeedback('Joined successfully!');
-            } else {
-                setFeedback(result.message);
-            }
+            join_lobby(username, 'WXYZ').then((result) => {
+                if (result.status === '200') {
+                    setFeedback('Joined successfully!');
+                } else {
+                    setFeedback(result.message);
+                }
+            });
         } catch (error) {
             
             setFeedback('An error occurred while joining the lobby.');
