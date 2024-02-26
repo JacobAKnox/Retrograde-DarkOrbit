@@ -17,3 +17,7 @@ export async function chat_message(message) {
 socket.on("receive chat msg", (message) => {
     console.log(message, socket.id);
 })
+
+export async function create_lobby(username) {
+    return await socket.emitWithAck('create', {username});
+}

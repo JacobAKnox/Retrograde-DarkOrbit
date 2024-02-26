@@ -1,6 +1,7 @@
 //to finish
 import React, { useState } from 'react';
-import { join_lobby } from "./../server/socket"
+import { create_lobby } from '@/server/socket';
+import { navigate } from './navigation';
 
 export default function DisplayNameForm() {
     const [username, setUsername] = useState('');
@@ -9,14 +10,16 @@ export default function DisplayNameForm() {
     const handleJoin = async () => {
         try {
             // Attempt to join the lobby through the server
-            const result = await join_lobby(username, 'WXYZ'); 
-            if (result.status === '200') {
+            const result = await create_lobby(username); 
+            console.log(result)
+            if (result.status === 200) {
+                console.log("I was hit");
+                navigate("/lobby");
                 setFeedback('Joined successfully!');
             } else {
                 setFeedback(result.message);
             }
         } catch (error) {
-            
             setFeedback('An error occurred while joining the lobby.');
         }
     };

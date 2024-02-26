@@ -16,3 +16,24 @@ export function join_lobby(lobby_code, username, lobby_list=lobbies) {
 
     return {status: 200, uuid: user_id};
 }
+
+export default function generateRandomKey() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const keyLength = 6;
+  
+    let randomKey = '';
+    for (let i = 0; i < keyLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomKey += characters.charAt(randomIndex);
+    }
+  
+    return randomKey;
+  }
+
+export function create_lobby(username, lobby_list=lobbies) {
+    const key = generateRandomKey()
+    lobbies[key] = {}
+    console.log("create lobby : lobbies.js")
+    return join_lobby(key, username)
+
+}

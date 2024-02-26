@@ -2,6 +2,7 @@ import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby } from "./lobbies/lobbies.js";
+import { create_lobby } from "./lobbies/lobbies.js";
 
 const app = express();
 const server = createServer(app);
@@ -24,6 +25,19 @@ io.on("connection", (socket) => {
     }
     callback(join_lobby(data.code, data.username));
   });
+
+  socket.on("create", (data, callback) => {
+    if (data.username === undefined) {
+      // this shouldn't happen unless someone is doing something outside the website
+      callback({
+        status: 400,
+        message: "bad packet"
+      });
+    }
+    console.log("index.js");
+    callback(create_lobby(data.username));
+  });
+
 });
 
 server.listen(4000, () => {

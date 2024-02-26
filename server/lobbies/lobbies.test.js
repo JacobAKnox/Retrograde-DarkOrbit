@@ -1,4 +1,5 @@
 import { join_lobby } from "./lobbies";
+import { create_lobby } from "./lobbies";
 
 describe("lobby system", () => {
 
@@ -28,6 +29,15 @@ describe("lobby system", () => {
         const result = join_lobby("ABCD", "test", lobbies);
 
         expect(result.status).toBe(200);
+        expect(result.uuid).toBeDefined();
+        expect(lobbies.ABCD[result.uuid]).toBe("test");
+    });
+
+    test("successful create", () => {
+        let lobbies = {"ABCD": {}, "WXYZ": {}};
+        const result = join_lobby("test", lobbies);
+        expect(result.status).toBe(200);
+        expect(Object.keys(lobbies).length).toBe(3)
         expect(result.uuid).toBeDefined();
         expect(lobbies.ABCD[result.uuid]).toBe("test");
     });
