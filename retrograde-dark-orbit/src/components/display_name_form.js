@@ -7,13 +7,12 @@ export default function DisplayNameForm() {
     const [username, setUsername] = useState('');
     const [feedback, setFeedback] = useState('');
 
-    const handleJoin = () => {
+    const handleJoin = async () => {
         try {
             // Attempt to join the lobby through the server
             const result = await create_lobby(username); 
             console.log(result)
             if (result.status === 200) {
-                console.log("I was hit");
                 navigate("/lobby");
                 setFeedback('Joined successfully!');
             } else {

@@ -17,7 +17,6 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
 
     lobby_list[lobby_code][user_id] = {username: username};
 
-<<<<<<< HEAD
     return {status: 200, uuid: user_id};
 }
 
@@ -37,13 +36,8 @@ export default function generateRandomKey() {
 export function create_lobby(username, lobby_list=lobbies) {
     const key = generateRandomKey()
     lobbies[key] = {}
-    console.log("create lobby : lobbies.js")
+    //console.log(key)
     return join_lobby(key, username)
-
-=======
-    console.log(`UserID[${user_id}] joined room ${lobby_code} with username ${username}`);
-
-    return {status: 200, uuid: user_id, username};
 }
 
 export function leave_lobby(user_id, lobby_list=lobbies) {
@@ -54,5 +48,4 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
 
     lobby_list[lobby_id[0]][user_id] = undefined;
     return {status: 200};
->>>>>>> 68621f78772618c16b194cd1ef3025dc5b171882
 }

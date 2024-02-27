@@ -1,13 +1,10 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-<<<<<<< HEAD
 import { join_lobby } from "./lobbies/lobbies.js";
 import { create_lobby } from "./lobbies/lobbies.js";
-=======
-import { join_lobby, leave_lobby } from "./lobbies/lobbies.js";
+import { leave_lobby } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
->>>>>>> 68621f78772618c16b194cd1ef3025dc5b171882
 
 const app = express();
 const server = createServer(app);
@@ -76,7 +73,6 @@ io.on("connection", (socket) => {
         message: "bad packet"
       });
     }
-    console.log("index.js");
     callback(create_lobby(data.username));
   });
 

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import { join_lobby } from "./lobbies";
 import { create_lobby } from "./lobbies";
-=======
 import { join_lobby, leave_lobby } from "./lobbies";
->>>>>>> 68621f78772618c16b194cd1ef3025dc5b171882
 
 describe("lobby system", () => {
 
@@ -50,7 +47,6 @@ describe("lobby system", () => {
         expect(lobbies.ABCD[result.uuid].username).toBe("test");
     });
 
-<<<<<<< HEAD
     test("successful create", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
         const result = join_lobby("test", lobbies);
@@ -60,7 +56,6 @@ describe("lobby system", () => {
         expect(lobbies.ABCD[result.uuid]).toBe("test");
     });
 
-=======
     test("try to leave a lobby when not in one", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
         const result = leave_lobby("123", lobbies);
@@ -76,5 +71,4 @@ describe("lobby system", () => {
         expect(result.status).toBe(200);
         expect(lobbies).toEqual({"ABCD" : {"789": {username: "bar"}}, "WXYZ": {"456": {username: "foo"}}});
     });
->>>>>>> 68621f78772618c16b194cd1ef3025dc5b171882
 });
