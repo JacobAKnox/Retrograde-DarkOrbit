@@ -1,19 +1,23 @@
 let lobbies = {"ABCD": {}, "WXYZ": {}};
 
-export function join_lobby(lobby_code, username, lobby_list=lobbies) {
+export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
     if (!(lobby_code in lobby_list)) {
         return{status: 400, message: `No lobby with code ${lobby_code}`};
     }
 
-    if (Object.values(lobby_list[lobby_code]).includes(username)) {
-        return{status: 400, message: `User named ${username} already in lobby ${lobby_code}`};
+    if (lobby_list[lobby_code][user_id] !== undefined) {
+        return {status: 200, uuid: user_id, username: lobby_list[lobby_code][user_id].username};
     }
 
-    const user_id = crypto.randomUUID()
-    lobby_list[lobby_code][user_id] = username;
+    if (Object.values(lobby_list[lobby_code]).map((usr) => {
+        return usr.username;
+    }).includes(username)) {
+        return {status: 400, message: `User named ${username} already in lobby ${lobby_code}`};
+    }
 
-    console.log(`Joined room ${lobby_code} with username ${username}`);
+    lobby_list[lobby_code][user_id] = {username: username};
 
+<<<<<<< HEAD
     return {status: 200, uuid: user_id};
 }
 
@@ -36,4 +40,19 @@ export function create_lobby(username, lobby_list=lobbies) {
     console.log("create lobby : lobbies.js")
     return join_lobby(key, username)
 
+=======
+    console.log(`UserID[${user_id}] joined room ${lobby_code} with username ${username}`);
+
+    return {status: 200, uuid: user_id, username};
+}
+
+export function leave_lobby(user_id, lobby_list=lobbies) {
+    const lobby_id = Object.keys(lobby_list).filter((key) => lobby_list[key][user_id] !== undefined);
+    if (lobby_id.length === 0) {
+        return {status: 400, message: `You are not in a lobby`};
+    }
+
+    lobby_list[lobby_id[0]][user_id] = undefined;
+    return {status: 200};
+>>>>>>> 68621f78772618c16b194cd1ef3025dc5b171882
 }

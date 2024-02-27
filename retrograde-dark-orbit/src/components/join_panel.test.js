@@ -1,5 +1,6 @@
 import { screen, render, fireEvent } from '@testing-library/react'
 import JoinPanel from './join_panel'
+import "setimmediate";
  
 describe("join lobby form", () => {
   const mockcb = jest.fn((username, code) => {return Promise.resolve({status: 200, uuid: 123})});

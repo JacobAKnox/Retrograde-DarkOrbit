@@ -4,6 +4,8 @@ import DisplayNameForm from "./../components/display_name_form";
 import JoinPanel from "./../components/join_panel";
 
 export default function Home() {
+  
+
   return (
     <main className="flex justify-center items-start">
       <div className="flex w-1/2 min-h-screen flex-row items-center justify-between p-24">

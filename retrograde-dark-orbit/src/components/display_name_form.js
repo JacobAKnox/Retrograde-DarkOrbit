@@ -7,7 +7,7 @@ export default function DisplayNameForm() {
     const [username, setUsername] = useState('');
     const [feedback, setFeedback] = useState('');
 
-    const handleJoin = async () => {
+    const handleJoin = () => {
         try {
             // Attempt to join the lobby through the server
             const result = await create_lobby(username); 

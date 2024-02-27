@@ -54,13 +54,16 @@ exports[`renders main page unchanged 1`] = `
               </b>
             </h1>
             <div
-              class="bg-inherit p-4 m-4 flex flex-col"
+              class="bg-inherit p-4 m-4 items-center flex flex-col"
             >
               <input
                 aria-label="Username"
-                class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl false"
+                class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl"
                 placeholder="Username"
                 value=""
+              />
+              <p
+                class="text-red-500 text-xs italic"
               />
               <button
                 class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl"
@@ -123,13 +126,16 @@ exports[`renders main page unchanged 1`] = `
             </b>
           </h1>
           <div
-            class="bg-inherit p-4 m-4 flex flex-col"
+            class="bg-inherit p-4 m-4 items-center flex flex-col"
           >
             <input
               aria-label="Username"
-              class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl false"
+              class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl"
               placeholder="Username"
               value=""
+            />
+            <p
+              class="text-red-500 text-xs italic"
             />
             <button
               class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl"

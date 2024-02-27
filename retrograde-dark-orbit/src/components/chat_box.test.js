@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
-import Header from './header';
+import ChatBox from './chat_box';
 import "setimmediate";
 
-it('renders header unchanged', () => {
-    const page = render(<Header/>);
+it('chat_box component test', () => {
+    const page = render(<ChatBox/>);
     expect(page).toMatchSnapshot();
 });

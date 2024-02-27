@@ -1,10 +1,16 @@
 const ioc = require("socket.io-client");
-const {closeServer} = require("./index")
+const {closeServer, io} = require("./index");
 
 describe("retrograde-darkorbit socket.io server test", () => {
   let clientSocket;
 
   beforeEach((done) => {
+    io.on("connection", (socket) => {
+      socket.on("test_join", (code) => {
+        socket.roomCode = code;
+        socket.join(code);
+      });
+    });
     clientSocket = ioc(`http://localhost:4000`);
     clientSocket.on("connect", done);
   });
@@ -30,14 +36,14 @@ describe("retrograde-darkorbit socket.io server test", () => {
   });
 
   test("client sends chat message", async () => {
+    clientSocket.emit("test_join", "FOO");
     const result = new Promise((resolve) => {
       clientSocket.once("receive chat msg", (data) => {
         resolve(data.message);
       });
     });
 
-    clientSocket.emit("send chat msg", { message: "test" });
-
-    expect(await result).toBe("test");
+    clientSocket.emit("send chat msg", {message: "test"});
+    expect((await result)).toBe("test");
   });
 });
