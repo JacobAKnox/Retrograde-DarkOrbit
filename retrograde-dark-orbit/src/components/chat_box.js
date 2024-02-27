@@ -22,7 +22,7 @@ export default function ChatBox() {
     }
 
     return (
-        <div className="border-4 border-blue-400 min-w-[600px] min-h-[600px] bg-gray-800 m-20 p-4 rounded-xl flex-col">
+        <div className="min-w-[600px] min-h-[600px] bg-gray-800 p-4 rounded-xl flex-col">
             <div id="message-container" className="bg-gray-700 w-full h-[600px] p-2 rounded-xl overflow-y-auto"> 
             </div>
             <div className="bg-inherit items-center justify-start w-full h-10 mt-4 flex justify-between">
