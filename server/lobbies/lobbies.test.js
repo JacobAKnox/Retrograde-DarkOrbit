@@ -1,4 +1,3 @@
-import { join_lobby } from "./lobbies";
 import { create_lobby } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
@@ -40,7 +39,7 @@ describe("lobby system", () => {
     test("successful join", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
         const result = join_lobby("ABCD", "test", "123", lobbies);
-
+        console.log(result)
         expect(result.status).toBe(200);
         expect(result.uuid).toBeDefined();
         expect(result.username).toBe("test");
