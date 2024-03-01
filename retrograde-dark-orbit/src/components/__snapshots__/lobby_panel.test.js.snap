@@ -35,6 +35,11 @@ exports[`renders on-screen 1`] = `
           class="flex flex-col min-w-[400px] justify-end ml-4 p-4 bg-gray-800 rounded-xl"
         >
           <div
+            class="flex items-center justify-center bg-gray-700 min-h-[516px] rounded-xl mb-4"
+          >
+            list of users in lobby goes here...
+          </div>
+          <div
             class="bg-gray-700 rounded-xl w-full p-4 overflow-y-auto"
           >
             <div
@@ -94,6 +99,11 @@ exports[`renders on-screen 1`] = `
       <div
         class="flex flex-col min-w-[400px] justify-end ml-4 p-4 bg-gray-800 rounded-xl"
       >
+        <div
+          class="flex items-center justify-center bg-gray-700 min-h-[516px] rounded-xl mb-4"
+        >
+          list of users in lobby goes here...
+        </div>
         <div
           class="bg-gray-700 rounded-xl w-full p-4 overflow-y-auto"
         >
