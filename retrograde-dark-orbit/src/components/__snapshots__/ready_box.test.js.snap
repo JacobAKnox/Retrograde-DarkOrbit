@@ -5,21 +5,61 @@ exports[`renders on-screen 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <button
-        class="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
-        role="button"
+      <div
+        class="bg-gray-700 rounded-xl w-full p-4 overflow-y-auto"
       >
-        Ready
-      </button>
+        <div
+          class="flex justify-center pb-4"
+        >
+          <div
+            class="flex justify-center"
+          >
+            0
+            /
+            0
+             players ready
+          </div>
+        </div>
+        <div
+          class="flex justify-center"
+        >
+          <button
+            class="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
+            role="button"
+          >
+            Ready
+          </button>
+        </div>
+      </div>
     </div>
   </body>,
   "container": <div>
-    <button
-      class="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
-      role="button"
+    <div
+      class="bg-gray-700 rounded-xl w-full p-4 overflow-y-auto"
     >
-      Ready
-    </button>
+      <div
+        class="flex justify-center pb-4"
+      >
+        <div
+          class="flex justify-center"
+        >
+          0
+          /
+          0
+           players ready
+        </div>
+      </div>
+      <div
+        class="flex justify-center"
+      >
+        <button
+          class="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
+          role="button"
+        >
+          Ready
+        </button>
+      </div>
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

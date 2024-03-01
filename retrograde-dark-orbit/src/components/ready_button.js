@@ -27,7 +27,7 @@ export default function ReadyButton() {
   }
 
   return (
-    <button className="bg-slate-900 min-w-[175px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700" onClick={() => toggle()} role="button">
+    <button className="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700" onClick={() => toggle()} role="button">
       {buttonText}
     </button>
   )
