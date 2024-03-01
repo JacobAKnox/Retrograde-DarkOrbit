@@ -50,3 +50,11 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
     lobby_list[lobby_id[0]][user_id] = undefined;
     return {status: 200};
 }
+
+export function get_lobby(lobby_code, lobby_list=lobbies) {
+    if (!(lobby_code in lobby_list)) {
+        return false;
+    }
+
+    return lobby_list[lobby_code];
+}

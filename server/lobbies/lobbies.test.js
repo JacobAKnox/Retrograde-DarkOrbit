@@ -1,4 +1,4 @@
-import { create_lobby } from "./lobbies";
+import { create_lobby, get_lobby } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
@@ -69,5 +69,19 @@ describe("lobby system", () => {
 
         expect(result.status).toBe(200);
         expect(lobbies).toEqual({"ABCD" : {"789": {username: "bar"}}, "WXYZ": {"456": {username: "foo"}}});
+    });
+
+    test("successful find lobby", () => {
+        let lobbies = {"ABCD": {data: "test_data"}, "WXYZ": {}};
+        const result = get_lobby("ABCD", lobbies);
+
+        expect(result.data).toBe("test_data");
+    });
+
+    test("failed to find a lobby", () => {
+        let lobbies = {"ABCD": {}, "WXYZ": {}};
+        const result = get_lobby("NOTHERE", lobbies);
+
+        expect(result).toBe(false);
     });
 });

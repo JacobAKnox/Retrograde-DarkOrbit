@@ -44,7 +44,7 @@ export async function create_lobby(username) {
     return await socket.emitWithAck('create', {username});
 }
 export function start_game() {
-    socket.emit("start_game");
+    socket.emitWithAck("start_game");
 }
 
 export default function Connector() {

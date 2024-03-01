@@ -1,8 +1,9 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby, create_lobby, leave_lobby } from "./lobbies/lobbies.js";
+import { join_lobby, create_lobby, leave_lobby, get_lobby } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
+import { start_game } from "./games/game.js";
 
 const app = express();
 const server = createServer(app);
@@ -41,6 +42,7 @@ io.on("connection", (socket) => {
       socket.join(data.code);
       socket.username = data.username;
       socket.roomCode = data.code;
+      socket.lobby = get_lobby(data.code);
     }
     callback(result);
   });
@@ -50,8 +52,12 @@ io.on("connection", (socket) => {
     callback(leave_lobby(socket.userID));
   });
 
-  socket.on("start_game", () => {
-    console.log("game started")
+  // this probably needs to be moved to execute when everyone is ready
+  socket.on("start_game", (callback) => {
+    const result = start_game(socket.lobby);
+    // notify clients that the game has started
+    io.in(socket.roomCode).emit("receive chat msg", {username: "server", message: result.status == 200 ? "started game" : "failed to start game"});
+    callback(result);
   });
 
   socket.emit("session", {
