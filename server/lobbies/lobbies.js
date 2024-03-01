@@ -22,7 +22,7 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
 }
 
 export default function generateRandomKey() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const keyLength = 6;
   
     let randomKey = '';
