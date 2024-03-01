@@ -11,6 +11,7 @@ export default function ChatBox() {
 
     async function clickSendHandler() {
         chat_message(messageInput).then();
+        setMessage("");
     }
 
     function displayMessage(message) {
