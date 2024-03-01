@@ -1,6 +1,6 @@
 //to finish
 import React, { useState } from 'react';
-import { create_lobby } from '@/server/socket';
+import { create_lobby } from './../server/socket';
 import { navigate } from './navigation';
 
 export default function DisplayNameForm() {
