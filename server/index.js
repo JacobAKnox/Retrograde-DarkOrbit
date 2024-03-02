@@ -3,7 +3,7 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
-import { start_game } from "./games/game.js";
+import { assign_roles, get_game, get_role_info, start_game } from "./games/game.js";
 
 const app = express();
 const server = createServer(app);
@@ -53,10 +53,27 @@ io.on("connection", (socket) => {
   });
 
   // this probably needs to be moved to execute when everyone is ready
-  socket.on("start_game", (callback) => {
-    const result = start_game(socket.lobby);
+  socket.on("start_game", async (callback) => {
+    const result = start_game(socket.lobby, socket.roomCode);
+    if (result.status != 200) {
+      callback(result);
+      return;
+    }
     // notify clients that the game has started
     io.in(socket.roomCode).emit("receive chat msg", {username: "server", message: result.status == 200 ? "started game" : "failed to start game"});
+    
+    let game = get_game(socket.roomCode);
+    assign_roles(game);
+    
+    // tell each player their role
+    const sockets = await io.in(socket.roomCode).fetchSockets();
+    sockets.forEach(s => {
+      s.emit("receive chat msg", 
+          {
+            username: "server", 
+            message:  `Your role is: ${get_role_info(game, s.userID)}`
+          });
+    });
     callback(result);
   });
 
