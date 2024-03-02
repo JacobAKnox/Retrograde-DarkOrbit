@@ -58,3 +58,25 @@ export function get_lobby(lobby_code, lobby_list=lobbies) {
 
     return lobby_list[lobby_code];
 }
+
+export function set_player_ready(user_id, lobby_list = lobbies) {
+    const lobby_id = Object.keys(lobby_list).find((key) => lobby_list[key].players[user_id] !== undefined);
+
+    if (lobby_id) {
+        const lobby = lobby_list[lobby_id];
+        const player = lobby.players[user_id];
+        player.ready_state = !player.ready_state;
+
+        if (player.ready_state) {
+            lobby.readyCount += 1;
+        } else {
+            lobby.readyCount -= 1;
+        }
+        io.to(lobby_id).emit("ready_count_updated", { readyCount: lobby.readyCount, totalPlayers: Object.keys(lobby.players).length });
+
+        return { status: 200, message: "Ready state toggled" };
+    }
+
+    return { status: 400, message: "Player not found in any lobby" };
+}
+

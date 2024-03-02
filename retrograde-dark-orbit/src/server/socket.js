@@ -59,6 +59,10 @@ export function chat_message_listener(callback) {
     recMessage = callback;
 }
 
+export function update_player_ready(user_id){
+    socket.emit("player_ready");
+}
+
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
 })
