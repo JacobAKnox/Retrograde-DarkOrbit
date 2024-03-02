@@ -84,4 +84,17 @@ describe("lobby system", () => {
 
         expect(result).toBe(false);
     });
+
+    test("toggle player ready state", () => {
+        let lobbies = {"ABCD": {"123": {username: "test", ready_state: false}}};
+        const result = set_player_ready("123", lobbies);
+
+        expect(result.status).toBe(200);
+        expect(result.message).toBe("Ready state toggled");
+        
+        expect(lobbies["ABCD"]["123"].ready_state).toBe(true);
+    });
+
+
+
 });

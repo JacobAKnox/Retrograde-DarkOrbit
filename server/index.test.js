@@ -46,4 +46,14 @@ describe("retrograde-darkorbit socket.io server test", () => {
     clientSocket.emit("send chat msg", {message: "test"});
     expect((await result)).toBe("test");
   });
+
+  //test player ready 
+  test("Player toggles ready", done => {
+    clientSocket.on("ready state updated", (data) => {
+      expect(data.ready).toBe(true); // Assuming the initial state is false
+      done();
+    });
+  
+    clientSocket.emit("player_ready", { userID: "test-user" });
+  });
 });

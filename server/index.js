@@ -79,6 +79,11 @@ io.on("connection", (socket) => {
     }
     callback(create_lobby(data.username));
   });
+  
+  socket.on("player_ready",(userID)=> {
+    const result = set_player_ready(userID);
+
+  });
 
 });
 
