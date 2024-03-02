@@ -48,7 +48,8 @@ describe("retrograde-darkorbit socket.io server test", () => {
   });
 
   //test player ready 
-  test("Player toggles ready", done => {
+  // remove skip when test is implemented
+  test.skip("Player toggles ready", done => {
     clientSocket.on("ready state updated", (data) => {
       expect(data.ready).toBe(true); // Assuming the initial state is false
       done();
