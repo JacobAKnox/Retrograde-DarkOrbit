@@ -4,6 +4,7 @@ import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
 import { start_game } from "./games/game.js";
+import { set_player_ready } from "./lobbies/lobbies.js";
 
 const app = express();
 const server = createServer(app);
