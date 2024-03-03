@@ -3,7 +3,7 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
-import { assign_roles, get_game, get_role_info, start_game } from "./games/game.js";
+import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 
 const app = express();
@@ -106,7 +106,8 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT | 4000;
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+  await setup();
   console.log(`server running at http://localhost:${PORT}`);
 });
 

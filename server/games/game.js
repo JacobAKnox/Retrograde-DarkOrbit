@@ -1,8 +1,13 @@
+import { fetch_roles } from "../database/database.js";
+
 let games = {};
 
-export const roles = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};
-
+export let roles = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};
 export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
+
+export async function setup() {
+    roles = await fetch_roles();
+}
 
 export function start_game(lobby, lobby_code, game_list=games) {
     if (lobby_code in game_list) {
