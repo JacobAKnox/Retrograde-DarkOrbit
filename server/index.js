@@ -88,14 +88,25 @@ io.on("connection", (socket) => {
   });
 
   socket.on("create", (data, callback) => {
-    if (data.username === undefined) {
+    if (data.username === undefined || socket.userID === null) {
       // this shouldn't happen unless someone is doing something outside the website
       callback({
         status: 400,
         message: "bad packet"
       });
     }
-    callback(create_lobby(data.username));
+
+    const result = create_lobby(data.username, socket.userID);
+    if (result.status === 200) {
+      socket.join(result.code);
+      socket.username = data.username;
+      socket.roomCode = result.code;
+      socket.lobby = get_lobby(result.code);
+    }
+    callback(result);
+    // console.log("INDEX.JS")
+    // console.log(socket.userID);
+    // callback(create_lobby(data.username, socket.userID));
   });
   
   socket.on("player_ready",(userID)=> {
