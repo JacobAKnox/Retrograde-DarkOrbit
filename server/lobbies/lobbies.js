@@ -18,7 +18,7 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
         return {status: 400, message: `User named ${username} already in lobby ${lobby_code}`};
     }
 
-    lobby_list[lobby_code][user_id] = {username: username};
+    lobby_list[lobby_code][user_id]= {username: username, ready_state:false};
     console.log(`UserID[${user_id}] joined room ${lobby_code} with username ${username}`);
 
     return {status: 200, uuid: user_id, username, code: lobby_code};
@@ -86,3 +86,21 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
     return { status: 400, message: "Player not found in any lobby" };
 }
 
+export function get_num_players(lobby_id){
+    const lobby = lobby_list[lobby_id];
+    const players_in_lobby = Object.keys(lobby).length;
+
+    return players_in_lobby;
+
+}
+
+export function get_num_ready_players(lobby_id){
+    const lobby = lobby_list[lobby_id];
+     
+    const num_ready_players = Object.values(lobby.players).reduce((count, player) => {
+        return count + (player.ready_state ? 1 : 0);
+    }, 0);
+
+    return num_ready_players;
+
+}
