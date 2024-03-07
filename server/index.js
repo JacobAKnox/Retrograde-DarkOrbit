@@ -83,6 +83,8 @@ io.on("connection", (socket) => {
     userID: socket.userID
   });
 
+  // socket.emit("lobby code", socket.roomCode);
+
   socket.on("disconnect", () => {
     console.log("user disconnected")
   });
@@ -104,11 +106,10 @@ io.on("connection", (socket) => {
       socket.lobby = get_lobby(result.code);
     }
     callback(result);
-    // console.log("INDEX.JS")
-    // console.log(socket.userID);
-    // callback(create_lobby(data.username, socket.userID));
   });
   
+  socket.emit("lobby code", "socket.roomCode");
+
   socket.on("player_ready",(userID)=> {
     const result = set_player_ready(userID);
 

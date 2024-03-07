@@ -2,8 +2,6 @@ let lobbies = {"ABCD": {}, "WXYZ": {}};
 
 export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
 
-    console.log("JOIN LOBBY FUNCTION");
-    console.log(lobby_code);
     if (!(lobby_code in lobby_list)) {
         return{status: 400, message: `No lobby with code ${lobby_code}`};
     }
@@ -40,8 +38,7 @@ export default function generateRandomKey() {
 export function create_lobby(username, user_id) {
     const key = generateRandomKey();
     lobbies[key] = {}
-    console.log("CREATELOBBY");
-    console.log(key);
+
 
     return join_lobby(key, username, user_id);
 }

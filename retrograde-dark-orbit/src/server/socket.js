@@ -66,3 +66,8 @@ export function update_player_ready(user_id){
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
 })
+
+socket.on("lobby code", (code) => {
+    console.log("FROM SOCKET ON");
+    console.log(code);
+})

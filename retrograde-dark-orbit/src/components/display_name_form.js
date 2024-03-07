@@ -11,7 +11,7 @@ export default function DisplayNameForm() {
         try {
             // Attempt to join the lobby through the server
             const result = await create_lobby(username); 
-            console.log(result);
+            console.log(result["code"]);
             if (result.status === 200) {
                 navigate("/lobby");
                 setFeedback('Joined successfully!');
