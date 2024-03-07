@@ -1,4 +1,4 @@
-import { create_lobby, get_lobby, set_player_ready } from "./lobbies";
+import { create_lobby, get_lobby, get_num_players,get_num_ready_players } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
