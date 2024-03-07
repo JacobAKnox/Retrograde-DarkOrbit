@@ -86,7 +86,7 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
     return { status: 400, message: "Player not found in any lobby" };
 }
 
-export function get_num_players(lobby_id){
+export function get_num_players(lobby_id,lobby_list){
     const lobby = lobby_list[lobby_id];
     const players_in_lobby = Object.keys(lobby).length;
 
@@ -94,7 +94,7 @@ export function get_num_players(lobby_id){
 
 }
 
-export function get_num_ready_players(lobby_id){
+export function get_num_ready_players(lobby_id, lobby_list){
     const lobby = lobby_list[lobby_id];
      
     const num_ready_players = Object.values(lobby.players).reduce((count, player) => {
