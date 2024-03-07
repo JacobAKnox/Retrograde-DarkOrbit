@@ -49,7 +49,7 @@ describe("retrograde-darkorbit socket.io server test", () => {
 
   //test player ready 
   // remove skip when test is implemented
-  test("Player toggles ready", (done) => {
+  test.skip("Player toggles ready", (done) => {
     let initialReadyState = false;
   
     clientSocket.on("ready state updated", (data) => {
