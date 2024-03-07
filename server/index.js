@@ -109,9 +109,15 @@ io.on("connection", (socket) => {
     // callback(create_lobby(data.username, socket.userID));
   });
   
-  socket.on("player_ready",(userID)=> {
+  socket.on("player_ready", (userID) => {
     const result = set_player_ready(userID);
-
+    if (result.status === 200) {
+      const lobby = get_lobby(result.lobby_id);
+      io.in(result.lobby_id).emit("ready_count_updated", { 
+        readyCount: lobby.readyCount, 
+        totalPlayers: Object.keys(lobby.players).length 
+      });
+    }
   });
 
 });

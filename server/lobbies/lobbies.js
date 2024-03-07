@@ -96,10 +96,8 @@ export function get_num_players(lobby_id,lobby_list){
 
 export function get_num_ready_players(lobby_id, lobby_list){
     const lobby = lobby_list[lobby_id];
-     
     const num_ready_players = Object.values(lobby.players).reduce((count, player) => {
-        return count + (player.ready_state ? 1 : 0);
-    }, 0);
+        return count + (player.ready_state ? 1 : 0);}, 0);
 
     return num_ready_players;
 
