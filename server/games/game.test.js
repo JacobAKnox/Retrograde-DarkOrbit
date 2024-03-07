@@ -29,7 +29,7 @@ describe("game service", () => {
             game.players[`usr${i}`] = {username: `usrnm${i}`};
         }
         const role = roles_by_player_count;
-        const role_list = roles;
+        const role_list = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};;
 
         assign_roles(game, role_list, role);
 
