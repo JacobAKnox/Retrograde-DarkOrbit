@@ -1,10 +1,11 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby, create_lobby, leave_lobby, get_lobby } from "./lobbies/lobbies.js";
+import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
+
 
 const app = express();
 const server = createServer(app);
@@ -110,13 +111,14 @@ io.on("connection", (socket) => {
   
   socket.emit("lobby code", "socket.roomCode");
 
-  socket.on("player_ready", (userID) => {
+  socket.on("player_ready",() => {
+    const userID = socket.userID;
     const result = set_player_ready(userID);
     if (result.status === 200) {
-      const lobby = get_lobby(result.lobby_id);
-      io.in(result.lobby_id).emit("ready_count_updated", { 
-        readyCount: lobby.readyCount, 
-        totalPlayers: Object.keys(lobby.players).length 
+      const lobby = get_lobby(socket.roomCode);
+      io.in(socket.roomCode).emit("ready_count_updated", { 
+        readyCount: get_num_ready_players(socket.roomCode), 
+        totalPlayers: Object.keys(lobby).length 
       });
     }
   });

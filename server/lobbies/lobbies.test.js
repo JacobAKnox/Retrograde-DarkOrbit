@@ -97,7 +97,7 @@ describe("lobby system", () => {
         expect(numPlayers).toBe(2);
       });
    
-      test.skip("get number of ready players in a lobby", () => {
+      test("get number of ready players in a lobby", () => {
         let lobbies = {
           "ABCD": {
             "player1": { ready_state: false },
