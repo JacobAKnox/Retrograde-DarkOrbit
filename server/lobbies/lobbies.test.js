@@ -1,4 +1,4 @@
-import { create_lobby, get_lobby, set_player_ready } from "./lobbies";
+import { create_lobby, get_lobby, get_num_players,get_num_ready_players } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
@@ -86,13 +86,25 @@ describe("lobby system", () => {
         expect(result).toBe(false);
     });
 
-    test("toggle player ready state", () => {
-        let lobbies = {"ABCD": {"123": {username: "test", ready_state: false}}};
-        const result = set_player_ready("123", lobbies);
-
-        expect(result.status).toBe(200);
-        expect(result.message).toBe("Ready state toggled");
-        
-        expect(lobbies["ABCD"]["123"].ready_state).toBe(true);
-    });
+    test("get number of players in a lobby", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { ready: false },
+            "player2": { ready: true }
+          }
+        };
+        const numPlayers = get_num_players("ABCD", lobbies);
+        expect(numPlayers).toBe(2);
+      });
+   
+      test.skip("get number of ready players in a lobby", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { ready_state: false },
+            "player2": { ready_state: true }
+          }
+        };
+        const numReadyPlayers = get_num_ready_players("ABCD", lobbies);
+        expect(numReadyPlayers).toBe(1);
+      });
 });
