@@ -69,12 +69,6 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
         const player = lobby[user_id];
         player.ready_state = !player.ready_state;
         
-        if (player.ready_state) {
-            lobby.readyCount += 1;
-        } else {
-            lobby.readyCount -= 1;
-        }
-       
         return { status: 200, message: "Ready state toggled" };
     }
 
@@ -86,7 +80,6 @@ export function get_num_players(lobby_id,lobby_list = lobbies){
     const players_in_lobby = Object.keys(lobby).length;
 
     return players_in_lobby;
-
 }
 
 export function get_num_ready_players(lobby_id, lobby_list = lobbies){
