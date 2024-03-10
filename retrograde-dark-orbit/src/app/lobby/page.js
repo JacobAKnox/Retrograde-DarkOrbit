@@ -6,14 +6,14 @@ import DisplayLobbyCode from "@/components/display_lobby_code";
 import DisplayTimer from "@/components/display_timer";
 export default function Page() {
     return (
-        <main className="flex justify-center items-start">
-            <div>
-                <ExitLobbyButton/>
+        <main className="flex justify-center items-center flex-col flex-wrap min-w-full">
+            {/* <div>
                 <DisplayLobbyCode/>
                 <DisplayTimer/>
-            </div>
+                <GameStartButton/>
+            </div> */}
+            <ExitLobbyButton/>
             <LobbyPanel/>
-            <GameStartButton/>
         </main>
     );
 }

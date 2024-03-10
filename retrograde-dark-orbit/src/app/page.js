@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <main className="flex justify-center items-start">
-      <div className="flex w-1/2 min-h-screen flex-row items-center justify-between p-24">
+      <div className="flex w-1/2 min-h-screen flex-wrap flex-row items-center justify-center p-24">
         <div>
           <h1 className="text-center text-2xl text-blue-300">
             <b>JOIN GAME</b>

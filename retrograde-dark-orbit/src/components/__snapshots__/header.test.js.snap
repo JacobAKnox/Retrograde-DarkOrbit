@@ -5,7 +5,9 @@ exports[`renders header unchanged 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <header>
+      <header
+        class="flex justify-center items-center min-w-full"
+      >
         <h1
           class="text-3xl p-5 text-red-300 text-center"
         >
@@ -17,7 +19,9 @@ exports[`renders header unchanged 1`] = `
     </div>
   </body>,
   "container": <div>
-    <header>
+    <header
+      class="flex justify-center items-center min-w-full"
+    >
       <h1
         class="text-3xl p-5 text-red-300 text-center"
       >

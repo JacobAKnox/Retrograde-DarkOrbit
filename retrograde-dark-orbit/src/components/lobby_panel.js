@@ -6,9 +6,11 @@ import ReadyStatus from "./ready_status";
 
 export default function LobbyPanel() {
   return (
-    <div className="border-4 border-blue-400 min-w-[1000px] min-h-[600px] bg-gray-900 m-20 p-4 rounded-xl flex flex-row">
-      <ChatBox/>
-      <div className="flex flex-col min-w-[400px] justify-end ml-4 p-4 bg-gray-800 rounded-xl">
+    <div className="border-4 w-full md:w-1/2 border-blue-400 min-h-[600px] bg-gray-900 md:mx-20 p-4 rounded-xl flex flex-row flex-wrap">
+      <div className="md:w-2/3 w-full">
+        <ChatBox/>
+      </div>
+      <div className="flex flex-col w-full md:w-1/3 justify-end p-4 bg-gray-800 rounded-xl">
         <UserList/>
         <ReadyBox/>
       </div>
