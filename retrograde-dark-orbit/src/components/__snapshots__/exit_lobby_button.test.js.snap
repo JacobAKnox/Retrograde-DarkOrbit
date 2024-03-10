@@ -5,27 +5,19 @@ exports[`renders exit lobby button unchanged 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div
-        class="flex flex-row w-2/3 md:justify-start items-center justify-center"
-      >
-        <button
-          class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:1bg-slate-800 disabled:bg-slate-950"
-        >
-          X
-        </button>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="flex flex-row w-2/3 md:justify-start items-center justify-center"
-    >
       <button
         class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:1bg-slate-800 disabled:bg-slate-950"
       >
         X
       </button>
     </div>
+  </body>,
+  "container": <div>
+    <button
+      class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:1bg-slate-800 disabled:bg-slate-950"
+    >
+      X
+    </button>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

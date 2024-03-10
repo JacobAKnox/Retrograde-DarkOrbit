@@ -7,12 +7,14 @@ import DisplayTimer from "@/components/display_timer";
 export default function Page() {
     return (
         <main className="flex justify-center items-center flex-col flex-wrap min-w-full">
-            {/* <div>
-                <DisplayLobbyCode/>
+            <div>
                 <DisplayTimer/>
                 <GameStartButton/>
-            </div> */}
-            <ExitLobbyButton/>
+            </div>
+            <div className="flex flex-row w-1/2 md:justify-start items-center justify-center">
+                <ExitLobbyButton/>
+                <DisplayLobbyCode/>
+            </div>
             <LobbyPanel/>
         </main>
     );
