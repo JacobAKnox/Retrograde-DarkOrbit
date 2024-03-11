@@ -123,6 +123,14 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("init ready count", () => {
+      const lobby = get_lobby(socket.roomCode);
+      io.in(socket.roomCode).emit("ready_count_updated", { 
+      readyCount: get_num_ready_players(socket.roomCode), 
+      totalPlayers: Object.keys(lobby).length 
+    });
+  });
+
 });
 
 const PORT = process.env.PORT | 4000;
