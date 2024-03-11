@@ -95,6 +95,7 @@ describe("lobby system", () => {
         };
         const numPlayers = get_num_players("ABCD", lobbies);
         expect(numPlayers).toBe(2);
+
       });
    
       test("get number of ready players in a lobby", () => {
@@ -115,10 +116,18 @@ describe("lobby system", () => {
               "player2": { ready_state: true }
             }
           };
-          const result =  set_player_ready("player1", lobbies);
+          //setting player 1 to ready
+          let result =  set_player_ready("player1", lobbies);
           expect(result.status).toBe(200);
           expect(result.message).toBe("Ready state toggled");
 
           expect(lobbies["ABCD"]["player1"].ready_state).toBe(true);
+
+          //setting player back to false(toggle)
+          result =  set_player_ready("player1", lobbies);
+          expect(result.status).toBe(200);
+          expect(result.message).toBe("Ready state toggled");
+
+          expect(lobbies["ABCD"]["player1"].ready_state).toBe(false);
       });
 });
