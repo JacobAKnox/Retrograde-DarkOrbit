@@ -75,12 +75,15 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
     return { status: 400, message: "Player not found in any lobby" };
 }
 
-export function get_num_players(lobby_id,lobby_list = lobbies){
+export function get_num_players(lobby_id, lobby_list = lobbies) {
     const lobby = lobby_list[lobby_id];
-    const players_in_lobby = Object.keys(lobby).length;
-
+    if (!lobby || !lobby.players) {
+        return 0;
+    }
+    const players_in_lobby = Object.keys(lobby.players).length;
     return players_in_lobby;
 }
+
 
 export function get_num_ready_players(lobby_id, lobby_list = lobbies){
     const lobby = lobby_list[lobby_id];

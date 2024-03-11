@@ -88,13 +88,19 @@ describe("lobby system", () => {
 
     test("get number of players in a lobby", () => {
         let lobbies = {
-          "ABCD": {
-            "player1": { ready: false },
-            "player2": { ready: true }
-          }
+            "ABCD": {
+                players: {
+                    "player1": { ready_state: false },
+                    "player2": { ready_state: true }
+                }
+            }
         };
         const numPlayers = get_num_players("ABCD", lobbies);
         expect(numPlayers).toBe(2);
+
+        //check for non exisiting lobby that should have no players
+        const numPlayersNonExisting = get_num_players("EFGH", lobbies);
+        expect(numPlayersNonExisting).toBe(0); 
 
       });
    
