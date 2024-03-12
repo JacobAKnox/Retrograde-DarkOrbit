@@ -111,9 +111,14 @@ describe("lobby system", () => {
             "player2": { ready_state: true }
           }
         };
+      
+        // Check if the lobby exists
+        expect(lobbies).toHaveProperty("ABCD");
+      
         const numReadyPlayers = get_num_ready_players("ABCD", lobbies);
         expect(numReadyPlayers).toBe(1);
       });
+      
 
       test("toggle ready state", () => {
         let lobbies = {
