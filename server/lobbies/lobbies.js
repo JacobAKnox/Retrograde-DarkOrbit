@@ -77,16 +77,19 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
 
 export function get_num_players(lobby_id, lobby_list = lobbies) {
     const lobby = lobby_list[lobby_id];
-    if (!lobby || !lobby.players) {
+    if (!lobby ) {
         return 0;
     }
-    const players_in_lobby = Object.keys(lobby.players).length;
+    const players_in_lobby = Object.keys(lobby).length;
     return players_in_lobby;
 }
 
 
 export function get_num_ready_players(lobby_id, lobby_list = lobbies){
     const lobby = lobby_list[lobby_id];
+    if (!lobby ) {
+        return 0;
+    }
     const num_ready_players = Object.values(lobby).reduce((count, player) => {
         return count + (player.ready_state ? 1 : 0);}, 0);
 
