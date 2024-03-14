@@ -11,7 +11,9 @@ exports[`renders main page unchanged 1`] = `
         <div
           class="flex w-1/2 min-h-screen flex-wrap flex-row items-center justify-center p-24"
         >
-          <div>
+          <div
+            class="w-1/2"
+          >
             <h1
               class="text-center text-2xl text-blue-300"
             >
@@ -45,7 +47,9 @@ exports[`renders main page unchanged 1`] = `
               />
             </div>
           </div>
-          <div>
+          <div
+            class="w-1/2"
+          >
             <h1
               class="text-center text-2xl text-blue-300"
             >
@@ -84,7 +88,9 @@ exports[`renders main page unchanged 1`] = `
       <div
         class="flex w-1/2 min-h-screen flex-wrap flex-row items-center justify-center p-24"
       >
-        <div>
+        <div
+          class="w-1/2"
+        >
           <h1
             class="text-center text-2xl text-blue-300"
           >
@@ -118,7 +124,9 @@ exports[`renders main page unchanged 1`] = `
             />
           </div>
         </div>
-        <div>
+        <div
+          class="w-1/2"
+        >
           <h1
             class="text-center text-2xl text-blue-300"
           >
