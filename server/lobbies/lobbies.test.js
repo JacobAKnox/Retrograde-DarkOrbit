@@ -112,6 +112,9 @@ describe("lobby system", () => {
       
         const numReadyPlayers = get_num_ready_players("ABCD", lobbies);
         expect(numReadyPlayers).toBe(1);
+        //check for non exisiting lobby that should have no players
+        const numPlayersNonExisting = get_num_players("EFGH", lobbies);
+        expect(numPlayersNonExisting).toBe(0); 
       });
       
 
