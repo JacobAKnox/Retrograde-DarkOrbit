@@ -94,5 +94,4 @@ export function get_num_ready_players(lobby_id, lobby_list = lobbies){
         return count + (player.ready_state ? 1 : 0);}, 0);
 
     return num_ready_players;
-
 }

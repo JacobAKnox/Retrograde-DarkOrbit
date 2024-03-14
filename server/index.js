@@ -1,7 +1,7 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players } from "./lobbies/lobbies.js";
+import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
@@ -54,31 +54,6 @@ io.on("connection", (socket) => {
     callback(leave_lobby(socket.userID));
   });
 
-  // this probably needs to be moved to execute when everyone is ready
-  socket.on("start_game", async (callback) => {
-    const result = start_game(socket.lobby, socket.roomCode);
-    if (result.status != 200) {
-      callback(result);
-      return;
-    }
-    // notify clients that the game has started
-    io.in(socket.roomCode).emit("receive chat msg", {username: "server", message: result.status == 200 ? "started game" : "failed to start game"});
-    
-    let game = get_game(socket.roomCode);
-    assign_roles(game);
-    
-    // tell each player their role
-    const sockets = await io.in(socket.roomCode).fetchSockets();
-    sockets.forEach(s => {
-      s.emit("receive chat msg", 
-          {
-            username: "server", 
-            message:  `Your role is: ${get_role_info(game, s.userID)}`
-          });
-    });
-    callback(result);
-  });
-
   socket.emit("session", {
     sessionID: socket.sessionID,
     userID: socket.userID
@@ -121,7 +96,32 @@ io.on("connection", (socket) => {
         totalPlayers: Object.keys(lobby).length 
       });
     }
+    try_start_game(socket);
   });
+
+  async function try_start_game(socket) {
+    if (get_num_ready_players(socket.roomCode) < get_num_players(socket.roomCode)) {
+      // not enough players ready
+      return;
+    }
+
+    const result = start_game(socket.lobby, socket.roomCode);
+    // notify clients that the game has started
+    io.in(socket.roomCode).emit("receive chat msg", {username: "server", message: result.status == 200 ? "started game" : `failed to start game. \n ${result.message}`});
+    
+    let game = get_game(socket.roomCode);
+    assign_roles(game);
+    
+    // tell each player their role
+    const sockets = await io.in(socket.roomCode).fetchSockets();
+    sockets.forEach(s => {
+      s.emit("receive chat msg", 
+          {
+            username: "server", 
+            message:  `Your role is: ${get_role_info(game, s.userID)}`
+          });
+    });
+  }
 
   socket.on("init ready count", () => {
       const lobby = get_lobby(socket.roomCode);
