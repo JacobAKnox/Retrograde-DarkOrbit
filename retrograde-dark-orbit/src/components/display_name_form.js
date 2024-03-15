@@ -13,7 +13,7 @@ export default function DisplayNameForm() {
             const result = await create_lobby(username); 
             console.log(result["code"]);
             if (result.status === 200) {
-                navigate("/lobby");
+                navigate(`/lobby?code=${result["code"]}`);
                 setFeedback('Joined successfully!');
             } else {
                 setFeedback(result.message);
@@ -34,8 +34,9 @@ export default function DisplayNameForm() {
             />
             <p className="text-red-500 text-xs italic">{feedback}</p>
             <button
-                className="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl"
+                className="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
                 onClick={handleJoin}
+                disabled={username===""}
             >
                 Join
             </button>

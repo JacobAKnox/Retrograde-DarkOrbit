@@ -108,7 +108,7 @@ io.on("connection", (socket) => {
     callback(result);
   });
   
-  socket.emit("lobby code", "socket.roomCode");
+  // socket.emit("lobby code", "socket.roomCode");
 
   socket.on("player_ready", (userID) => {
     const result = set_player_ready(userID);

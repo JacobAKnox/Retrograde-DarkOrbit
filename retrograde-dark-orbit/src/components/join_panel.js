@@ -12,7 +12,7 @@ export default function JoinPanel({try_join_lobby=join_lobby, navigation = navig
     async function clickHandler() {
         try_join_lobby(usernameInput, codeInput).then((res) => {
             if (res.status === 200) {
-                navigation("/lobby");
+                navigation(`/lobby?code=${codeInput}`);
             } else {
                 setErrorMessage(res.message);
             }
