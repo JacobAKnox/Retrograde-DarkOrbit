@@ -1,20 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import { update_player_ready } from "./../server/socket.js"
 
 export default function ReadyButton() {
   const [buttonText, setButtonText] = useState("Ready");
 
   function updateReadyState() {
-    // Server update (mocking the server response at the moment)
-    const response = {
-      status: 200
-    };
+    update_player_ready();
 
-    // UI update
-    if (response.status == 200) {
-      toggle();
-    }
+    toggle();
   }
 
   function toggle() {
@@ -27,7 +22,7 @@ export default function ReadyButton() {
   }
 
   return (
-    <button className="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700" onClick={() => toggle()} role="button">
+    <button className="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700" onClick={() => updateReadyState()} role="button">
       {buttonText}
     </button>
   )

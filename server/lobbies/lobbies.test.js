@@ -1,4 +1,4 @@
-import { create_lobby, get_lobby, get_num_players,get_num_ready_players } from "./lobbies";
+import { create_lobby, get_lobby, get_num_players,get_num_ready_players, set_player_ready } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
@@ -88,23 +88,55 @@ describe("lobby system", () => {
 
     test("get number of players in a lobby", () => {
         let lobbies = {
-          "ABCD": {
-            "player1": { ready: false },
-            "player2": { ready: true }
-          }
+            "ABCD": {
+                    "player1": { ready_state: false },
+                    "player2": { ready_state: true }
+            }
         };
         const numPlayers = get_num_players("ABCD", lobbies);
         expect(numPlayers).toBe(2);
+
+        //check for non exisiting lobby that should have no players
+        const numPlayersNonExisting = get_num_players("EFGH", lobbies);
+        expect(numPlayersNonExisting).toBe(0); 
+
       });
    
-      test.skip("get number of ready players in a lobby", () => {
+      test("get number of ready players in a lobby", () => {
         let lobbies = {
           "ABCD": {
             "player1": { ready_state: false },
             "player2": { ready_state: true }
           }
         };
+      
         const numReadyPlayers = get_num_ready_players("ABCD", lobbies);
         expect(numReadyPlayers).toBe(1);
+        //check for non exisiting lobby that should have no players
+        const numPlayersNonExisting = get_num_players("EFGH", lobbies);
+        expect(numPlayersNonExisting).toBe(0); 
+      });
+      
+
+      test("toggle ready state", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            }
+          };
+          //setting player 1 to ready
+          let result =  set_player_ready("player1", lobbies);
+          expect(result.status).toBe(200);
+          expect(result.message).toBe("Ready state toggled");
+
+          expect(lobbies["ABCD"]["player1"].ready_state).toBe(true);
+
+          //setting player back to false(toggle)
+          result =  set_player_ready("player1", lobbies);
+          expect(result.status).toBe(200);
+          expect(result.message).toBe("Ready state toggled");
+
+          expect(lobbies["ABCD"]["player1"].ready_state).toBe(false);
       });
 });

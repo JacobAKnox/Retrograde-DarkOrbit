@@ -26,7 +26,7 @@ export default function DisplayNameForm() {
     return (
         <div className="bg-inherit p-4 m-4 items-center flex flex-col">
             <input
-                className="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl"
+                className="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-600"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -36,7 +36,7 @@ export default function DisplayNameForm() {
             <button
                 className="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
                 onClick={handleJoin}
-                disabled={username===""}
+                disabled={username === "" || feedback !== ""}
             >
                 Join
             </button>

@@ -49,14 +49,17 @@ describe("retrograde-darkorbit socket.io server test", () => {
 
   //test player ready 
   // remove skip when test is implemented
-  test.skip("Player toggles ready", (done) => {
-    let initialReadyState = false;
-  
-    clientSocket.on("ready state updated", (data) => {
-      expect(data.ready).not.toBe(initialReadyState);
-      done();
-    });
-  
-    clientSocket.emit("player_ready", { userID: "test-user" });
+  test("Player toggles ready", (done) => {
+    //add player
+    clientSocket.emitWithAck("join", {code: "ABCD", username: "fred"});
+   
+      clientSocket.on("ready_count_updated", (data) => {
+        expect(data.readyCount).toBeGreaterThan(0);
+        done();   
+      });
+
+      clientSocket.emit("player_ready");    
   });
+  
+  
 });

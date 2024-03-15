@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import ReadyButton from './ready_button'
+import "setimmediate";
 
 test('renders on-screen', () => {
   const page = render(<ReadyButton/>);

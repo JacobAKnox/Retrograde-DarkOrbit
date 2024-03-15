@@ -59,9 +59,19 @@ export function chat_message_listener(callback) {
     recMessage = callback;
 }
 
-export function update_player_ready(user_id){
+export function update_player_ready() {
     socket.emit("player_ready");
 }
+
+export const update_ready_status = (updateReadyStatus) => {
+  socket.emit("init ready count");
+  socket.on("ready_count_updated", (data) => {
+    updateReadyStatus({
+      num_ready: data.readyCount, 
+      num_total: data.totalPlayers
+    });
+  });
+};
 
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)

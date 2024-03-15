@@ -68,34 +68,30 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
         const lobby = lobby_list[lobby_id];
         const player = lobby[user_id];
         player.ready_state = !player.ready_state;
-
-        if (player.ready_state) {
-            lobby.readyCount += 1;
-        } else {
-            lobby.readyCount -= 1;
-        }
-        // do this in index.js
-        //io.to(lobby_id).emit("ready_count_updated", { readyCount: lobby.readyCount, totalPlayers: Object.keys(lobby.players).length });
-
+        
         return { status: 200, message: "Ready state toggled" };
     }
 
     return { status: 400, message: "Player not found in any lobby" };
 }
 
-export function get_num_players(lobby_id,lobby_list){
+export function get_num_players(lobby_id, lobby_list = lobbies) {
     const lobby = lobby_list[lobby_id];
+    if (!lobby ) {
+        return 0;
+    }
     const players_in_lobby = Object.keys(lobby).length;
-
     return players_in_lobby;
-
 }
 
-export function get_num_ready_players(lobby_id, lobby_list){
+
+export function get_num_ready_players(lobby_id, lobby_list = lobbies){
     const lobby = lobby_list[lobby_id];
+    if (!lobby ) {
+        return 0;
+    }
     const num_ready_players = Object.values(lobby).reduce((count, player) => {
         return count + (player.ready_state ? 1 : 0);}, 0);
 
     return num_ready_players;
-
 }
