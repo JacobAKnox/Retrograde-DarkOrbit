@@ -48,7 +48,7 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
         return {status: 400, message: `You are not in a lobby`};
     }
 
-    lobby_list[lobby_id[0]][user_id] = undefined;
+    delete lobby_list[lobby_id[0]][user_id];
     return {status: 200};
 }
 

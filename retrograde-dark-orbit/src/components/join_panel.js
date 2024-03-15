@@ -47,7 +47,7 @@ export default function JoinPanel({try_join_lobby=join_lobby, navigation = navig
             >
                 Join
             </button>
-            <p className="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap">
+            <p className="grow-0 max-w-60 bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap">
                 {errorMessage ==  "" ? "" : "Error: " + errorMessage}
             </p>
         </div>

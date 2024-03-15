@@ -27,7 +27,7 @@ exports[`join lobby form renders join panel unchanged 1`] = `
           Join
         </button>
         <p
-          class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+          class="grow-0 max-w-60 bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
         />
       </div>
     </div>
@@ -55,7 +55,7 @@ exports[`join lobby form renders join panel unchanged 1`] = `
         Join
       </button>
       <p
-        class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+        class="grow-0 max-w-60 bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
       />
     </div>
   </div>,

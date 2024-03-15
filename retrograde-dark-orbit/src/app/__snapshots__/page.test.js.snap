@@ -9,10 +9,40 @@ exports[`renders main page unchanged 1`] = `
         class="flex justify-center items-start"
       >
         <div
-          class="flex w-1/2 min-h-screen flex-wrap flex-row items-center justify-center p-24"
+          class="flex min-h-screen flex-wrap flex-row justify-center p-24"
         >
           <div
-            class="w-1/2"
+            class="p-1 m-1 h-1/2"
+          >
+            <h1
+              class="text-center text-2xl text-blue-300"
+            >
+              <b>
+                CREATE GAME
+              </b>
+            </h1>
+            <div
+              class="bg-inherit p-4 m-4 items-center flex flex-col"
+            >
+              <input
+                aria-label="Username"
+                class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-600"
+                placeholder="Username"
+                value=""
+              />
+              <p
+                class="text-red-500 text-xs italic"
+              />
+              <button
+                class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
+                disabled=""
+              >
+                Join
+              </button>
+            </div>
+          </div>
+          <div
+            class="h-1/2 p-1 m-1"
           >
             <h1
               class="text-center text-2xl text-blue-300"
@@ -43,38 +73,8 @@ exports[`renders main page unchanged 1`] = `
                 Join
               </button>
               <p
-                class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+                class="grow-0 max-w-60 bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
               />
-            </div>
-          </div>
-          <div
-            class="w-1/2"
-          >
-            <h1
-              class="text-center text-2xl text-blue-300"
-            >
-              <b>
-                CREATE GAME
-              </b>
-            </h1>
-            <div
-              class="bg-inherit p-4 m-4 items-center flex flex-col"
-            >
-              <input
-                aria-label="Username"
-                class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-600"
-                placeholder="Username"
-                value=""
-              />
-              <p
-                class="text-red-500 text-xs italic"
-              />
-              <button
-                class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
-                disabled=""
-              >
-                Join
-              </button>
             </div>
           </div>
         </div>
@@ -86,10 +86,40 @@ exports[`renders main page unchanged 1`] = `
       class="flex justify-center items-start"
     >
       <div
-        class="flex w-1/2 min-h-screen flex-wrap flex-row items-center justify-center p-24"
+        class="flex min-h-screen flex-wrap flex-row justify-center p-24"
       >
         <div
-          class="w-1/2"
+          class="p-1 m-1 h-1/2"
+        >
+          <h1
+            class="text-center text-2xl text-blue-300"
+          >
+            <b>
+              CREATE GAME
+            </b>
+          </h1>
+          <div
+            class="bg-inherit p-4 m-4 items-center flex flex-col"
+          >
+            <input
+              aria-label="Username"
+              class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-600"
+              placeholder="Username"
+              value=""
+            />
+            <p
+              class="text-red-500 text-xs italic"
+            />
+            <button
+              class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
+              disabled=""
+            >
+              Join
+            </button>
+          </div>
+        </div>
+        <div
+          class="h-1/2 p-1 m-1"
         >
           <h1
             class="text-center text-2xl text-blue-300"
@@ -120,38 +150,8 @@ exports[`renders main page unchanged 1`] = `
               Join
             </button>
             <p
-              class="bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
+              class="grow-0 max-w-60 bg-inherit text-red-500 m-1 py-1 px-2 text-center text-lg text-wrap"
             />
-          </div>
-        </div>
-        <div
-          class="w-1/2"
-        >
-          <h1
-            class="text-center text-2xl text-blue-300"
-          >
-            <b>
-              CREATE GAME
-            </b>
-          </h1>
-          <div
-            class="bg-inherit p-4 m-4 items-center flex flex-col"
-          >
-            <input
-              aria-label="Username"
-              class="bg-slate-700 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-600"
-              placeholder="Username"
-              value=""
-            />
-            <p
-              class="text-red-500 text-xs italic"
-            />
-            <button
-              class="bg-slate-900 text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700"
-              disabled=""
-            >
-              Join
-            </button>
           </div>
         </div>
       </div>

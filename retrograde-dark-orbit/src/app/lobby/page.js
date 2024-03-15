@@ -10,11 +10,11 @@ export default function Page() {
     const search = searchParams.get("code")
     
     return (
-        <main className="flex justify-center items-start">
-            <div>
+        <main className="flex justify-center items-center flex-col ">
+            <div className="flex flex-row w-full md:w-1/2">
                 <ExitLobbyButton/>
                 <DisplayLobbyCode LobbyCode={search}/>
-                <DisplayTimer/>
+                {/* <DisplayTimer/> */}
             </div>
             <LobbyPanel/>
         </main>
