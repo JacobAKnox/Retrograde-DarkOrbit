@@ -6,7 +6,7 @@ exports[`renders exit lobby button unchanged 1`] = `
   "baseElement": <body>
     <div>
       <button
-        class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:1bg-slate-800 disabled:bg-slate-950"
+        class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:bg-slate-800 disabled:bg-slate-950"
       >
         X
       </button>
@@ -14,7 +14,7 @@ exports[`renders exit lobby button unchanged 1`] = `
   </body>,
   "container": <div>
     <button
-      class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:1bg-slate-800 disabled:bg-slate-950"
+      class="bg-slate-900 text-grey-100 m-3 px-4 py-2 rounded-xl hover:bg-slate-800 disabled:bg-slate-950"
     >
       X
     </button>

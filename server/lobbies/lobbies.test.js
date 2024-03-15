@@ -47,13 +47,14 @@ describe("lobby system", () => {
     });
 
     // remove skip when you fix this test
-    test.skip("successful create", () => {
+    test("successful create", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
-        const result = join_lobby("test", lobbies);
+        const result = create_lobby("test", 123, lobbies);
+        console.log(lobbies);
         expect(result.status).toBe(200);
         expect(Object.keys(lobbies).length).toBe(3)
         expect(result.uuid).toBeDefined();
-        expect(lobbies.ABCD[result.uuid]).toBe("test");
+        expect(lobbies[result.code][result.uuid].username).toBe("test");
     });
 
     test("try to leave a lobby when not in one", () => {

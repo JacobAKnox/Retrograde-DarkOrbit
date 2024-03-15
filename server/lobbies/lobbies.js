@@ -35,12 +35,11 @@ export default function generateRandomKey() {
     return randomKey;
   }
 
-export function create_lobby(username, user_id) {
+export function create_lobby(username, user_id, lobby_list=lobbies) {
     const key = generateRandomKey();
-    lobbies[key] = {}
+    lobby_list[key] = {};
 
-
-    return join_lobby(key, username, user_id);
+    return join_lobby(key, username, user_id, lobby_list);
 }
 
 export function leave_lobby(user_id, lobby_list=lobbies) {
