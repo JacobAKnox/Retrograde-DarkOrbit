@@ -36,7 +36,8 @@ export default function generateRandomKey() {
   }
 
 export function create_lobby(username, user_id, lobby_list=lobbies) {
-    const key = generateRandomKey();
+    let key = generateRandomKey();
+    while (key in Object.keys(lobby_list)) {key = generateRandomKey();}
     lobby_list[key] = {};
 
     return join_lobby(key, username, user_id, lobby_list);

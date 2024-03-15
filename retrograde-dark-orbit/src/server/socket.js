@@ -1,5 +1,6 @@
 "use client"
 
+import { navigate } from './../components/navigation';
 import { useEffect } from 'react';
 // import this module where you need to handle
 // socket.io interactions :)
@@ -25,6 +26,10 @@ const connect = () => {
         socket.userID = userID;
     });
 
+    socket.on("game_start", ({code}) => {
+        navigate(`/game?code=${code}`);
+    });
+
     socket.connect();
 }
 
@@ -42,9 +47,6 @@ socket.on("receive chat msg", (message) => {
 
 export async function create_lobby(username) {
     return await socket.emitWithAck('create', {username});
-}
-export function start_game() {
-    socket.emitWithAck("start_game");
 }
 
 export default function Connector() {
