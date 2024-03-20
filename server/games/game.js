@@ -6,7 +6,7 @@ export let roles = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: 
 export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
 
 export async function setup() {
-    roles = await fetch_roles();
+    roles = await fetch_roles() || roles;
 }
 
 export function start_game(lobby, lobby_code, game_list=games) {
@@ -38,6 +38,7 @@ export function get_role_info(game, userID) {
     try {
         return game.players[userID].role.name;
     } catch (error) {
+        console.error(error);
         return "error could not get role";
     }
 }
