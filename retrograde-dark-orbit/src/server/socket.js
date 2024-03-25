@@ -6,7 +6,12 @@ import { useEffect } from 'react';
 // socket.io interactions :)
 import { io } from 'socket.io-client';
 
-let socket = io('http://localhost:4000');
+const server_addr = process.env.NEXT_PUBLIC_SERVERADDRESS || "localhost";
+const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
+
+console.log(server_addr);
+
+let socket = io(`http://${server_addr}:${server_port}`);
 let recMessage = (e) => {};
 
 const connect = () => {
