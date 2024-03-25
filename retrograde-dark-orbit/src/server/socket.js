@@ -9,9 +9,9 @@ import { io } from 'socket.io-client';
 const server_addr = process.env.NEXT_PUBLIC_SERVERADDRESS || "localhost";
 const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
 
-console.log(server_addr);
+console.log(`Connecting to ${server_addr}:${server_port}`);
 
-let socket = io(`http://${server_addr}:${server_port}`);
+let socket = io(`https://${server_addr}:${server_port}`);
 let recMessage = (e) => {};
 
 const connect = () => {
