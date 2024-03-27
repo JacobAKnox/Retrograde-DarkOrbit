@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./../components/header";
 import Connector from "@/server/socket";
 
+export const dynamic = 'force-dynamic';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

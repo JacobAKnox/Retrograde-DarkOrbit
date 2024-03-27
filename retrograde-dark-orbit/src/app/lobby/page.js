@@ -4,6 +4,8 @@ import LobbyPanel from "@/components/lobby_panel";
 import DisplayLobbyCode from "@/components/display_lobby_code";
 import { Suspense } from "react";
 
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
     return (
         <main className="flex justify-center items-center flex-col ">
