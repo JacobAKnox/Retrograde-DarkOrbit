@@ -1,42 +1,46 @@
 "use client"
 
 import { useState, useEffect } from "react";
-
-// Just an infinitely looping 1min 30sec timer for now
+import { set_turn_timer, toggle_turn_timer_countdown } from "./../server/socket.js";
 
 export default function TurnTimer() {
-  const init_time = new Date();
-  init_time.setMinutes(1);
-  init_time.setSeconds(30);
-  let current_time = init_time;
+  let time = new Date();
+  let pause = true;
   
-  function startTimer() {
+  function configureTimer(phase) {
     const setup_time = new Date();
-    setup_time.setMinutes(1);
-    setup_time.setSeconds(30);
-    current_time = setup_time;
+    setup_time.setMilliseconds(phase.length);
+    setPhaseText(phase.name);
+    time = setup_time;
+  }
+
+  function toggleCountdown() {
+    pause = !pause;
   }
 
   const [displayTime, setDisplayTime] = useState("");
+  const [phaseText, setPhaseText] = useState("");
 
   useEffect(() => {
+    set_turn_timer(configureTimer);
+    toggle_turn_timer_countdown(toggleCountdown);
     const interval = setInterval(() => {
-      if (current_time.getMinutes() == 0 && current_time.getSeconds() == 0) {
-        startTimer();
-      }
-      else {
+      if (pause === false) {
+        if (current_time.getMilliseconds() == 0) {
+          toggleCountdown();
+        }
         const secs = current_time.getSeconds()-1;
         current_time.setSeconds(secs);
         let display_string = "";
         if (secs < 10) {
         display_string = 
-            `${current_time.getMinutes()}:0${current_time.getSeconds()}`;
+            `${time.getMinutes()}:0${time.getSeconds()}`;
         } else {
         display_string = 
-            `${current_time.getMinutes()}:${current_time.getSeconds()}`;
+            `${time.getMinutes()}:${time.getSeconds()}`;
         }
 
-        setDisplayTime (display_string);
+        setDisplayTime(display_string);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -45,6 +49,7 @@ export default function TurnTimer() {
   return (
     <div>
       {displayTime}
+      {phaseText}
     </div>
   )
 };

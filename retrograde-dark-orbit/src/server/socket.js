@@ -80,6 +80,18 @@ export const update_ready_status = (updateReadyStatus) => {
   socket.emit("init ready count");
 };
 
+export const set_turn_timer = (setTurnTimer) => {
+  socket.on("update timer phase", (phase) => {
+    setTurnTimer(phase);
+  });
+};
+
+export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
+  socket.on("toggle turn timer countdown", () => {
+    toggleTurnTimer();
+  });
+};
+
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
 })
