@@ -77,7 +77,7 @@ export function set_player_ready(user_id, lobby_list = lobbies) {
 
 export function get_num_players(lobby_id, lobby_list = lobbies) {
     const lobby = lobby_list[lobby_id];
-    if (!lobby ) {
+    if (!lobby) {
         return 0;
     }
     const players_in_lobby = Object.keys(lobby).length;
@@ -87,11 +87,28 @@ export function get_num_players(lobby_id, lobby_list = lobbies) {
 
 export function get_num_ready_players(lobby_id, lobby_list = lobbies){
     const lobby = lobby_list[lobby_id];
-    if (!lobby ) {
+    if (!lobby) {
         return 0;
     }
     const num_ready_players = Object.values(lobby).reduce((count, player) => {
         return count + (player.ready_state ? 1 : 0);}, 0);
 
     return num_ready_players;
+}
+
+export function get_lobby_by_player(user_id, lobby_list=lobbies) {
+    const lobby_code = Object.keys(lobby_list).find((key) => Object.keys(lobby_list[key]).includes(user_id));
+    if (!lobby_code) {
+        return undefined;
+    }
+
+    return lobby_code;
+}
+
+export function get_username(user_id, lobby_list=lobbies) {
+    const lobby_code = get_lobby_by_player(user_id, lobby_list);
+    if (!lobby_code) {
+        return undefined;
+    }
+    return get_lobby(lobby_code, lobby_list)[user_id].username;
 }

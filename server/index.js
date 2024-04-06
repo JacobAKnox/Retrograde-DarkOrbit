@@ -15,11 +15,29 @@ export const io = new Server(server, {
   }
 });
 
+function redirect_user(socket) {
+  if (socket.roomCode === "") {
+    socket.emit("redirect", "/");
+    return;
+  }
+  if (get_game(socket.roomCode)) {
+    socket.emit("redirect", `/game?code=${socket.roomCode}`);
+    return;
+  }
+  socket.emit("redirect", `/lobby?code=${socket.roomCode}`);
+}
+
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
   const result = find_or_create_session(sessionID);
   socket.sessionID = result.sessionId;
   socket.userID = result.userId;
+  socket.roomCode = result.code;
+  socket.username = result.username;
+  if (socket.roomCode !== "") {
+    socket.join(socket.roomCode);
+  }
+  setTimeout(() => redirect_user(socket), 500);
   next();
 });
 
@@ -44,7 +62,6 @@ io.on("connection", (socket) => {
       socket.join(data.code);
       socket.username = data.username;
       socket.roomCode = data.code;
-      socket.lobby = get_lobby(data.code);
     }
     callback(result);
   });
@@ -79,7 +96,6 @@ io.on("connection", (socket) => {
       socket.join(result.code);
       socket.username = data.username;
       socket.roomCode = result.code;
-      socket.lobby = get_lobby(result.code);
     }
     callback(result);
   });
@@ -100,15 +116,19 @@ io.on("connection", (socket) => {
   });
 
   async function try_start_game(socket) {
+    if (!socket.roomCode) {
+      return;
+    }
+    const lobby = get_lobby(socket.roomCode);
+    if (!lobby) {
+      return;
+    }
     if (get_num_ready_players(socket.roomCode) < get_num_players(socket.roomCode)) {
       // not enough players ready
       return;
     }
-    if (!socket.lobby) {
-      return;
-    }
 
-    const result = start_game(socket.lobby, socket.roomCode);
+    const result = start_game(lobby, socket.roomCode);
     if (result.status !== 200) {
       // notify clients that the game start has failed.
       io.in(socket.roomCode).emit("receive chat msg", {username: "server", message: `failed to start game. \n ${result.message}`});
