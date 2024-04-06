@@ -11,7 +11,7 @@ const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
 
 console.log(`Connecting to ${server_addr}:${server_port}`);
 
-let socket = io(`http://${server_addr}:${server_port}`);
+let socket = io(`http://${server_addr}:${server_port}`, {autoConnect: false});
 let recMessage = (e) => {};
 
 const connect = () => {
@@ -19,7 +19,6 @@ const connect = () => {
         // session storage to make testing easier, probably change to local storage later
         // session storage is not shared across tabs, but is across refresh
         const sessionID = sessionStorage.getItem("sessionID");
-
         if (sessionID) {
             socket.auth = { sessionID };
         }
@@ -33,6 +32,10 @@ const connect = () => {
 
     socket.on("game_start", ({code}) => {
         navigate(`/game?code=${code}`);
+    });
+
+    socket.on("redirect", (path) => {
+      navigate(path);
     });
 
     socket.connect();
