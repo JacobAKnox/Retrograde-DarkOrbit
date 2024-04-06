@@ -140,4 +140,17 @@ describe("lobby system", () => {
 
           expect(lobbies["ABCD"]["player1"].ready_state).toBe(false);
       });
+
+      test("set ready no lobby", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            }
+        };
+        //setting player 1 to ready
+        let result =  set_player_ready("not here", lobbies);
+        expect(result.status).toBe(400);
+        expect(result.message).toBe("Player not found in any lobby");
+      });
 });

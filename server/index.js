@@ -104,6 +104,9 @@ io.on("connection", (socket) => {
       // not enough players ready
       return;
     }
+    if (!socket.lobby) {
+      return;
+    }
 
     const result = start_game(socket.lobby, socket.roomCode);
     if (result.status !== 200) {
