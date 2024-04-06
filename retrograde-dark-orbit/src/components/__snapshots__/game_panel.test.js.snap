@@ -46,6 +46,41 @@ exports[`renders on-screen 1`] = `
               <p />
             </div>
           </div>
+          <div
+            class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+          >
+            <b
+              class="text-3xl text-red-300"
+            >
+              <strong>
+                Role
+              </strong>
+            </b>
+            <p
+              class="mb-5"
+            >
+              <b
+                class="text-slate-200"
+              >
+                Name
+              </b>
+              <br />
+              Dummy Name
+            </p>
+            <p
+              class="mb-5"
+            >
+              <b
+                class="text-slate-200"
+              >
+                Points
+              </b>
+              <br />
+              5
+              /
+              10
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +126,41 @@ exports[`renders on-screen 1`] = `
             <br />
             <p />
           </div>
+        </div>
+        <div
+          class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+        >
+          <b
+            class="text-3xl text-red-300"
+          >
+            <strong>
+              Role
+            </strong>
+          </b>
+          <p
+            class="mb-5"
+          >
+            <b
+              class="text-slate-200"
+            >
+              Name
+            </b>
+            <br />
+            Dummy Name
+          </p>
+          <p
+            class="mb-5"
+          >
+            <b
+              class="text-slate-200"
+            >
+              Points
+            </b>
+            <br />
+            5
+            /
+            10
+          </p>
         </div>
       </div>
     </div>

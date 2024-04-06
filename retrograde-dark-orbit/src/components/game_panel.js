@@ -4,6 +4,7 @@ import ReadyBox from "./ready_box";
 import ReadyButton from "./ready_button";
 import ReadyStatus from "./ready_status";
 import DisplayTimer from "./display_timer";
+import RoleInfo from "./role_info_panel";
 
 export default function GamePanel() {
   return (
@@ -13,6 +14,7 @@ export default function GamePanel() {
       </div>
       <div className="flex flex-col w-full md:w-1/3 justify-start p-4 bg-gray-800 rounded-xl">
         <DisplayTimer/>
+        <RoleInfo/>
       </div>
     </div>
   )
