@@ -116,7 +116,7 @@ io.on("connection", (socket) => {
   });
 
   async function try_start_game(socket) {
-    if (!socket.roomCode) {
+    if (socket.roomCode === "") {
       return;
     }
     const lobby = get_lobby(socket.roomCode);

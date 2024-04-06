@@ -6,9 +6,7 @@ export function find_or_create_session(sessionId, sessions=sessionStore) {
     if (sessionId) {
       // find existing session
       const session = sessions[sessionId];
-      console.log("session send")
       if (session) {
-        console.log("session found")
         const code = get_lobby_by_player(session.userId);
         if (code) {
           session.code = code;
