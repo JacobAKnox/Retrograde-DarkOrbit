@@ -73,6 +73,12 @@ export function update_player_ready() {
     socket.emit("player_ready");
 }
 
+export function update_role_info(callback) {
+  socket.on("role_info", ({name, max_points}) => {
+    callback(name, max_points);
+  });
+}
+
 export const update_ready_status = (updateReadyStatus) => {
   socket.on("ready_count_updated", (data) => {
     updateReadyStatus({

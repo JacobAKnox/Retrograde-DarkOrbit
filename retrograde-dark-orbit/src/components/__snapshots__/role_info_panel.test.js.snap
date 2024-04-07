@@ -24,7 +24,6 @@ exports[`renders on-screen 1`] = `
             Name
           </b>
           <br />
-          Dummy Name
         </p>
       </div>
     </div>
@@ -49,7 +48,6 @@ exports[`renders on-screen 1`] = `
           Name
         </b>
         <br />
-        Dummy Name
       </p>
     </div>
   </div>,

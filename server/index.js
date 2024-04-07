@@ -145,11 +145,7 @@ io.on("connection", (socket) => {
     setTimeout(async () => {
       const sockets = await io.in(socket.roomCode).fetchSockets();
       sockets.forEach(s => {
-        s.emit("receive chat msg", 
-            {
-              username: "server", 
-              message:  `Your role is: ${get_role_info(game, s.userID)}`
-            });
+        s.emit("role_info", get_role_info(game, s.userID));
       });
     }, 1000);
   }

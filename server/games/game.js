@@ -36,10 +36,11 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 
 export function get_role_info(game, userID) {
     try {
-        return game.players[userID].role.name;
+        const role = game.players[userID].role;
+        return {name: role.name, max_points: 10}
     } catch (error) {
         console.error(error);
-        return "error could not get role";
+        return {name: "Error Role", max_points: 0};
     }
 }
 

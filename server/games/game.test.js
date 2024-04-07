@@ -57,7 +57,7 @@ describe("game service", () => {
 
         const result = get_role_info(game, "usr1");
 
-        expect(result).toBe("test1");
+        expect(result).toBe({name: "test1", max_points: 10});
     });
 
     test("fail to get player role", () => {
@@ -65,6 +65,6 @@ describe("game service", () => {
         
         const result = get_role_info(game, "usr1");
 
-        expect(result).toBe("error could not get role");
+        expect(result).toBe({name: "Error Role", max_points: 0});
     });
 });
