@@ -2,7 +2,7 @@ import { fetch_roles } from "../database/database.js";
 
 let games = {};
 
-export let roles = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};
+export let roles = {"test1": {name: "test_role1", id: "test1", points: 10}, "test2": {name: "test_role2", id: "test2", points: 10}};
 export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
 
 export async function setup() {
@@ -37,7 +37,7 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 export function get_role_info(game, userID) {
     try {
         const role = game.players[userID].role;
-        return {name: role.name, max_points: 10}
+        return {name: role.name, max_points: role.points}
     } catch (error) {
         console.error(error);
         return {name: "Error Role", max_points: 0};

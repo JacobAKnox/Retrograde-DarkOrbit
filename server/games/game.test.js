@@ -53,7 +53,7 @@ describe("game service", () => {
     });
 
     test("get player role", () => {
-        let game = {players: {"usr1": {role: {name: "test1"}}, "usr2": {role: {name: "test2"}}}};
+        let game = {players: {"usr1": {role: {name: "test1", points: 10}}, "usr2": {role: {name: "test2", points: 10}}}};
 
         const result = get_role_info(game, "usr1");
 
