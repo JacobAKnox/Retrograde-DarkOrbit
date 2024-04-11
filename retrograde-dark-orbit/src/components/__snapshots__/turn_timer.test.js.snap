@@ -5,11 +5,17 @@ exports[`renders on-screen 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div />
+      <div>
+        <br />
+        <p />
+      </div>
     </div>
   </body>,
   "container": <div>
-    <div />
+    <div>
+      <br />
+      <p />
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

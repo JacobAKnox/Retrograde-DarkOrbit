@@ -1,42 +1,49 @@
 "use client"
 
 import { useState, useEffect } from "react";
-
-// Just an infinitely looping 1min 30sec timer for now
+import { set_turn_timer, toggle_turn_timer_countdown } from "./../server/socket.js";
 
 export default function TurnTimer() {
-  const init_time = new Date();
-  init_time.setMinutes(1);
-  init_time.setSeconds(30);
-  let current_time = init_time;
-  
-  function startTimer() {
-    const setup_time = new Date();
-    setup_time.setMinutes(1);
-    setup_time.setSeconds(30);
-    current_time = setup_time;
+  const [displayTime, setDisplayTime] = useState("");
+  const [phaseText, setPhaseText] = useState("");
+  let ms = 0;
+  let pause = false;
+
+  function configureTimer(phase) {
+    ms = phase.length;
+    setDisplayTime(formatDisplayTime());
+    setPhaseText(phase.name);
   }
 
-  const [displayTime, setDisplayTime] = useState("");
+  function toggleCountdown() {
+    pause = !pause;
+  }
+
+  function formatDisplayTime() {
+    const mins = Math.floor(ms / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    if (secs < 10) {
+      return `${mins}:0${secs}`;
+    }
+
+    return `${mins}:${secs}`;
+  }
 
   useEffect(() => {
+    set_turn_timer(configureTimer);
+    toggle_turn_timer_countdown(toggleCountdown);
     const interval = setInterval(() => {
-      if (current_time.getMinutes() == 0 && current_time.getSeconds() == 0) {
-        startTimer();
-      }
-      else {
-        const secs = current_time.getSeconds()-1;
-        current_time.setSeconds(secs);
-        let display_string = "";
-        if (secs < 10) {
-        display_string = 
-            `${current_time.getMinutes()}:0${current_time.getSeconds()}`;
-        } else {
-        display_string = 
-            `${current_time.getMinutes()}:${current_time.getSeconds()}`;
+      if (pause == false) {
+        if (ms <= 0) {
+          console.log("time in ms = " + ms);
+          toggleCountdown();
         }
-
-        setDisplayTime (display_string);
+        else {
+          ms -= 1000;
+          let display_string = formatDisplayTime(ms);
+          console.log('updated time to ' + ms + ' ms');
+          setDisplayTime(display_string);
+        }
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -44,7 +51,9 @@ export default function TurnTimer() {
     
   return (
     <div>
-      {displayTime}
+      {displayTime} 
+      <br/>
+      <p>{phaseText}</p>
     </div>
   )
 };
