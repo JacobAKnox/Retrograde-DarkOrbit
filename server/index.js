@@ -5,7 +5,7 @@ import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
-
+import { gameLoop } from "./games/turns.js";
 
 const app = express();
 const server = createServer(app);
@@ -152,6 +152,7 @@ io.on("connection", (socket) => {
             });
       });
     }, 1000);
+    gameLoop(socket.roomCode);
   }
 
   socket.on("init ready count", () => {
@@ -173,3 +174,6 @@ server.listen(PORT, async () => {
 export function closeServer() {
   server.close();
 }
+export function updateTimer(phase, time, lobbyCode){
+  io.in(lobbyCode).emit("Timer Update", {time, phase});
+} 
