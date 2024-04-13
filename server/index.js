@@ -175,5 +175,5 @@ export function closeServer() {
   server.close();
 }
 export function updateTimer(phase, time, lobbyCode){
-  io.in(lobbyCode).emit("Timer Update", {time, phase});
+  io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
 } 

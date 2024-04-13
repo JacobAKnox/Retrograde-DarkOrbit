@@ -30,19 +30,26 @@ describe("turn phases and timings", () => {
 
     test("timings", async () => {
         const sleep_mock = jest.fn(async () => {});
-
+        const lobbyCode = "TestLobbyCode";
         let game = {};
 
         game.currentState = PHASE_STATES.INFORMATION_PHASE;
-        await turns.execute_turn(game, sleep_mock);
+        await turns.execute_turn(game, lobbyCode, sleep_mock);
         expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
 
         game.currentState = PHASE_STATES.DISCUSSION_PHASE;
-        await turns.execute_turn(game, sleep_mock);
+        await turns.execute_turn(game, lobbyCode, sleep_mock);
         expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.DISCUSSION_PHASE_LENGTH);
 
         game.currentState = PHASE_STATES.ACTION_PHASE;
-        await turns.execute_turn(game, sleep_mock);
+        await turns.execute_turn(game, lobbyCode, sleep_mock);
         expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.ACTION_PHASE_LENGTH);
     });
+
+    test("should call updateTimer with the correct parameters", () => {
+        const lobbyCode = "testCode";
+        turns.updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+        expect(updateTimer).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+    });
+
 });
