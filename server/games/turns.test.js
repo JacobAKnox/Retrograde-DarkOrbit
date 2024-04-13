@@ -1,5 +1,6 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals";
 import * as turns from "./turns";
+import { updateTimer } from "..";
 
 describe("turn phases and timings", () => {
     test("phases", async () => {
@@ -51,5 +52,7 @@ describe("turn phases and timings", () => {
         turns.updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
         expect(updateTimer).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
     });
+
+
 
 });
