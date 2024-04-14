@@ -1,5 +1,5 @@
 import { fetch_roles } from "../database/database.js";
-import { PHASE_STATES } from "./game_globals.js";
+import { PHASE_STATES, get_new_status_bars } from "./game_globals.js";
 
 let games = {};
 
@@ -19,6 +19,7 @@ export function start_game(lobby, lobby_code, game_list=games) {
     game_list[lobby_code].players = JSON.parse(JSON.stringify(lobby)); // deep coppy lobby object;
     game_list[lobby_code].currentState = PHASE_STATES.GAME_SETUP_PHASE;
     game_list[lobby_code].lobbyCode = lobby_code;
+    game_list[lobby_code].statusBars = get_new_status_bars();
 
     return {status: 200};
 }

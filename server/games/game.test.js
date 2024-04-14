@@ -67,4 +67,14 @@ describe("game service", () => {
 
         expect(result).toBe("error could not get role");
     });
+
+    test("starting game adds status bars", () => {
+        let games = {};
+        let lobby = {"usr1": {username: "usrnm1"}};
+
+        const result = start_game(lobby, "code", games);
+
+        expect(result.status).toBe(200);
+        expect(games["code"]["statusBars"]["crew"]).toBeDefined();
+    });
 });
