@@ -24,8 +24,16 @@ export function start_game(lobby, lobby_code, game_list=games) {
     return {status: 200};
 }
 
-export function get_game(game_code) {
-    return games[game_code];
+export function get_game(game_code, game_list=games) {
+    return game_list[game_code];
+}
+
+export function get_status_bars(game_code, game_list=games) {
+    try {
+        return get_game(game_code, game_list).statusBars;
+    } catch (e) {
+        return undefined;
+    }
 }
 
 export function assign_roles(game, role_list = roles, role_players = roles_by_player_count) {

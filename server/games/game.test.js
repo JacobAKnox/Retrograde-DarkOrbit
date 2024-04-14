@@ -1,4 +1,4 @@
-import { assign_roles, get_role_info, roles, roles_by_player_count, start_game } from "./game";
+import { assign_roles, get_role_info, get_status_bars, roles, roles_by_player_count, start_game } from "./game";
 
 describe("game service", () => {
     test("successful start", () => {
@@ -76,5 +76,19 @@ describe("game service", () => {
 
         expect(result.status).toBe(200);
         expect(games["code"]["statusBars"]["crew"]).toBeDefined();
+    });
+
+    test("get status bars", () => {
+        let games = {"code": { statusBars: "data" }};
+        
+        const result = get_status_bars("code", games);
+        expect(result).toBe("data");
+    });
+
+    test("get status bars game not found", () => {
+        let games = {};
+        
+        const result = get_status_bars("code", games);
+        expect(result).toBeUndefined();
     });
 });

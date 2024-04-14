@@ -5,7 +5,7 @@ import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
-import { gameLoop, set_timer_update_callback } from "./games/turns.js";
+import { gameLoop, set_status_bar_update, set_timer_update_callback } from "./games/turns.js";
 
 
 const app = express();
@@ -170,12 +170,18 @@ const PORT = process.env.PORT | 4000;
 server.listen(PORT, async () => {
   await setup();
   set_timer_update_callback(updateTimer);
+  set_status_bar_update(updateStatusBar);
   console.log(`server running at http://localhost:${PORT}`);
 });
 
 export function closeServer() {
   server.close();
 }
+
 export function updateTimer(phase, time, lobbyCode){
   io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
 } 
+
+function updateStatusBar(lobbyCode, statusBars) {
+  io.in(lobbyCode).emit("status_update", statusBars);
+}

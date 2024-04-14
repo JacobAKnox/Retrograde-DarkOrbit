@@ -95,9 +95,15 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
   });
 };
 
+export function listen_status_bar_update(callback) {
+  socket.on("status_update", (statusBars) => {
+    callback(statusBars);
+  });
+}
+
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
-})
+});
 
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");

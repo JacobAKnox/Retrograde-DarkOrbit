@@ -1,10 +1,17 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
-import { get_game } from "./game.js";
-let timer_update_callback = () => {};
+import { get_game, get_status_bars } from "./game.js";
+
+let timer_update_callback = (phase, time, lobbyCode) => {};
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
 } 
+
+let status_bar_update_callback = (lobbyCode, status_bars) => {};
+
+export function set_status_bar_update(cb) {
+    status_bar_update_callback = cb;
+}
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
@@ -23,6 +30,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
         case PHASE_STATES.INFORMATION_PHASE:
             updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobby_code);
+            status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
             // add function to send client the data for information phase here
             await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
