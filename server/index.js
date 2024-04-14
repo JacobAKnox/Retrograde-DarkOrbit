@@ -7,6 +7,7 @@ import { assign_roles, get_game, get_role_info, setup, start_game } from "./game
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { gameLoop, set_timer_update_callback } from "./games/turns.js";
 
+
 const app = express();
 const server = createServer(app);
 export const io = new Server(server, {

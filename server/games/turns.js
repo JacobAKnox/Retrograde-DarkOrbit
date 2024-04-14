@@ -1,6 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
 import { get_game } from "./game.js";
-
 let timer_update_callback = () => {};
 
 export function set_timer_update_callback(cb) {
