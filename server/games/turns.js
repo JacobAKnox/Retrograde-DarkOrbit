@@ -1,7 +1,11 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
 import { get_game } from "./game.js";
-import { updateTimer } from "../index.js";
 
+let timer_update_callback = () => {};
+
+export function set_timer_update_callback(cb) {
+    timer_update_callback = cb;
+} 
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
@@ -15,6 +19,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
         case PHASE_STATES.GAME_SETUP_PHASE:
             // call setupNewGame function?
             game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            await sleep(1000); // give clients a chance to load the page
             break;
 
         case PHASE_STATES.INFORMATION_PHASE:
@@ -50,7 +55,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 export function updateClientsPhase(phase, time, lobbyCode) {
     // send phase to client
     // call Update Timer 
-    updateTimer(phase, time, lobbyCode);
+    timer_update_callback(phase, time, lobbyCode);
     return phase;
 }
 

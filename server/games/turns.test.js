@@ -1,6 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals";
 import * as turns from "./turns";
-import { updateTimer } from "..";
 
 describe("turn phases and timings", () => {
     test("phases", async () => {
@@ -16,7 +15,7 @@ describe("turn phases and timings", () => {
 
         async function doTurn(phase) {
             game.currentState = phase;
-            await turns.execute_turn(game, sleep_mock);
+            await turns.execute_turn(game, "", sleep_mock);
             resultingPhases.push(game.currentState);
         }
 
@@ -49,8 +48,11 @@ describe("turn phases and timings", () => {
 
     test("should call updateTimer with the correct parameters", () => {
         const lobbyCode = "testCode";
+        const update_timer_mock = jest.fn(() => {});
+        turns.set_timer_update_callback(update_timer_mock);
         turns.updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
-        expect(updateTimer).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+        expect(update_timer_mock).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+        turns.set_timer_update_callback(() => {});
     });
 
 
