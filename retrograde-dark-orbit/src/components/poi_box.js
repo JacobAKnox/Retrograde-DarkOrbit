@@ -1,7 +1,7 @@
 import PointsSet from "./points_set"
 import { useState } from "react";
 
-export default function PoiBox({ displayText = "Description of POI" }) {
+export default function PoiBox({ displayText = "Description of POI", update_callback, id}) {
   const [text, setText] = useState(displayText);
 
   return (
@@ -10,7 +10,7 @@ export default function PoiBox({ displayText = "Description of POI" }) {
         <p className="text-center text-wrap break-words">{displayText}</p>
       </div>
       <div className="flex justify-center p-2">
-        <PointsSet/>
+        <PointsSet update_callback={update_callback} id={id}/>
       </div>
     </div>
   )
