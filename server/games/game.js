@@ -44,6 +44,37 @@ export function get_role_info(game, userID) {
     }
 }
 
+export function validate_received_user_poi_values(game, userID, POIs) {
+    const totalPossiblePoints = get_role_info(game, userID).max_points;
+    let pointTotal = 0;
+
+    for(let poi in POIs) {
+        if(POIs[poi].allocated < 0) {
+            return false;
+        }
+        else {
+            pointTotal += POIs[poi].allocated;
+        }
+    }
+
+    if(pointTotal > totalPossiblePoints) {
+        return false;
+    }
+
+    return true;
+}
+
+// This function assumes POIs are valid
+export function set_player_POIs(game, userID, POIs) {
+    game.players[userID].pois = POIs;
+}
+
+export function get_player_POIs(game, userID) {
+    if(game.players[userID].pois) {
+        return game.players[userID].pois;
+    }
+    else { return null };
+}
 
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;

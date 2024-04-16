@@ -13,6 +13,7 @@ console.log(`Connecting to ${server_addr}:${server_port}`);
 
 let socket = io(`http://${server_addr}:${server_port}`, {autoConnect: false});
 let recMessage = (e) => {};
+let recPOIs = (e) => {};
 
 const connect = () => {
     if (typeof window !== 'undefined') {
@@ -69,6 +70,10 @@ export function chat_message_listener(callback) {
     recMessage = callback;
 }
 
+export function server_sent_poi_listener(callback) {
+    recPOIs = callback;
+}
+
 export function update_player_ready() {
     socket.emit("player_ready");
 }
@@ -101,8 +106,18 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
   });
 };
 
+// chat message received from server
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
+})
+
+export async function send_poi_update(POIs) {
+  return await socket.emitWithAck("client-sent poi update", {POIs});
+}
+
+socket.on("server-sent poi update", ({POIs}) => {
+  recPOIs(POIs);
+  console.log(POIs);
 })
 
 // socket.on("lobby code", (code) => {

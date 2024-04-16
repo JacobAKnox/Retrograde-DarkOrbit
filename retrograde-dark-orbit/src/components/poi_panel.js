@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
-import { update_role_info } from "../server/socket";
+import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
 
 export default function POIPanel() {
     const [POIs, setPOIs] = useState({
@@ -14,6 +14,10 @@ export default function POIPanel() {
 
     useEffect(() => {
         update_role_info(on_role_update);
+
+        // TODO:
+        // Upon receiving last valid POIs from server, need to update POIs object above
+        server_sent_poi_listener( ??? )
     });
 
     function on_role_update(_name, max_points) {
@@ -44,6 +48,20 @@ export default function POIPanel() {
         update_available();
         return new_value;
     }
+
+    // TODO:
+    // The block of code below needs to run only during the action phase.
+    // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
+    let timerId = setInterval(() => {
+        send_poi_update(POIs).then((res) => {
+            if(res.status === 200) {
+                // ok
+            }
+            else {
+                console.log("ERROR " + res.status + ": " + res.message);
+            }
+        })
+    }, 5000);
 
     return (
         <div className="text-xl text-white text-center items-center rounded-xl m-1 flex-grow">
