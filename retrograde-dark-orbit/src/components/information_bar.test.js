@@ -1,19 +1,55 @@
-import { render, screen } from '@testing-library/react';
+
+jest.mock('../server/socket', () => ({
+  update_progress_bar_info: jest.fn().mockImplementation((callback) => {
+    callback({ crew: 80, health: 90, fuel: 70, lifeSupport: 60, power: 50 });
+  })
+}));
+
+import React from 'react';
+import { render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom'; 
 import InformationBar from './information_bar';
+import { update_progress_bar_info } from '../server/socket';
 
-describe('GameInfoBar', () => {
-  it('displays updated progress bars based on game state', () => {
-    const initialState = { crew: 0, health: 100, fuel: 100, experience: 0, power: 1 };
-    const { rerender } = render(<InformationBar gameState={initialState} />);
+describe('<InformationBar />', () => {
 
-    expect(screen.getByLabelText('Crew').value).toBe(0);
-    expect(screen.getByLabelText('Ship Health').value).toBe(100);  
+  beforeEach(() => {
+    update_progress_bar_info.mockClear();
+  });
 
-    const updatedState = { crew: 4, health: 80, fuel: 100, experience: 2, power: 1 };
-    rerender(<InformationBar gameState={updatedState} />);
+  it('renders correctly', () => {
 
-    expect(screen.getByLabelText('Crew').value).toBe(4);
-    expect(screen.getByLabelText('Ship Health').value).toBe(80);
+    const { getByText } = render(<InformationBar />);
+
+    expect(getByText(/crew/i)).toBeInTheDocument();
+    expect(getByText(/ship health/i)).toBeInTheDocument();
+    expect(getByText(/fuel/i)).toBeInTheDocument();
+    expect(getByText(/life support/i)).toBeInTheDocument();
+    expect(getByText(/power/i)).toBeInTheDocument();
+
+  });
+
+  it('updates progress bars when socket emits new game status', async () => {
+
+    render(<InformationBar />);
+
+    await waitFor(() => {
+
+      const progressBarCrew = document.querySelector('progress[aria-label="Crew"]');
+      expect(progressBarCrew).toHaveAttribute('value', '80');
+
+      const progressBarHealth = document.querySelector('progress[aria-label="Ship Health"]');
+      expect(progressBarHealth).toHaveAttribute('value', '90');
+
+      const progressBarFuel = document.querySelector('progress[aria-label="Fuel"]');
+      expect(progressBarFuel).toHaveAttribute('value', '70');
+
+      const progressBarLifeSupport = document.querySelector('progress[aria-label="Life Support"]');
+      expect(progressBarLifeSupport).toHaveAttribute('value', '60');
+
+      const progressBarPower = document.querySelector('progress[aria-label="Power"]');
+      expect(progressBarPower).toHaveAttribute('value', '50');
+
+    });
   });
 });
-

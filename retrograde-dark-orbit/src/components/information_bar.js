@@ -3,7 +3,7 @@ import { update_progress_bar_info }  from "../server/socket";
 
 export default function InformationBar() {
     const [gameStatus, setGameStatus] = useState({
-        crew: 100,
+        crew: 0,
         health: 100,
         fuel: 100,
         lifeSupport: 100,
