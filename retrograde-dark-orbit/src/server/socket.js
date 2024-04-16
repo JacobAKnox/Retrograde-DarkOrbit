@@ -115,7 +115,7 @@ export async function send_poi_update(POIs) {
   return await socket.emitWithAck("client-sent poi update", {POIs});
 }
 
-socket.on("server-sent poi update", ({POIs}) => {
+socket.on("server-sent poi update", (POIs) => {
   recPOIs(POIs);
   console.log(POIs);
 })

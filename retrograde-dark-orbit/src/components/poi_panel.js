@@ -17,7 +17,7 @@ export default function POIPanel() {
 
         // TODO:
         // Upon receiving last valid POIs from server, need to update POIs object above
-        server_sent_poi_listener( ??? )
+        // server_sent_poi_listener( ??? )
     });
 
     function on_role_update(_name, max_points) {

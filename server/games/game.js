@@ -1,4 +1,5 @@
 import { fetch_roles } from "../database/database.js";
+import { PHASE_STATES, PLAYER_INITIAL_POIS } from "./game_globals.js";
 
 let games = {};
 
@@ -16,6 +17,8 @@ export function start_game(lobby, lobby_code, game_list=games) {
 
     game_list[lobby_code] = {};
     game_list[lobby_code].players = JSON.parse(JSON.stringify(lobby)); // deep coppy lobby object;
+    // Discussion for now to limit errors, change to game setup when merging
+    game_list[lobby_code].currentState = PHASE_STATES.DISCUSSION_PHASE;
 
     return {status: 200};
 }
@@ -31,6 +34,7 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 
     Object.keys(game.players).forEach((p, i) => {
         game.players[p].role = role_list[roles_in_game[i]];
+        set_player_POIs(game, p, PLAYER_INITIAL_POIS);
     });
 }
 
