@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { update_progress_bar_info }  from "../server/socket"; 
+import { listen_status_bar_update } from '../server/socket';
 
 export default function InformationBar() {
     const [gameStatus, setGameStatus] = useState({
-        crew: 0,
-        health: 100,
-        fuel: 100,
-        lifeSupport: 100,
-        power: 100
-    });
+      "crew": {name: "Crew", value: 50, max_value: 100},
+      "ship_health": {name: "Ship Health", value: 50, max_value: 100},
+      "fuel": {name: "Fuel", value: 50, max_value: 100},
+      "life_support": {name: "Life Support", value: 50, max_value: 100},
+      "power": {name: "Power", value: 50, max_value: 100}
+  });
 
     useEffect(() => {
-        update_progress_bar_info(setGameStatus);
+        listen_status_bar_update(setGameStatus);
     }, []);
 
     return (

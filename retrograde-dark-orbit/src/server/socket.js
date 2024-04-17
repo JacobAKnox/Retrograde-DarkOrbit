@@ -83,12 +83,6 @@ export const update_ready_status = (updateReadyStatus) => {
   socket.emit("init ready count");
 };
 
-export function update_progress_bar_info(callback) {
-  socket.on("progress_bar_info", (data) => {
-      callback(data);
-  });
-}
-
 export const set_turn_timer = (setTurnTimer) => {
   socket.on("update timer phase", (phase) => {
     setTurnTimer(phase);
@@ -104,6 +98,12 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
 export function listen_status_bar_update(callback) {
   socket.on("status_update", (statusBars) => {
     callback(statusBars);
+  });
+}
+
+export function update_progress_bar_info(callback) {
+  socket.on("status_update", (statusBars) => {
+      callback(statusBars);
   });
 }
 

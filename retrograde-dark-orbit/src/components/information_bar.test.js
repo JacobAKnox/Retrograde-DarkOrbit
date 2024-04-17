@@ -1,6 +1,6 @@
 
 jest.mock('../server/socket', () => ({
-  update_progress_bar_info: jest.fn().mockImplementation((callback) => {
+  listen_status_bar_update: jest.fn().mockImplementation((callback) => {
     callback({ crew: 80, health: 90, fuel: 70, lifeSupport: 60, power: 50 });
   })
 }));
@@ -9,12 +9,12 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'; 
 import InformationBar from './information_bar';
-import { update_progress_bar_info } from '../server/socket';
+import {listen_status_bar_update} from '../server/socket';
 
 describe('<InformationBar />', () => {
 
   beforeEach(() => {
-    update_progress_bar_info.mockClear();
+    listen_status_bar_update.mockClear();
   });
 
   it('renders correctly', () => {
