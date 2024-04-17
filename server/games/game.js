@@ -36,6 +36,10 @@ export function get_status_bars(game_code, game_list=games) {
     }
 }
 
+export function set_status_bar_value(game_code, bar_id, val, game_list=games) {
+  game_list[game_code].statusBars[bar_id].value = val;
+}
+
 export function assign_roles(game, role_list = roles, role_players = roles_by_player_count) {
     const player_count =  Object.keys(game.players).length;
     let roles_in_game = role_players.slice(0, player_count);

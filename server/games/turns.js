@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
-import { get_game, get_status_bars } from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value } from "./game.js";
 
 let timer_update_callback = (phase, time, lobbyCode) => {};
 
@@ -52,6 +52,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             // add function to process clients' choices during action phase
+            process_turns(lobby_code);
             //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
             // add fucntion to check for win condition
             game.currentState = PHASE_STATES.INFORMATION_PHASE;
@@ -73,5 +74,15 @@ export async function gameLoop(lobbyCode){
     //Run game loop and pass in game object
     while (true){
         await execute_turn(game, lobbyCode);
+        console.log(get_status_bars(lobbyCode));
     }
+}
+
+function process_turns(lobbyCode) {
+  // For now, just depletes status bars by 10 points each turn
+  const statusBars = get_status_bars(lobbyCode);
+  for (let id in statusBars) {
+    const val = statusBars[id].value;
+    set_status_bar_value(lobbyCode, id, val-10);
+  }
 }
