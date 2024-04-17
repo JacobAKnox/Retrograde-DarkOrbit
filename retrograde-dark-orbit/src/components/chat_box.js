@@ -10,7 +10,7 @@ export default function ChatBox() {
         chat_message_listener(displayMessage)}, [])
 
     async function clickSendHandler() {
-      if (messageInput == "" ) {
+      if (messageInput != "" ) {
         chat_message(messageInput).then();
         setMessage("");
       }
