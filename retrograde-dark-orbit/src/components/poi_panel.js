@@ -12,13 +12,30 @@ export default function POIPanel() {
     const [availablePoints, setAvailablePoints] = useState(0);
     const [totalPoints, setTotalPoints] = useState(0);
 
+    let timerId = 0;
+
     useEffect(() => {
         update_role_info(on_role_update);
+        server_sent_poi_listener(update_POIs_from_server);
 
-        // TODO:
-        // Upon receiving last valid POIs from server, need to update POIs object above
-        server_sent_poi_listener( ??? )
-    });
+        // The block of code below needs to run only during the action phase.
+        // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+            send_poi_update(POIs).then((res) => {
+                if(res.status === 200) {
+                    // ok
+                }
+                else {
+                    console.log("ERROR " + res.status + ": " + res.message);
+                }
+            })
+        }, 10000);
+    }, []);
+
+    function update_POIs_from_server(new_pois) {
+        setPOIs(new_pois);
+    }
 
     function on_role_update(_name, max_points) {
         setTotalPoints(max_points);
@@ -48,20 +65,6 @@ export default function POIPanel() {
         update_available();
         return new_value;
     }
-
-    // TODO:
-    // The block of code below needs to run only during the action phase.
-    // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
-    let timerId = setInterval(() => {
-        send_poi_update(POIs).then((res) => {
-            if(res.status === 200) {
-                // ok
-            }
-            else {
-                console.log("ERROR " + res.status + ": " + res.message);
-            }
-        })
-    }, 5000);
 
     return (
         <div className="text-xl text-white text-center items-center rounded-xl m-1 flex-grow">

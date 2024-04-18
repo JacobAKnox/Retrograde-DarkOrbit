@@ -1,4 +1,5 @@
 import { fetch_roles } from "../database/database.js";
+import { PLAYER_INITIAL_POIS } from "./game_globals.js";
 
 let games = {};
 
@@ -45,23 +46,29 @@ export function get_role_info(game, userID) {
 }
 
 export function validate_received_user_poi_values(game, userID, POIs) {
-    const totalPossiblePoints = get_role_info(game, userID).max_points;
+    const totalPossiblePoints = game.players[userID].role.points;
     let pointTotal = 0;
 
-    for(let poi in POIs) {
-        if(POIs[poi].allocated < 0) {
-            return false;
+    console.log("Total possible points: " + totalPossiblePoints);
+    console.log(POIs);
+    
+    for(const [key, value] of Object.entries(POIs)) {
+        if(value.allocated < 0) {
+            return false; 
         }
         else {
-            pointTotal += POIs[poi].allocated;
+            pointTotal += value.allocated;
         }
     }
+
+    console.log("Accumulated point total:" + pointTotal);
 
     if(pointTotal > totalPossiblePoints) {
         return false;
     }
-
-    return true;
+    else {
+        return true;
+    }
 }
 
 // This function assumes POIs are valid
@@ -73,7 +80,7 @@ export function get_player_POIs(game, userID) {
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }
-    else { return null };
+    else { return PLAYER_INITIAL_POIS };
 }
 
 function shuffle(array) {

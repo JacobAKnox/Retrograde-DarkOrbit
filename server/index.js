@@ -3,7 +3,7 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
-import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs } from "./games/game.js";
+import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 
 
@@ -53,13 +53,15 @@ io.on("connection", (socket) => {
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
-    console.log(POIs);
+    //console.log(POIs);
     let game = get_game(socket.roomCode);
-    if(!validate_received_user_poi_values(game, socket.userID, POIs)) {
+    let userId = socket.userID;
+    if(validate_received_user_poi_values(game, userId, POIs) == false) {
       callback({
         status: 409,
         message: "client POIs not valid"
       });
+      console.log("POIs BAG FAILED!");
       socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
     }
     else {
@@ -67,6 +69,8 @@ io.on("connection", (socket) => {
         status: 200,
         message: "POIs OK"
       });
+      console.log("POI BAG OKAY =D");
+      set_player_POIs(game, socket.userID, POIs);
     }
   });
 

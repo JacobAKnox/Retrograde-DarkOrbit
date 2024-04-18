@@ -1,4 +1,6 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals"
+import { set_player_POIs } from "./game";
+import { PLAYER_INITIAL_POIS } from "./game_globals";
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
@@ -27,6 +29,7 @@ export async function execute_turn(game, sleep=sleep_function) {
 
         case PHASE_STATES.ACTION_PHASE:
             updateClientsPhase(PHASE_STATES.ACTION_PHASE);
+            // set player POIs to PLAYER_INITIAL_POIS
             // add function to disable client chat here
             await sleep(PHASE_TIMINGS.ACTION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.SERVER_PROCESSING_PHASE;
