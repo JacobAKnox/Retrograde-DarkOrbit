@@ -13,6 +13,7 @@ export const PHASE_TIMINGS = Object.freeze({
     ACTION_PHASE_LENGTH: 20000
 })
 
+// access should probably be wrapped in a function call
 // given to each player at beginning of every action phase
 export const PLAYER_INITIAL_POIS = Object.freeze({
     '1': { name: 'name', allocated: 0 },

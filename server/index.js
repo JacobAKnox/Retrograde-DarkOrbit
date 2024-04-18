@@ -5,6 +5,7 @@ import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
+import { PHASE_STATES } from "./games/game_globals.js";
 
 
 const app = express();
@@ -53,10 +54,34 @@ io.on("connection", (socket) => {
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
+<<<<<<< HEAD
     //console.log(POIs);
     let game = get_game(socket.roomCode);
     let userId = socket.userID;
     if(validate_received_user_poi_values(game, userId, POIs) == false) {
+=======
+    console.log(POIs);
+    const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
+    let game = get_game(socket.roomCode);
+    if (!game) {
+      callback({
+        status: 404,
+        message: "You are not in a game"
+      });
+      return;
+    }
+
+    if (!allowed_phases.includes(game.currentState)) {
+      callback({
+        status: 405,
+        message: "cannot update point allocation during this phase"
+      });
+      socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
+      return;
+    }
+
+    if(!validate_received_user_poi_values(game, socket.userID, POIs)) {
+>>>>>>> c8f2efe817a55979d3916a24041763b73f7490eb
       callback({
         status: 409,
         message: "client POIs not valid"
