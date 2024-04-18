@@ -29,6 +29,7 @@ describe('<InformationBar />', () => {
 
   });
 
+
   it('updates progress bars when socket emits new game status', async () => {
 
     render(<InformationBar />);
