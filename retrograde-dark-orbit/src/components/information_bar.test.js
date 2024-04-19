@@ -1,7 +1,13 @@
 
 jest.mock('../server/socket', () => ({
   listen_status_bar_update: jest.fn().mockImplementation((callback) => {
-    callback({ crew: 80, health: 90, fuel: 70, lifeSupport: 60, power: 50 });
+    callback({
+      "crew": {name: "Crew", value: 80, max_value: 100},
+      "ship_health": {name: "Ship Health", value: 90, max_value: 100},
+      "fuel": {name: "Fuel", value: 70, max_value: 100},
+      "life_support": {name: "Life Support", value: 60, max_value: 100},
+      "power": {name: "Power", value: 50, max_value: 100}
+    });
   })
 }));
 

@@ -54,11 +54,11 @@ export default function InformationBar() {
                 `}
             </style>
             <div className="information-bar">
-                <label>Crew: <progress value={gameStatus.crew} max="100" aria-label="Crew"></progress></label>
-                <label>Ship Health: <progress value={gameStatus.health} max="100" aria-label="Ship Health"></progress></label>
-                <label>Fuel: <progress value={gameStatus.fuel} max="100" aria-label="Fuel"></progress></label>
-                <label>Life Support: <progress value={gameStatus.lifeSupport} max="100" aria-label="Life Support"></progress></label>
-                <label>Power: <progress value={gameStatus.power} max="100" aria-label="Power"></progress></label>
+                <label>Crew: <progress value={gameStatus.crew.value} max={gameStatus.crew.max_value} aria-label="Crew"></progress></label>
+                <label>Ship Health: <progress value={gameStatus.ship_health.value} max={gameStatus.ship_health.max_value} aria-label="Ship Health"></progress></label>
+                <label>Fuel: <progress value={gameStatus.fuel.value} max={gameStatus.fuel.max_value} aria-label="Fuel"></progress></label>
+                <label>Life Support: <progress value={gameStatus.life_support.value} max={gameStatus.life_support.max_value} aria-label="Life Support"></progress></label>
+                <label>Power: <progress value={gameStatus.power.value} max={gameStatus.power.max_value} aria-label="Power"></progress></label>
             </div>
         </>
     );
