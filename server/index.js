@@ -54,13 +54,6 @@ io.on("connection", (socket) => {
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
-<<<<<<< HEAD
-    //console.log(POIs);
-    let game = get_game(socket.roomCode);
-    let userId = socket.userID;
-    if(validate_received_user_poi_values(game, userId, POIs) == false) {
-=======
-    console.log(POIs);
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
     if (!game) {
@@ -81,7 +74,6 @@ io.on("connection", (socket) => {
     }
 
     if(!validate_received_user_poi_values(game, socket.userID, POIs)) {
->>>>>>> c8f2efe817a55979d3916a24041763b73f7490eb
       callback({
         status: 409,
         message: "client POIs not valid"
@@ -94,7 +86,6 @@ io.on("connection", (socket) => {
         status: 200,
         message: "POIs OK"
       });
-      console.log("POI BAG OKAY =D");
       set_player_POIs(game, socket.userID, POIs);
     }
   });

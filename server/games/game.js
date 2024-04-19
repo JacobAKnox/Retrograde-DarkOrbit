@@ -1,9 +1,5 @@
 import { fetch_roles } from "../database/database.js";
-<<<<<<< HEAD
-import { PLAYER_INITIAL_POIS } from "./game_globals.js";
-=======
 import { PHASE_STATES, PLAYER_INITIAL_POIS } from "./game_globals.js";
->>>>>>> c8f2efe817a55979d3916a24041763b73f7490eb
 
 let games = {};
 
