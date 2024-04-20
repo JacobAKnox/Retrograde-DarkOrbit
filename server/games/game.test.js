@@ -5,7 +5,8 @@ import { assign_roles,
     start_game, 
     validate_received_user_poi_values,
     set_player_POIs,
-    get_player_POIs } from "./game";
+    get_player_POIs, 
+    get_status_bars} from "./game.js";
 import { PLAYER_INITIAL_POIS } from "./game_globals";
 
 describe("game service", () => {
