@@ -1,35 +1,45 @@
-import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals"
-import { set_player_POIs } from "./game";
+
+import { set_player_POIs } from "./game.js";
 import { PLAYER_INITIAL_POIS } from "./game_globals";
+import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
+import { get_game } from "./game.js";
+let timer_update_callback = () => {};
+
+export function set_timer_update_callback(cb) {
+    timer_update_callback = cb;
+}
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-export async function execute_turn(game, sleep=sleep_function) {
+export async function execute_turn(game, lobby_code, sleep=sleep_function) {
+
+    //Update updateClientsPhase to pass in time and phase
+    //Call to updateTimer
     switch(game.currentState) {
 
         case PHASE_STATES.GAME_SETUP_PHASE:
             // call setupNewGame function?
             game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            await sleep(1000); // give clients a chance to load the page
             break;
 
         case PHASE_STATES.INFORMATION_PHASE:
-            updateClientsPhase(PHASE_STATES.INFORMATION_PHASE);
+            updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobby_code);
             // add function to send client the data for information phase here
             await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
             break;
 
         case PHASE_STATES.DISCUSSION_PHASE:
-            updateClientsPhase(PHASE_STATES.DISCUSSION_PHASE);
+            updateClientsPhase(PHASE_STATES.DISCUSSION_PHASE, PHASE_TIMINGS.DISCUSSION_PHASE_LENGTH, lobby_code);
             // add function to enable client chat here
             await sleep(PHASE_TIMINGS.DISCUSSION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.ACTION_PHASE;
             break;
 
         case PHASE_STATES.ACTION_PHASE:
-            updateClientsPhase(PHASE_STATES.ACTION_PHASE);
-            // set player POIs to PLAYER_INITIAL_POIS
+            updateClientsPhase(PHASE_STATES.ACTION_PHASE, PHASE_TIMINGS.ACTION_PHASE_LENGTH, lobby_code);
             // add function to disable client chat here
             await sleep(PHASE_TIMINGS.ACTION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.SERVER_PROCESSING_PHASE;
@@ -37,12 +47,26 @@ export async function execute_turn(game, sleep=sleep_function) {
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             // add function to process clients' choices during action phase
+            //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
             // add fucntion to check for win condition
             game.currentState = PHASE_STATES.INFORMATION_PHASE;
             break;
     }
 }
 
-function updateClientsPhase(phase) {
+export function updateClientsPhase(phase, time, lobbyCode) {
     // send phase to client
+    // call Update Timer 
+    timer_update_callback(phase, time, lobbyCode);
+    return phase;
+}
+
+export async function gameLoop(lobbyCode){
+    //Gameloop - execute turns
+    //define game
+    let game = get_game(lobbyCode);
+    //Run game loop and pass in game object
+    while (true){
+        await execute_turn(game, lobbyCode);
+    }
 }
