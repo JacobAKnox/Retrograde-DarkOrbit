@@ -3,10 +3,10 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
-import { assign_roles, get_game, get_role_info, setup, start_game } from "./games/game.js";
+import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
+import { PHASE_STATES } from "./games/game_globals.js";
 import { gameLoop, set_status_bar_update, set_timer_update_callback } from "./games/turns.js";
-
 
 const app = express();
 const server = createServer(app);
@@ -45,9 +45,49 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   console.log("user connected");
 
+  // text chat
   socket.on("send chat msg", ({message}) => {
     console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
     io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
+  });
+
+  // POI updates during action phase
+  socket.on("client-sent poi update", (POIs, callback) => {
+    console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
+    const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
+    let game = get_game(socket.roomCode);
+    if (!game) {
+      callback({
+        status: 404,
+        message: "You are not in a game"
+      });
+      return;
+    }
+
+    if (!allowed_phases.includes(game.currentState)) {
+      callback({
+        status: 405,
+        message: "cannot update point allocation during this phase"
+      });
+      socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
+      return;
+    }
+
+    if(!validate_received_user_poi_values(game, socket.userID, POIs)) {
+      callback({
+        status: 409,
+        message: "client POIs not valid"
+      });
+      console.log("POIs BAG FAILED!");
+      socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
+    }
+    else {
+      callback({
+        status: 200,
+        message: "POIs OK"
+      });
+      set_player_POIs(game, socket.userID, POIs);
+    }
   });
 
   socket.on("join", (data, callback) => {
@@ -146,11 +186,7 @@ io.on("connection", (socket) => {
     setTimeout(async () => {
       const sockets = await io.in(socket.roomCode).fetchSockets();
       sockets.forEach(s => {
-        s.emit("receive chat msg", 
-            {
-              username: "server", 
-              message:  `Your role is: ${get_role_info(game, s.userID)}`
-            });
+        s.emit("role_info", get_role_info(game, s.userID));
       });
     }, 1000);
     gameLoop(socket.roomCode);

@@ -1,19 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { chat_message, chat_message_listener } from './../server/socket';
+import { chat_message, chat_message_listener } from '../server/socket';
 
-export default function ChatBox() {
+export default function WideChatBox() {
     const [messageInput, setMessage] = useState("");
 
     useEffect(() => {
         chat_message_listener(displayMessage)}, [])
 
     async function clickSendHandler() {
-      if (messageInput != "" ) {
         chat_message(messageInput).then();
         setMessage("");
-      }
     }
 
     function displayMessage(message) {
@@ -25,8 +23,8 @@ export default function ChatBox() {
     }
 
     return (
-        <div className="min-h-[600px] bg-gray-800 p-4 rounded-xl flex-col">
-            <div id="message-container" className="bg-gray-700 w-full h-[600px] p-2 rounded-xl overflow-y-auto"> 
+        <div className="min-h-[200px] bg-gray-800 p-4 rounded-xl flex-col">
+            <div id="message-container" className="bg-gray-700 w-full h-[200px] p-2 rounded-xl overflow-y-auto"> 
             </div>
             <div className="bg-inherit items-center justify-start w-full h-10 mt-4 flex">
                 <input className="bg-slate-700 text-white w-3/4 h-10 rounded-xl p-2 hover:bg-slate-600"
