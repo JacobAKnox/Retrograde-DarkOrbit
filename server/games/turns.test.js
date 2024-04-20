@@ -1,7 +1,14 @@
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals";
 import * as turns from "./turns";
 
+const get_status_mock = jest.spyOn(require("./game.js"), "get_status_bars");
+get_status_mock.mockImplementation((_) => {return "status"});
+
 describe("turn phases and timings", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     test("phases", async () => {
         const sleep_mock = jest.fn(async () => {});
 
@@ -55,6 +62,16 @@ describe("turn phases and timings", () => {
         turns.set_timer_update_callback(() => {});
     });
 
+    test("should call status bar update during info phase", async () => {
+        const lobbyCode = "testCode";
+        const status_bar_mock = jest.fn(() => {});
+       
+        turns.set_status_bar_update(status_bar_mock);
 
+        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
+        expect(get_status_mock).toHaveBeenCalledWith(lobbyCode);
+        
+        turns.set_status_bar_update(() => {});
+    });
 
 });
