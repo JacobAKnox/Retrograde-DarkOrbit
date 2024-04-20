@@ -1,9 +1,9 @@
 import { fetch_roles } from "../database/database.js";
-import { PHASE_STATES } from "./game_globals.js";
+import { PHASE_STATES, PLAYER_INITIAL_POIS } from "./game_globals.js";
 
 let games = {};
 
-export let roles = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};
+export let roles = {"test1": {name: "test_role1", id: "test1", points: 10}, "test2": {name: "test_role2", id: "test2", points: 10}};
 export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
 
 export async function setup() {
@@ -34,18 +34,57 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 
     Object.keys(game.players).forEach((p, i) => {
         game.players[p].role = role_list[roles_in_game[i]];
+        set_player_POIs(game, p, PLAYER_INITIAL_POIS);
     });
 }
 
 export function get_role_info(game, userID) {
     try {
-        return game.players[userID].role.name;
+        const role = game.players[userID].role;
+        return {name: role.name, max_points: role.points}
     } catch (error) {
         console.error(error);
-        return "error could not get role";
+        return {name: "Error Role", max_points: 0};
     }
 }
 
+export function validate_received_user_poi_values(game, userID, POIs) {
+    const totalPossiblePoints = game.players[userID].role.points;
+    let pointTotal = 0;
+
+    console.log("Total possible points: " + totalPossiblePoints);
+    console.log(POIs);
+    
+    for(const [key, value] of Object.entries(POIs)) {
+        if(value.allocated < 0) {
+            return false; 
+        }
+        else {
+            pointTotal += value.allocated;
+        }
+    }
+
+    console.log("Accumulated point total:" + pointTotal);
+
+    if(pointTotal > totalPossiblePoints) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+// This function assumes POIs are valid
+export function set_player_POIs(game, userID, POIs) {
+    game.players[userID].pois = POIs;
+}
+
+export function get_player_POIs(game, userID) {
+    if(game.players[userID].pois) {
+        return game.players[userID].pois;
+    }
+    else { return PLAYER_INITIAL_POIS };
+}
 
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;

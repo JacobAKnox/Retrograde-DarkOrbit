@@ -1,10 +1,13 @@
+
+import { set_player_POIs } from "./game.js";
+import { PLAYER_INITIAL_POIS } from "./game_globals";
 import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
 import { get_game } from "./game.js";
 let timer_update_callback = () => {};
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
-} 
+}
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
