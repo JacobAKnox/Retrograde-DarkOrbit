@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
 import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
-import { getItem, storeItem } from "@/server/storage";
+import { getItem, storeItem } from "./../server/storage";
 
 const default_poi = {
     "1": {name: "name", allocated: 0},
