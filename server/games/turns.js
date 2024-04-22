@@ -1,7 +1,6 @@
 
 import { set_player_POIs } from "./game.js";
-import { PLAYER_INITIAL_POIS } from "./game_globals";
-import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
+import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value } from "./game.js";
 
 let timer_update_callback = (phase, time, lobbyCode) => {};
