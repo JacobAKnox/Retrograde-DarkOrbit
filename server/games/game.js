@@ -36,6 +36,10 @@ export function get_status_bars(game_code, game_list=games) {
     }
 }
 
+export function get_status_bar_value(game_code, bar_id, game_list=games) {
+  return game_list[game_code].statusBars[bar_id].value;
+}
+
 export function set_status_bar_value(game_code, bar_id, val, game_list=games) {
   game_list[game_code].statusBars[bar_id].value = val;
 }
@@ -89,14 +93,17 @@ export function validate_received_user_poi_values(game, userID, POIs) {
 
 // This function assumes POIs are valid
 export function set_player_POIs(game, userID, POIs) {
+    console.log("check player = " + game.players[userID].username);
+    console.log("new initial pois length = " + Object.keys(POIs).length);
     game.players[userID].pois = POIs;
 }
 
 export function get_player_POIs(game, userID) {
+  console.log('get pois = ' + Object.keys(game.players[userID].pois).length);
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }
-    else { return PLAYER_INITIAL_POIS };
+    else { return PLAYER_INITIAL_POIS; };
 }
 
 function shuffle(array) {
