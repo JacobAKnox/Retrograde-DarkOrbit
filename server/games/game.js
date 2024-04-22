@@ -93,13 +93,10 @@ export function validate_received_user_poi_values(game, userID, POIs) {
 
 // This function assumes POIs are valid
 export function set_player_POIs(game, userID, POIs) {
-    console.log("check player = " + game.players[userID].username);
-    console.log("new initial pois length = " + Object.keys(POIs).length);
     game.players[userID].pois = POIs;
 }
 
 export function get_player_POIs(game, userID) {
-  console.log('get pois = ' + Object.keys(game.players[userID].pois).length);
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }

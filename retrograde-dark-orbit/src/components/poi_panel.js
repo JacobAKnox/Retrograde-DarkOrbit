@@ -17,7 +17,6 @@ export default function POIPanel() {
     server_sent_poi_listener(update_POIs_from_server);
 
     useEffect(() => {
-        console.log("init poi length = " + Object.keys(POIs).length)
         update_role_info(on_role_update);
         update_available();
 
@@ -25,7 +24,6 @@ export default function POIPanel() {
         // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
         clearInterval(timerId);
         timerId = setInterval(() => {
-          console.log("updated POIS length = " + Object.keys(POIs).length);
             send_poi_update(POIs).then((res) => {
                 if(res.status === 200) {
                     // ok
@@ -38,7 +36,6 @@ export default function POIPanel() {
     }, []);
 
     function update_POIs_from_server(new_pois) {
-        console.log("updating POIs from server, new pois length = " + Object.keys(new_pois).length);
         setPOIs(new_pois);
         update_available();
     }

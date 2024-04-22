@@ -98,15 +98,15 @@ function process_turns(lobbyCode) {
       // Update status bars according to point allocations
       if (poi_name == "name") {
         const val = get_status_bar_value(lobbyCode, "crew");
-        set_status_bar_value(lobbyCode, "crew", val-delta);
+        set_status_bar_value(lobbyCode, "crew", val+delta);
       }
       else if (poi_name == "name1") {
         const val = get_status_bar_value(lobbyCode, "ship_health");
-        set_status_bar_value(lobbyCode, "ship_health", val-delta);
+        set_status_bar_value(lobbyCode, "ship_health", val+delta);
       }
       else if (poi_name == "name2") {
         const val = get_status_bar_value(lobbyCode, "fuel");
-        set_status_bar_value(lobbyCode, "fuel", val-delta);
+        set_status_bar_value(lobbyCode, "fuel", val+delta);
       }
     }
   }
