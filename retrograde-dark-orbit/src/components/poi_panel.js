@@ -2,14 +2,12 @@ import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
 import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
 
-const default_poi = {
-    "1": {name: "name", allocated: 0},
-    "2": {name: "name1", allocated: 0},
-    "3": {name: "name2", allocated: 0}
-}
-
 export default function POIPanel() {
-    const [POIs, setPOIs] = useState({});
+    const [POIs, setPOIs] = useState({
+      "1": {name: "name", allocated: 0},
+      "2": {name: "name1", allocated: 0},
+      "3": {name: "name2", allocated: 0}
+    });
 
     const [availablePoints, setAvailablePoints] = useState(0);
     const [totalPoints, setTotalPoints] = useState(0);
@@ -19,7 +17,6 @@ export default function POIPanel() {
     server_sent_poi_listener(update_POIs_from_server);
 
     useEffect(() => {
-        setPOIs(default_poi);
         update_role_info(on_role_update);
         update_available();
 

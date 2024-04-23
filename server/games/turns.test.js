@@ -5,8 +5,15 @@ import * as turns from "./turns";
 const get_status_mock = jest.spyOn(require("./game.js"), "get_status_bars");
 get_status_mock.mockImplementation((_) => {return "status"});
 
+const get_game_mock = jest.spyOn(require("./game.js"), "get_game");
+get_game_mock.mockImplementation((_) => { return {players: {}}});
+
 describe("turn phases and timings", () => {
     beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    afterAll(() => {
         jest.clearAllMocks();
     });
 
