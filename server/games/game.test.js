@@ -5,7 +5,8 @@ import { assign_roles,
     start_game, 
     validate_received_user_poi_values,
     set_player_POIs,
-    get_player_POIs } from "./game";
+    get_player_POIs, 
+    get_status_bars} from "./game.js";
 import { PLAYER_INITIAL_POIS } from "./game_globals";
 
 describe("game service", () => {
@@ -141,5 +142,29 @@ describe("game service", () => {
 
         expect(result1).toEqual(PLAYER_INITIAL_POIS);
         expect(result2).toEqual(POIs);
+    });
+
+    test("starting game adds status bars", () => {
+        let games = {};
+        let lobby = {"usr1": {username: "usrnm1"}};
+
+        const result = start_game(lobby, "code", games);
+
+        expect(result.status).toBe(200);
+        expect(games["code"]["statusBars"]["crew"]).toBeDefined();
+    });
+
+    test("get status bars", () => {
+        let games = {"code": { statusBars: "data" }};
+        
+        const result = get_status_bars("code", games);
+        expect(result).toBe("data");
+    });
+
+    test("get status bars game not found", () => {
+        let games = {};
+        
+        const result = get_status_bars("code", games);
+        expect(result).toBeUndefined();
     });
 });

@@ -1,5 +1,5 @@
 import { fetch_roles } from "../database/database.js";
-import { PHASE_STATES, PLAYER_INITIAL_POIS } from "./game_globals.js";
+import { PHASE_STATES, PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals.js";
 
 let games = {};
 
@@ -19,12 +19,25 @@ export function start_game(lobby, lobby_code, game_list=games) {
     game_list[lobby_code].players = JSON.parse(JSON.stringify(lobby)); // deep coppy lobby object;
     game_list[lobby_code].currentState = PHASE_STATES.GAME_SETUP_PHASE;
     game_list[lobby_code].lobbyCode = lobby_code;
+    game_list[lobby_code].statusBars = get_new_status_bars();
 
     return {status: 200};
 }
 
-export function get_game(game_code) {
-    return games[game_code];
+export function get_game(game_code, game_list=games) {
+    return game_list[game_code];
+}
+
+export function get_status_bars(game_code, game_list=games) {
+    try {
+        return get_game(game_code, game_list).statusBars;
+    } catch (e) {
+        return undefined;
+    }
+}
+
+export function set_status_bar_value(game_code, bar_id, val, game_list=games) {
+  game_list[game_code].statusBars[bar_id].value = val;
 }
 
 export function assign_roles(game, role_list = roles, role_players = roles_by_player_count) {

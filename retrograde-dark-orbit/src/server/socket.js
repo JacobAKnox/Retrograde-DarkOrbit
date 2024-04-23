@@ -107,9 +107,15 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
 };
 
 // chat message received from server
+export function listen_status_bar_update(callback) {
+  socket.on("status_update", (statusBars) => {
+    callback(statusBars);
+  });
+}
+
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
-})
+});
 
 export async function send_poi_update(POIs) {
   return await socket.emitWithAck("client-sent poi update", POIs);
