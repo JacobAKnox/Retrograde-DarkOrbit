@@ -58,12 +58,19 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
+            game.currentState = PHASE_STATES.INFORMATION_PHASE;
             // add function to process clients' choices during action phase
             process_turns(lobby_code);
             //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
             // add fucntion to check for win condition
-            game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            // set to game over if a win is found
             break;
+          
+        case PHASE_STATES.GAME_OVER_PHASE:
+          //handle a win
+          updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobby_code);
+          await sleep(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
+          break;
     }
 }
 

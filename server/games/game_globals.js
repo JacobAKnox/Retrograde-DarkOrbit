@@ -3,14 +3,16 @@ export const PHASE_STATES = Object.freeze({
     SERVER_PROCESSING_PHASE: "Server processing",
     INFORMATION_PHASE: "Information phase",
     DISCUSSION_PHASE: "Discussion phase",
-    ACTION_PHASE: "Action phase"
+    ACTION_PHASE: "Action phase",
+    GAME_OVER_PHASE: "Game Over phase"
 })
 
 // time in milliseconds
 export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 20000,
     DISCUSSION_PHASE_LENGTH: 60000,
-    ACTION_PHASE_LENGTH: 20000
+    ACTION_PHASE_LENGTH: 20000,
+    GAME_OVER_PHASE_LENGTH: 15000
 })
 
 // access should probably be wrapped in a function call
