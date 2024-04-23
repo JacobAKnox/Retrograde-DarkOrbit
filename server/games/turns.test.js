@@ -64,7 +64,7 @@ describe("turn phases and timings", () => {
         const update_ids_names_mock = jest.fn(() => {});
         turns.set_ids_and_names_callback(update_ids_names_mock);
         await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
-        expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS);
+        expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS, lobbyCode);
         
         turns.set_ids_and_names_callback(() => {});
     });
