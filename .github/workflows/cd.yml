@@ -34,5 +34,6 @@ jobs:
           npm i
           cd ../retrograde-dark-orbit
           npm i
+          npm run build
           pm2 restart index
           pm2 restart "npm run start"
