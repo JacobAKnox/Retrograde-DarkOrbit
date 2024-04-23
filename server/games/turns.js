@@ -1,9 +1,25 @@
-import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals"
-import { set_player_POIs } from "./game";
-import { PLAYER_INITIAL_POIS } from "./game_globals";
+import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals.js"
+import { set_player_POIs } from "./game.js";
+import { PLAYER_INITIAL_POIS } from "./game_globals.js";
+
+let timer_update_callback = () => {};
+let ids_and_names_callback = () => {};
+
+
+export function set_timer_update_callback(cb) {
+    timer_update_callback = cb;
+}
+
+export function set_ids_and_names_callback(cb) {
+    ids_and_names_callback = cb;
+}
+
 
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+
+
 
 export async function execute_turn(game, sleep=sleep_function) {
     switch(game.currentState) {
@@ -15,6 +31,8 @@ export async function execute_turn(game, sleep=sleep_function) {
 
         case PHASE_STATES.INFORMATION_PHASE:
             updateClientsPhase(PHASE_STATES.INFORMATION_PHASE);
+            //Send Ids and Names here
+            //ids_and_names_callback();
             // add function to send client the data for information phase here
             await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
