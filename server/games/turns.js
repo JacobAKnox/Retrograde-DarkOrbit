@@ -1,11 +1,15 @@
-
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs } from "./game.js";
 
-let timer_update_callback = (phase, time, lobbyCode) => {};
+let timer_update_callback = () => {};
+let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
+}
+
+export function set_ids_and_names_callback(cb) {
+    ids_and_names_callback = cb;
 }
 
 let status_bar_update_callback = (lobbyCode, status_bars) => {};
@@ -17,10 +21,8 @@ export function set_status_bar_update(cb) {
 // used as a timer that does not block other code execution from happening
 export const sleep_function = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
-    //Update updateClientsPhase to pass in time and phase
-    //Call to updateTimer
+export async function execute_turn(game, lobby_code, sleep=sleep_function) {
     switch(game.currentState) {
 
         case PHASE_STATES.GAME_SETUP_PHASE:
@@ -30,8 +32,12 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.INFORMATION_PHASE:
+
             updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobby_code);
+            //Send Ids and Names here
+            ids_and_names_callback(PLAYER_INITIAL_POIS, lobby_code)
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+        
             // add function to send client the data for information phase here
             await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
