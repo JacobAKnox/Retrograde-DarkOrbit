@@ -53,7 +53,6 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             // add function to process clients' choices during action phase
-            // removed this call for now, it breaks tests
             process_turns(lobby_code);
             //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
             // add fucntion to check for win condition
@@ -79,7 +78,7 @@ export async function gameLoop(lobbyCode){
     }
 }
 
-function process_turns(lobbyCode) {
+export function process_turns(lobbyCode) {
   // Get status bars
   const statusBars = get_status_bars(lobbyCode);
   // Get game and players
