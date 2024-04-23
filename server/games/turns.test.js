@@ -1,4 +1,5 @@
-import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals";
+import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals";
+
 import * as turns from "./turns";
 
 describe("turn phases and timings", () => {
@@ -45,4 +46,16 @@ describe("turn phases and timings", () => {
         await turns.execute_turn(game, sleep_mock);
         expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.ACTION_PHASE_LENGTH);
     });
+
+    test("should call send ids and names during info phase", async () => {
+        const update_ids_names_mock = jest.fn(() => {});
+
+        turns.set_ids_and_names_callback(update_ids_names_mock);
+
+        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, async () => {});
+        expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS);
+        
+        turns.set_ids_and_names_callback(() => {});
+    });
+      
 });

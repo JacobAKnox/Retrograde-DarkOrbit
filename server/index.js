@@ -5,8 +5,8 @@ import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
-import { PHASE_STATES, set_ids_and_names_callback } from "./games/game_globals.js";
-
+import { PHASE_STATES } from "./games/game_globals.js";
+import { set_timer_update_callback, set_ids_and_names_callback } from "./games/turns.js";
 
 const app = express();
 const server = createServer(app);
@@ -205,7 +205,7 @@ const PORT = process.env.PORT | 4000;
 server.listen(PORT, async () => {
   await setup();
   set_timer_update_callback(updateTimer);
-  //set_ids_and_names_callback(sendIdsAndNames);
+  set_ids_and_names_callback(sendIdsAndNames);
   console.log(`server running at http://localhost:${PORT}`);
 });
 
@@ -216,6 +216,6 @@ export function updateTimer(phase, time, lobbyCode){
   io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
 } 
 
-export function sendIdsAndNames(id, name){
-  io.in(lobbyCode).emit("Send id and names", {id, name});
+export function sendIdsAndNames(IDSANDNAMES){
+  io.in(lobbyCode).emit("server-sent poi update", IDSANDNAMES);
 } 
