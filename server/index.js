@@ -6,7 +6,7 @@ import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
-import { set_timer_update_callback, set_ids_and_names_callback } from "./games/turns.js";
+import { set_timer_update_callback, set_ids_and_names_callback, gameLoop } from "./games/turns.js";
 
 const app = express();
 const server = createServer(app);
@@ -217,6 +217,6 @@ export function updateTimer(phase, time, lobbyCode){
   io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
 } 
 
-export function sendIdsAndNames(IDSANDNAMES){
+export function sendIdsAndNames(IDSANDNAMES, lobbyCode){
   io.in(lobbyCode).emit("server-sent poi update", IDSANDNAMES);
 } 
