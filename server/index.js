@@ -189,6 +189,7 @@ io.on("connection", (socket) => {
         s.emit("role_info", get_role_info(game, s.userID));
       });
     }, 1000);
+    gameLoop(socket.roomCode);
   }
 
   socket.on("init ready count", () => {

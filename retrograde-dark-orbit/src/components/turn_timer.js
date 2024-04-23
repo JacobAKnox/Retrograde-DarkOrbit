@@ -13,10 +13,7 @@ export default function TurnTimer() {
     ms = phase.length;
     setDisplayTime(formatDisplayTime());
     setPhaseText(phase.name);
-  }
-
-  function toggleCountdown() {
-    pause = !pause;
+    pause = false;
   }
 
   function formatDisplayTime() {
@@ -31,12 +28,11 @@ export default function TurnTimer() {
 
   useEffect(() => {
     set_turn_timer(configureTimer);
-    toggle_turn_timer_countdown(toggleCountdown);
     const interval = setInterval(() => {
       if (pause == false) {
         if (ms <= 0) {
           console.log("time in ms = " + ms);
-          toggleCountdown();
+          pause = true;
         }
         else {
           ms -= 1000;

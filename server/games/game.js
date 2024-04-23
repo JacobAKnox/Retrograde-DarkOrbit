@@ -17,8 +17,8 @@ export function start_game(lobby, lobby_code, game_list=games) {
 
     game_list[lobby_code] = {};
     game_list[lobby_code].players = JSON.parse(JSON.stringify(lobby)); // deep coppy lobby object;
-    // Discussion for now to limit errors, change to game setup when merging
-    game_list[lobby_code].currentState = PHASE_STATES.DISCUSSION_PHASE;
+    game_list[lobby_code].currentState = PHASE_STATES.GAME_SETUP_PHASE;
+    game_list[lobby_code].lobbyCode = lobby_code;
 
     return {status: 200};
 }

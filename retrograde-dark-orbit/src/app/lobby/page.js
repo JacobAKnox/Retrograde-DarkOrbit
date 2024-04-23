@@ -2,6 +2,7 @@
 import ExitLobbyButton from "@/components/exit_lobby_button";
 import LobbyPanel from "@/components/lobby_panel";
 import DisplayLobbyCode from "@/components/display_lobby_code";
+import InformationBar from "@/components/information_bar";
 import { Suspense } from "react";
 
 export const dynamic = 'force-dynamic';
