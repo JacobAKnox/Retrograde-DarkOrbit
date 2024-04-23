@@ -6,23 +6,49 @@ exports[`renders on-screen 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
+        class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
       >
-        <div>
+        <b
+          class="text-3xl text-red-300"
+        >
+          <strong>
+            Role
+          </strong>
+        </b>
+        <p
+          class="mb-5"
+        >
+          <b
+            class="text-slate-200"
+          >
+            Name
+          </b>
           <br />
-          <p />
-        </div>
+        </p>
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
+      class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
     >
-      <div>
+      <b
+        class="text-3xl text-red-300"
+      >
+        <strong>
+          Role
+        </strong>
+      </b>
+      <p
+        class="mb-5"
+      >
+        <b
+          class="text-slate-200"
+        >
+          Name
+        </b>
         <br />
-        <p />
-      </div>
+      </p>
     </div>
   </div>,
   "debug": [Function],

@@ -14,6 +14,7 @@ export default function Page() {
                 <Suspense>
                     <DisplayLobbyCode/>
                 </Suspense>
+                    <Suspense/>    
             </div>
             <LobbyPanel/>
         </main>

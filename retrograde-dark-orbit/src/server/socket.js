@@ -11,15 +11,15 @@ const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
 
 console.log(`Connecting to ${server_addr}:${server_port}`);
 
-let socket = io(`http://${server_addr}:${server_port}`);
+let socket = io(`http://${server_addr}:${server_port}`, {autoConnect: false});
 let recMessage = (e) => {};
+let recPOIs = (e) => {};
 
 const connect = () => {
     if (typeof window !== 'undefined') {
         // session storage to make testing easier, probably change to local storage later
         // session storage is not shared across tabs, but is across refresh
         const sessionID = sessionStorage.getItem("sessionID");
-
         if (sessionID) {
             socket.auth = { sessionID };
         }
@@ -33,6 +33,10 @@ const connect = () => {
 
     socket.on("game_start", ({code}) => {
         navigate(`/game?code=${code}`);
+    });
+
+    socket.on("redirect", (path) => {
+      navigate(path);
     });
 
     socket.connect();
@@ -66,8 +70,18 @@ export function chat_message_listener(callback) {
     recMessage = callback;
 }
 
+export function server_sent_poi_listener(callback) {
+    recPOIs = callback;
+}
+
 export function update_player_ready() {
     socket.emit("player_ready");
+}
+
+export function update_role_info(callback) {
+  socket.on("role_info", ({name, max_points}) => {
+    callback(name, max_points);
+  });
 }
 
 export const update_ready_status = (updateReadyStatus) => {
@@ -80,8 +94,36 @@ export const update_ready_status = (updateReadyStatus) => {
   socket.emit("init ready count");
 };
 
+export const set_turn_timer = (setTurnTimer) => {
+  socket.on("update timer phase", (phase) => {
+    setTurnTimer(phase);
+  });
+};
+
+export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
+  socket.on("toggle turn timer countdown", () => {
+    toggleTurnTimer();
+  });
+};
+
+// chat message received from server
+export function listen_status_bar_update(callback) {
+  socket.on("status_update", (statusBars) => {
+    callback(statusBars);
+  });
+}
+
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
+});
+
+export async function send_poi_update(POIs) {
+  return await socket.emitWithAck("client-sent poi update", POIs);
+}
+
+socket.on("server-sent poi update", (POIs) => {
+  recPOIs(POIs);
+  console.log(POIs);
 })
 
 // socket.on("lobby code", (code) => {

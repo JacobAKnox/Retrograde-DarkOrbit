@@ -1,4 +1,4 @@
-import { create_lobby, get_lobby, get_num_players,get_num_ready_players, set_player_ready } from "./lobbies";
+import { create_lobby, get_lobby, get_lobby_by_player, get_num_players,get_num_ready_players, get_username, set_player_ready } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
@@ -139,5 +139,82 @@ describe("lobby system", () => {
           expect(result.message).toBe("Ready state toggled");
 
           expect(lobbies["ABCD"]["player1"].ready_state).toBe(false);
+      });
+
+      test("set ready no lobby", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            }
+        };
+        //setting player 1 to ready
+        let result = set_player_ready("not here", lobbies);
+        expect(result.status).toBe(400);
+        expect(result.message).toBe("Player not found in any lobby");
+      });
+
+      test("get lobby by player", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            },
+            "WXYZ": {
+                "player3": { ready_state: false },
+                "player4": { ready_state: true }
+            }
+        };
+
+        let result = get_lobby_by_player("player3", lobbies);
+        expect(result).toBe("WXYZ");
+      });
+
+      test("get lobby by player not found", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            },
+            "WXYZ": {
+                "player3": { ready_state: false },
+                "player4": { ready_state: true }
+            }
+        };
+
+        let result = get_lobby_by_player("player5", lobbies);
+        expect(result).toBeUndefined();
+      });
+
+      test("get username", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+            "player2": { ready_state: true }
+          },
+          "WXYZ": {
+              "player3": { ready_state: false },
+              "player4": { ready_state: true }
+          }
+        };
+
+        let result = get_username("player1", lobbies);
+        expect(result).toBe("p1");
+      });
+
+      test("get username player not found", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+            "player2": { ready_state: true }
+          },
+          "WXYZ": {
+              "player3": { ready_state: false },
+              "player4": { ready_state: true }
+          }
+        };
+
+        let result = get_username("player5", lobbies);
+        expect(result).toBeUndefined();
       });
 });
