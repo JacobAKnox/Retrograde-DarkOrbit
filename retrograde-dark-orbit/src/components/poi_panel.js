@@ -32,7 +32,7 @@ export default function POIPanel() {
                     console.log("ERROR " + res.status + ": " + res.message);
                 }
             })
-        }, 10000);
+        }, 1000);
     }, []);
 
     function update_POIs_from_server(new_pois) {
