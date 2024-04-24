@@ -40,8 +40,8 @@ export default function POIPanel() {
         update_available();
     }
 
-    function on_role_update(_name, max_points) {
-        setTotalPoints(max_points);
+    function on_role_update(role) {
+        setTotalPoints(role.points);
     }
 
     function can_increase(amount = 1) {

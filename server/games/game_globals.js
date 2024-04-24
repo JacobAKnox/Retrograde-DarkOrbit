@@ -34,3 +34,36 @@ const STATUS_BAR_TEMPLATE = Object.freeze({
     "life_support": {name: "Life Support", value: 50, max_value: 100},
     "power": {name: "Power", value: 50, max_value: 100}
 });
+
+export const default_role_info = Object.freeze({
+    crew: {
+        "name": "Crew Member",
+        "id": "crew",
+        "points": 10,
+        "win_group": "good",
+        "group_name": "Ship Crew",
+        "win_text": "Temp Text",
+        "win_condition": {
+            "crew": {"min": 5, "max": 100},
+            "ship_health": {"min": 20, "max": 100},
+            "fuel": {"min": 80, "max": 100},
+            "life_support": {"min": 50, "max": 100},
+            "power": {"min": 30, "max": 100}
+        }
+    },
+    rebel:  {
+        "name": "Rebel Leader",
+        "id": "rebel",
+        "points": 10,
+        "win_group": "evil",
+        "group_name": "Rebels",
+        "win_text": "Get Fuel above 90%",
+        "win_condition": {
+            "crew": {"min": 0, "max": 100},
+            "ship_health": {"min": 0, "max": 100},
+            "fuel": {"min": 90, "max": 100},
+            "life_support": {"min": 0, "max": 100},
+            "power": {"min": 0, "max": 100}
+        }
+    }
+});

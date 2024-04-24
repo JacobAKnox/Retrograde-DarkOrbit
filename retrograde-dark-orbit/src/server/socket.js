@@ -79,8 +79,8 @@ export function update_player_ready() {
 }
 
 export function update_role_info(callback) {
-  socket.on("role_info", ({name, max_points}) => {
-    callback(name, max_points);
+  socket.on("role_info", (role) => {
+    callback(role);
   });
 }
 
