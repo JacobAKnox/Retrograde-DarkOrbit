@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
 import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
 
+let poi_list = {};
+
 export default function POIPanel() {
     const [POIs, setPOIs] = useState({
       "1": {name: "name", allocated: 0},
@@ -18,13 +20,12 @@ export default function POIPanel() {
 
     useEffect(() => {
         update_role_info(on_role_update);
-        update_available();
-
+        update_available(POIs);
         // The block of code below needs to run only during the action phase.
         // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
         clearInterval(timerId);
         timerId = setInterval(() => {
-            send_poi_update(POIs).then((res) => {
+            send_poi_update(poi_list).then((res) => {
                 if(res.status === 200) {
                     // ok
                 }
@@ -37,7 +38,8 @@ export default function POIPanel() {
 
     function update_POIs_from_server(new_pois) {
         setPOIs(new_pois);
-        update_available();
+        poi_list = new_pois;
+        update_available(new_pois);
     }
 
     function on_role_update(_name, max_points) {
@@ -48,9 +50,9 @@ export default function POIPanel() {
         return availablePoints + amount <= totalPoints;
     }
 
-    function update_available() {
-        const total = Object.keys(POIs).reduce((acc, poi_id) => {
-            return acc + POIs[poi_id].allocated;
+    function update_available(pois) {
+        const total = Object.keys(pois).reduce((acc, poi_id) => {
+            return acc + pois[poi_id].allocated;
         }, 0);
         setAvailablePoints(total);
     }
@@ -62,10 +64,11 @@ export default function POIPanel() {
         if (!can_increase(new_value - old_value)) {
             return old_value;
         }
-        let pois = POIs;
+        let pois = structuredClone(POIs);
         pois[POI_id].allocated = new_value;
         setPOIs(pois);
-        update_available();
+        poi_list = pois;
+        update_available(pois);
         return new_value;
     }
 
