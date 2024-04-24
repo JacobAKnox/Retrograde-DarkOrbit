@@ -92,27 +92,31 @@ export function process_turns(lobbyCode) {
   const players = game.players; 
   // For each player in the game
   for (let player_id in players) {
-    // Get their POIs
-    const pois = get_player_POIs(game, player_id);
-    // For each POI
-    for (let poi_id in pois) {
       // Get name and points allocated
       const poi_name = pois[poi_id].name;
       const poi_points_allocated = pois[poi_id].allocated;
       const delta = poi_points_allocated*2;
       // Update status bars according to point allocations
-      if (poi_name == "name") {
-        const val = get_status_bar_value(lobbyCode, "crew");
-        set_status_bar_value(lobbyCode, "crew", val+delta);
-      }
-      else if (poi_name == "name1") {
-        const val = get_status_bar_value(lobbyCode, "ship_health");
-        set_status_bar_value(lobbyCode, "ship_health", val+delta);
-      }
-      else if (poi_name == "name2") {
-        const val = get_status_bar_value(lobbyCode, "fuel");
-        set_status_bar_value(lobbyCode, "fuel", val+delta);
-      }
-    }
+      let val = get_status_bar_value(lobbyCode, "crew");
+      let mult = PLAYER_INITIAL_POIS[poi_id].crew;
+      set_status_bar_value(lobbyCode, "crew", val+(poi_points_allocated*mult));
+
+      val = get_status_bar_value(lobbyCode, "ship_health");
+      console.log("val = " + val);
+      mult = PLAYER_INITIAL_POIS[poi_id].ship_health;
+      console.log("mult = " + mult);
+      set_status_bar_value(lobbyCode, "ship_health", val+(poi_points_allocated*mult));
+
+      val = get_status_bar_value(lobbyCode, "fuel");
+      mult = PLAYER_INITIAL_POIS[poi_id].fuel;
+      set_status_bar_value(lobbyCode, "fuel", val+(poi_points_allocated*mult));
+
+      val = get_status_bar_value(lobbyCode, "life_support");
+      mult = PLAYER_INITIAL_POIS[poi_id].life_support;
+      set_status_bar_value(lobbyCode, "life_support", val+(poi_points_allocated*mult));
+
+      val = get_status_bar_value(lobbyCode, "power");
+      mult = PLAYER_INITIAL_POIS[poi_id].power;
+      set_status_bar_value(lobbyCode, "power", val+(poi_points_allocated*mult));
   }
 }
