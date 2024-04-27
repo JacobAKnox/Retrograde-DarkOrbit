@@ -5,6 +5,12 @@ import { getItem, storeItem } from "./../server/storage";
 
 let poi_list = {};
 
+const default_poi = {
+    "1": {name: "name", allocated: 0},
+    "2": {name: "name1", allocated: 0},
+    "3": {name: "name2", allocated: 0}
+}
+
 export default function POIPanel() {
     const [POIs, setPOIs] = useState(default_poi);
 
