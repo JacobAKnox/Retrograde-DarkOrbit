@@ -51,6 +51,8 @@ io.on("connection", (socket) => {
     io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
   });
 
+  
+
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
@@ -103,6 +105,7 @@ io.on("connection", (socket) => {
       socket.join(data.code);
       socket.username = data.username;
       socket.roomCode = data.code;
+      updatePlayerList(socket.roomCode); //added this
     }
     callback(result);
   });
@@ -110,6 +113,7 @@ io.on("connection", (socket) => {
   socket.on("leave", (callback) => {
     console.log("left");
     callback(leave_lobby(socket.userID));
+    updatePlayerList(socket.roomCode); //added this
   });
 
   socket.emit("session", {
@@ -121,6 +125,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("user disconnected")
+    updatePlayerList(socket.roomCode); //added this 
   });
 
   socket.on("create", (data, callback) => {
@@ -148,6 +153,7 @@ io.on("connection", (socket) => {
     const result = set_player_ready(userID);
     if (result.status === 200) {
       const lobby = get_lobby(socket.roomCode);
+      updatePlayerList(socket.roomCode); //added this
       io.in(socket.roomCode).emit("ready_count_updated", { 
         readyCount: get_num_ready_players(socket.roomCode), 
         totalPlayers: Object.keys(lobby).length 
@@ -200,6 +206,10 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on('request_player_list', () => {
+    updatePlayerList(socket.roomCode);
+  });
+
 });
 
 const PORT = process.env.PORT | 4000;
@@ -221,3 +231,24 @@ export function updateTimer(phase, time, lobbyCode){
 function updateStatusBar(lobbyCode, statusBars) {
   io.in(lobbyCode).emit("status_update", statusBars);
 }
+
+//update player lplayer
+function updatePlayerList(lobbyCode) {
+  const lobby = get_lobby(lobbyCode);
+  console.log(`Lobby retrieved: ${JSON.stringify(lobby)}`);
+  
+  if (!lobby || !Object.keys(lobby).length) {
+      console.error(`No players in lobby: ${lobbyCode} or lobby does not exist.`);
+      return;
+  }
+
+  const playerList = Object.values(lobby).map(player => ({
+      id: player.id, 
+      name: player.username,
+      ready: player.ready_state 
+  }));
+
+  console.log(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
+  io.in(lobbyCode).emit('player_list_updated', playerList);
+}
+
