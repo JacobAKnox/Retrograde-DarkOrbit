@@ -3,11 +3,7 @@ import PoiBox from "./poi_box"
 import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
 import { getItem, storeItem } from "./../server/storage";
 
-const default_poi = {
-    "1": {name: "name", allocated: 0},
-    "2": {name: "name1", allocated: 0},
-    "3": {name: "name2", allocated: 0}
-}
+let poi_list = {};
 
 export default function POIPanel() {
     const [POIs, setPOIs] = useState(default_poi);
@@ -32,7 +28,7 @@ export default function POIPanel() {
         // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
         clearInterval(timerId);
         timerId = setInterval(() => {
-            send_poi_update(POIs).then((res) => {
+            send_poi_update(poi_list).then((res) => {
                 if(res.status === 200) {
                     // ok
                 }
@@ -46,6 +42,7 @@ export default function POIPanel() {
     function update_POIs_from_server(new_pois) {
         setPOIs(new_pois);
         storePOIs(new_pois);
+        poi_list = new_pois;
         update_available(new_pois);
     }
 
@@ -71,11 +68,13 @@ export default function POIPanel() {
         if (!can_increase(new_value - old_value)) {
             return old_value;
         }
-        let pois = POIs;
+        let pois = structuredClone(POIs);
         pois[POI_id].allocated = new_value;
         setPOIs(pois);
         storePOIs(pois);
         update_available();
+        poi_list = pois;
+        update_available(pois);
         return new_value;
     }
 
