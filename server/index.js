@@ -56,6 +56,9 @@ io.on("connection", (socket) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
+    if (Object.keys(POIs).length === 0) { 
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+    }
     if (!game) {
       callback({
         status: 404,
@@ -69,6 +72,9 @@ io.on("connection", (socket) => {
         status: 405,
         message: "cannot update point allocation during this phase"
       });
+      if (Object.keys(get_player_POIs(game, socket.userID)).length === 0) { 
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+      }
       socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
       return;
     }

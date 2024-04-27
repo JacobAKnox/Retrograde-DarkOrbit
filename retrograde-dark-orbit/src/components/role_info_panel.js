@@ -5,7 +5,11 @@ export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
 
     useEffect(() => {
-        update_role_info(on_role_update);
+        const old_info = update_role_info(on_role_update);
+        console.log(`info: ${old_info}`);
+        if (old_info) {
+            setRoleName(old_info.name);
+        }
     });
 
     function on_role_update(name, _max_points) {

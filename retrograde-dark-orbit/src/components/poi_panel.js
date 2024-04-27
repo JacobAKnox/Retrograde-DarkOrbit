@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
 import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
+import { getItem, storeItem } from "./../server/storage";
 
 let poi_list = {};
 
+const default_poi = {
+    "1": {name: "name", allocated: 0},
+    "2": {name: "name1", allocated: 0},
+    "3": {name: "name2", allocated: 0}
+}
+
 export default function POIPanel() {
-    const [POIs, setPOIs] = useState({
-      "1": {name: "name", allocated: 0},
-      "2": {name: "name1", allocated: 0},
-      "3": {name: "name2", allocated: 0}
-    });
+    const [POIs, setPOIs] = useState(default_poi);
 
     const [availablePoints, setAvailablePoints] = useState(0);
     const [totalPoints, setTotalPoints] = useState(0);
@@ -19,8 +22,14 @@ export default function POIPanel() {
     server_sent_poi_listener(update_POIs_from_server);
 
     useEffect(() => {
-        update_role_info(on_role_update);
-        update_available(POIs);
+        const old_info = update_role_info(on_role_update);
+        if (old_info) {
+            setTotalPoints(old_info.max_points);
+        }
+        const loaded_pois = loadPOIs();
+        setPOIs(loaded_pois);
+        update_available(loaded_pois);
+
         // The block of code below needs to run only during the action phase.
         // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
         clearInterval(timerId);
@@ -38,6 +47,7 @@ export default function POIPanel() {
 
     function update_POIs_from_server(new_pois) {
         setPOIs(new_pois);
+        storePOIs(new_pois);
         poi_list = new_pois;
         update_available(new_pois);
     }
@@ -50,7 +60,7 @@ export default function POIPanel() {
         return availablePoints + amount <= totalPoints;
     }
 
-    function update_available(pois) {
+    function update_available(pois=POIs) {
         const total = Object.keys(pois).reduce((acc, poi_id) => {
             return acc + pois[poi_id].allocated;
         }, 0);
@@ -67,9 +77,20 @@ export default function POIPanel() {
         let pois = structuredClone(POIs);
         pois[POI_id].allocated = new_value;
         setPOIs(pois);
+        storePOIs(pois);
+        update_available();
         poi_list = pois;
         update_available(pois);
         return new_value;
+    }
+
+    function storePOIs(pois) {
+        storeItem("POIs", JSON.stringify(pois));
+    }
+
+    function loadPOIs() {
+        const data = getItem("POIs");
+        return data ? JSON.parse(data) : default_poi;
     }
 
     return (

@@ -8,10 +8,13 @@ export default function InformationBar() {
       "fuel": {name: "Fuel", value: 50, max_value: 100},
       "life_support": {name: "Life Support", value: 50, max_value: 100},
       "power": {name: "Power", value: 50, max_value: 100}
-  });
+    });
 
     useEffect(() => {
-        listen_status_bar_update(setGameStatus);
+       const old_status = listen_status_bar_update(setGameStatus);
+       if (old_status) {
+            setGameStatus(old_status);
+       }
     }, []);
 
     return (
