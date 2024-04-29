@@ -162,6 +162,8 @@ io.on("connection", (socket) => {
     try_start_game(socket);
   });
 
+
+
   async function try_start_game(socket) {
     if (socket.roomCode === "") {
       return;
