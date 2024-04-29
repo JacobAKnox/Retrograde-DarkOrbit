@@ -36,6 +36,10 @@ export function get_status_bars(game_code, game_list=games) {
     }
 }
 
+export function get_status_bar_value(game_code, bar_id, game_list=games) {
+  return game_list[game_code].statusBars[bar_id].value;
+}
+
 export function set_status_bar_value(game_code, bar_id, val, game_list=games) {
   game_list[game_code].statusBars[bar_id].value = val;
 }
@@ -96,7 +100,7 @@ export function get_player_POIs(game, userID) {
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }
-    else { return PLAYER_INITIAL_POIS };
+    else { return PLAYER_INITIAL_POIS; };
 }
 
 function shuffle(array) {

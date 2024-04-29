@@ -1,11 +1,19 @@
-import { PHASE_STATES, PHASE_TIMINGS } from "./game_globals";
+import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals";
+
 import * as turns from "./turns";
 
 const get_status_mock = jest.spyOn(require("./game.js"), "get_status_bars");
 get_status_mock.mockImplementation((_) => {return "status"});
 
+const get_game_mock = jest.spyOn(require("./game.js"), "get_game");
+get_game_mock.mockImplementation((_) => { return {players: {}}});
+
 describe("turn phases and timings", () => {
     beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    afterAll(() => {
         jest.clearAllMocks();
     });
 
@@ -74,4 +82,15 @@ describe("turn phases and timings", () => {
         turns.set_status_bar_update(() => {});
     });
 
+
+    test("should call send ids and names during info phase", async () => {
+        const lobbyCode = "testCode";
+        const update_ids_names_mock = jest.fn(() => {});
+        turns.set_ids_and_names_callback(update_ids_names_mock);
+        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
+        expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS, lobbyCode);
+        
+        turns.set_ids_and_names_callback(() => {});
+    });
+      
 });
