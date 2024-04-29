@@ -118,6 +118,17 @@ export function listen_status_bar_update(callback) {
   return JSON.parse(getItem(status_bar_storage));
 }
 
+//update player list
+export function listen_update_player_list(updatePlayerList){
+  socket.on('player_list_updated', (players) => {
+    updatePlayerList(players);  
+  });
+}
+//
+export function request_current_player_list() {
+  socket.emit('request_player_list');
+}
+
 // chat message received from server
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
