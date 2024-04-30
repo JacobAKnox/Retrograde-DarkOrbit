@@ -12,8 +12,8 @@ export default function RoleInfo() {
         }
     });
 
-    function on_role_update(name, _max_points) {
-        setRoleName(name)
+    function on_role_update(role) {
+        setRoleName(role.name);
     }
 
     return (
