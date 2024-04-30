@@ -1,7 +1,8 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs } from "./game.js";
 
-let timer_update_callback = () => {};
+let timer_update_callback = (phase, time, lobbyCode) => {};
+
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
 
 export function set_timer_update_callback(cb) {
