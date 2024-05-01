@@ -6,7 +6,7 @@ import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
-import { gameLoop, set_status_bar_update, set_timer_update_callback } from "./games/turns.js";
+import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback } from "./games/turns.js";
 
 const app = express();
 const server = createServer(app);
@@ -58,6 +58,9 @@ io.on("connection", (socket) => {
     console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
+    if (Object.keys(POIs).length === 0) { 
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+    }
     if (!game) {
       callback({
         status: 404,
@@ -71,6 +74,9 @@ io.on("connection", (socket) => {
         status: 405,
         message: "cannot update point allocation during this phase"
       });
+      if (Object.keys(get_player_POIs(game, socket.userID)).length === 0) { 
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+      }
       socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
       return;
     }
@@ -218,6 +224,7 @@ const PORT = process.env.PORT | 4000;
 server.listen(PORT, async () => {
   await setup();
   set_timer_update_callback(updateTimer);
+  set_ids_and_names_callback(sendIdsAndNames);
   set_status_bar_update(updateStatusBar);
   console.log(`server running at http://localhost:${PORT}`);
 });
@@ -228,6 +235,10 @@ export function closeServer() {
 
 export function updateTimer(phase, time, lobbyCode){
   io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
+} 
+
+export function sendIdsAndNames(IDSANDNAMES, lobbyCode){
+  io.in(lobbyCode).emit("server-sent poi update", IDSANDNAMES);
 } 
 
 function updateStatusBar(lobbyCode, statusBars) {
@@ -253,4 +264,3 @@ function updatePlayerList(lobbyCode) {
   console.log(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
   io.in(lobbyCode).emit('player_list_updated', playerList);
 }
-

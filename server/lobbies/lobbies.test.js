@@ -217,4 +217,31 @@ describe("lobby system", () => {
         let result = get_username("player5", lobbies);
         expect(result).toBeUndefined();
       });
+
+      test("lobby closes when last user leaves", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+          }
+        };
+
+        let result = leave_lobby("player1", lobbies);
+        expect(result.status).toBe(200);
+
+        expect(lobbies["ABCD"]).toBeUndefined();
+      });
+
+      test("lobby does not close when there are users", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+            "player2": { ready_state: true }
+          }
+        };
+
+        let result = leave_lobby("player1", lobbies);
+        expect(result.status).toBe(200);
+
+        expect(lobbies["ABCD"]).toBeDefined();
+      });
 });

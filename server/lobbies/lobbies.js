@@ -50,6 +50,9 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
     }
 
     delete lobby_list[lobby_id[0]][user_id];
+    if (Object.keys(lobby_list[lobby_id[0]]).length === 0) {
+        delete lobby_list[lobby_id[0]];
+    }
     return {status: 200};
 }
 
