@@ -50,6 +50,11 @@ const connect = () => {
       }
     });
 
+    //data format: {team: str, names:[str]}
+    socket.on("winner_data", (data) => {
+      storeItem("winner", data);
+    });
+
     socket.connect();
 }
 
@@ -153,6 +158,13 @@ socket.on("server-sent poi update", (POIs) => {
   recPOIs(POIs);
   console.log(POIs);
 })
+
+export function listen_winner_info(cb) {
+  //data format: {team: str, names:[str]}
+  socket.on("winner_data", (data) => {
+    cb(data);
+  });
+}
 
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");
