@@ -119,4 +119,44 @@ function shuffle(array) {
     }
   
     return array;
+}
+
+export function process_turn(lobbyCode, game_list=games) {
+  // Get status bars
+  const statusBars = get_status_bars(lobbyCode, game_list);
+  // Get game and players
+  console.log("in process turns, game list keys length = " + Object.keys(game_list));
+  const game = get_game(lobbyCode, game_list);
+  console.log("in process turns, game players keys length = " + Object.keys(game.players));
+  const players = game.players; 
+  // For each player in the game
+  for (let player_id in players) {
+      // Get name and points allocated
+      const pois = players[player_id].pois;
+    for (let poi_id in pois) {
+      const poi_points_allocated = pois[poi_id].allocated;
+      // Update status bars according to point allocations
+      let val = get_status_bar_value(lobbyCode, "crew", game_list);
+      let mult = PLAYER_INITIAL_POIS[poi_id].crew;
+      set_status_bar_value(lobbyCode, "crew", val+(poi_points_allocated*mult), game_list);
+
+      val = get_status_bar_value(lobbyCode, "ship_health", game_list);
+      console.log("val = " + val);
+      mult = PLAYER_INITIAL_POIS[poi_id].ship_health;
+      console.log("mult = " + mult);
+      set_status_bar_value(lobbyCode, "ship_health", val+(poi_points_allocated*mult), game_list);
+
+      val = get_status_bar_value(lobbyCode, "fuel", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].fuel;
+      set_status_bar_value(lobbyCode, "fuel", val+(poi_points_allocated*mult), game_list);
+
+      val = get_status_bar_value(lobbyCode, "life_support", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].life_support;
+      set_status_bar_value(lobbyCode, "life_support", val+(poi_points_allocated*mult), game_list);
+
+      val = get_status_bar_value(lobbyCode, "power", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].power;
+      set_status_bar_value(lobbyCode, "power", val+(poi_points_allocated*mult), game_list);
+    }
   }
+}
