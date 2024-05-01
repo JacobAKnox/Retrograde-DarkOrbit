@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs } from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, delete_game } from "./game.js";
 
 let timer_update_callback = (phase, time, lobbyCode) => {};
 
@@ -86,10 +86,13 @@ export async function gameLoop(lobbyCode){
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
+    let run = false;
     //Run game loop and pass in game object
-    while (true){
+    while (game.currentState !== PHASE_STATES.GAME_OVER_PHASE || !run){
         await execute_turn(game, lobbyCode);
+        run = true;
     }
+    delete_game(lobbyCode);
 }
 
 export function process_turns(lobbyCode) {

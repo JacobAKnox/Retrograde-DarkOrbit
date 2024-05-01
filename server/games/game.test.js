@@ -6,7 +6,8 @@ import { assign_roles,
     validate_received_user_poi_values,
     set_player_POIs,
     get_player_POIs, 
-    get_status_bars} from "./game.js";
+    get_status_bars,
+    delete_game} from "./game.js";
 import { PLAYER_INITIAL_POIS, default_role_info } from "./game_globals";
 
 describe("game service", () => {
@@ -166,5 +167,12 @@ describe("game service", () => {
         
         const result = get_status_bars("code", games);
         expect(result).toBeUndefined();
+    });
+
+    test("delete game when over", () => {
+        let games = {code: {foo: ""}};
+
+        delete_game("code", games);
+        expect(games.code).toBeUndefined();
     });
 });

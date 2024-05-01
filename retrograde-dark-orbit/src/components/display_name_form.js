@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { create_lobby } from './../server/socket';
 import { navigate } from './navigation';
+import { storeItem } from '../server/storage.js';
 
 export default function DisplayNameForm() {
     const [username, setUsername] = useState('');
@@ -12,6 +13,7 @@ export default function DisplayNameForm() {
             const result = await create_lobby(username); 
             console.log(result["code"]);
             if (result.status === 200) {
+                storeItem("code", result["code"])
                 navigate(`/lobby?code=${result["code"]}`);
                 setFeedback('Joined successfully!');
             } else {

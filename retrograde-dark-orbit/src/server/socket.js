@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { getItem, storeItem } from './storage';
 
+const GAME_OVER_PHASE = "Game Over";
+
 const server_addr = process.env.NEXT_PUBLIC_SERVERADDRESS || "localhost";
 const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
 
@@ -32,11 +34,20 @@ const connect = () => {
     });
 
     socket.on("game_start", ({code}) => {
+        storeItem("code", code);
         navigate(`/game?code=${code}`);
     });
 
     socket.on("redirect", (path) => {
       navigate(path);
+    });
+
+    socket.on("update timer phase", (phase) => {
+      if (phase.name === GAME_OVER_PHASE) {
+        const code = getItem("code");
+        storeItem("time", phase.length);
+        navigate(`/gameover?code=${code}`);
+      }
     });
 
     socket.connect();
