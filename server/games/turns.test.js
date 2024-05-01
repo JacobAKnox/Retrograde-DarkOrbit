@@ -69,9 +69,11 @@ describe("turn phases and timings", () => {
     test("should call updateTimer with the correct parameters", () => {
         const lobbyCode = "testCode";
         const update_timer_mock = jest.fn(() => {});
+        const date = new Date('2020-01-01');
+        jest.useFakeTimers().setSystemTime(date);
         turns.set_timer_update_callback(update_timer_mock);
         turns.updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
-        expect(update_timer_mock).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+        expect(update_timer_mock).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, Date.now(), lobbyCode);
         turns.set_timer_update_callback(() => {});
     });
 

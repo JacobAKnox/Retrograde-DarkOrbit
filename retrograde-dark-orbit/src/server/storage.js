@@ -2,13 +2,13 @@
 // switch to localstorage at some point
 export function getItem(itemId) {
     if (typeof window !== 'undefined') {
-        return sessionStorage.getItem(itemId);
+        return JSON.parse(sessionStorage.getItem(itemId));
     }
     return undefined;
 }
 
 export function storeItem(itemId, item) {
     if (typeof window !== 'undefined') {
-        sessionStorage.setItem(itemId, item);
+        sessionStorage.setItem(itemId, JSON.stringify(item));
     }
 }

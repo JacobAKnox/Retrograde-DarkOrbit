@@ -1,7 +1,7 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs } from "./game.js";
 
-let timer_update_callback = (phase, time, lobbyCode) => {};
+let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
 
@@ -78,7 +78,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 export function updateClientsPhase(phase, time, lobbyCode) {
     // send phase to client
     // call Update Timer 
-    timer_update_callback(phase, time, lobbyCode);
+    timer_update_callback(phase, time, Date.now(), lobbyCode);
     return phase;
 }
 
