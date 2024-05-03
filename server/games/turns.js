@@ -1,5 +1,11 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs } from "./game.js";
+import { get_game, 
+        get_status_bars,
+        set_status_bar_value,
+        get_status_bar_value,
+        get_player_POIs, 
+        set_player_POIs,
+        games } from "./game.js";
 
 let timer_update_callback = () => {};
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
@@ -16,6 +22,12 @@ let status_bar_update_callback = (lobbyCode, status_bars) => {};
 
 export function set_status_bar_update(cb) {
     status_bar_update_callback = cb;
+}
+
+let winners_update_callback = (lobbyCode, winners) => {};
+
+export function winners_update(cb) {
+  winners_update_callback = cb;
 }
 
 // used as a timer that does not block other code execution from happening
@@ -58,17 +70,23 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
-            game.currentState = PHASE_STATES.INFORMATION_PHASE;
-            // add function to process clients' choices during action phase
             process_turns(lobby_code);
-            //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
-            // add fucntion to check for win condition
-            // set to game over if a win is found
+            const winners = get_winners(game);
+            if(Object.keys(winners).length > 0) {
+              game.currentState = PHASE_STATES.GAME_OVER_PHASE;
+              // send winners to client
+              winners_update_callback(lobby_code, winners);
+            }
+            else {
+              game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            }
             break;
           
         case PHASE_STATES.GAME_OVER_PHASE:
           //handle a win
           updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobby_code);
+          // get winners and conditions
+          // send winners and conditions to client
           await sleep(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
           break;
     }
@@ -122,4 +140,31 @@ export function process_turns(lobbyCode) {
       }
     }
   }
+}
+
+// Get winning players.
+// Returns a bag of players with usernames whose win conditions have been met.
+// Returns empty bag if no winners.
+export function get_winners(game) {
+  const status_bars = game.statusBars;
+  const players = game.players;
+  let winners = {};
+  // for each player...
+  for(const [key, player] of Object.entries(players)) {
+    let all_win_conditions_met = true;
+    // for each win condition within the "win condition" object for that player...
+    for(let win_condition in player.role.win_condition) {
+      let bar_id = win_condition;
+      // check each status bar win condition against the current game status bar values
+      if(!(status_bars[bar_id].value >= player.role.win_condition[bar_id].min &&
+          status_bars[bar_id].value <= player.role.win_condition[bar_id].max)) {
+            all_win_conditions_met = false;
+            break;
+      }
+    }
+    if(all_win_conditions_met) {
+      winners[key] = player.username;
+    }
+  }
+  return winners;
 }

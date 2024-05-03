@@ -126,6 +126,13 @@ socket.on("server-sent poi update", (POIs) => {
   console.log(POIs);
 })
 
+socket.on("winners update", (winners) => {
+  //
+  // BAG OF WINNERS RECEIVED HERE
+  // 
+  console.log(winners);
+});
+
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");
 //     console.log(code);

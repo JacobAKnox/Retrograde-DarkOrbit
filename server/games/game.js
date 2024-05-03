@@ -1,7 +1,7 @@
 import { fetch_roles } from "../database/database.js";
 import { PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
 
-let games = {};
+export let games = {};
 
 export let roles = default_role_info;
 export const roles_by_player_count = ["crew", "rebel", "crew", "crew", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel"];
