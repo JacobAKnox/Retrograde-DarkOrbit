@@ -8,7 +8,7 @@ import { assign_roles,
     get_player_POIs, 
     get_status_bars,
     process_turn} from "./game.js";
-import { PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals.js";
+import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info } from "./game_globals.js";
 
 describe("game service", () => {
     test("successful start", () => {
