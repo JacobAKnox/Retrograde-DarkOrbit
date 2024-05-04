@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { update_player_ready } from "./../server/socket.js"
+import { update_player_ready } from "../server/socket"
 
 export default function ReadyButton() {
   const [buttonText, setButtonText] = useState("Ready");
@@ -9,17 +9,10 @@ export default function ReadyButton() {
   function updateReadyState() {
     update_player_ready();
 
-    toggle();
+    //toggle();
   }
 
-  function toggle() {
-    if (buttonText == "Ready") {
-      setButtonText("Unready");
-    }
-    else {
-      setButtonText("Ready");
-    }
-  }
+
 
   return (
     <button className="bg-slate-900 min-w-[250px] text-xl text-white m-1 py-2 px-10 rounded-xl hover:bg-slate-800 disabled:bg-slate-950 disabled:text-gray-700" onClick={() => updateReadyState()} role="button">

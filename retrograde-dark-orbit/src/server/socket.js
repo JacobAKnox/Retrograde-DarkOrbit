@@ -90,8 +90,9 @@ export function server_sent_poi_listener(callback) {
     recPOIs = callback;
 }
 
-export function update_player_ready() {
-    socket.emit("player_ready");
+export function update_player_ready(isReady) {
+    const newState = isReady ? "Unready" : "Ready"; 
+    socket.emit("player_ready", isReady);
 }
 
 const role_info_storage = "RoleInfo";

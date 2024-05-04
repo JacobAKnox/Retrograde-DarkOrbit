@@ -133,4 +133,79 @@ function shuffle(array) {
     }
   
     return array;
+
   }
+
+export function process_turn(lobbyCode, game_list=games) {
+  // Get status bars
+  // Get game and players
+  const game = get_game(lobbyCode, game_list);
+  if (!game) {
+    return {status: 400, message: `error: game not found`};
+  }
+  const players = game.players; 
+  // For each player in the game
+  for (let player_id in players) {
+      // Get name and points allocated
+      const pois = players[player_id].pois;
+    for (let poi_id in pois) {
+      let statusBars = get_status_bars(lobbyCode, game_list);
+      const poi_points_allocated = pois[poi_id].allocated;
+      // Update status bars according to point allocations
+      let val = get_status_bar_value(lobbyCode, "crew", game_list);
+      let mult = PLAYER_INITIAL_POIS[poi_id].crew;
+      let new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "crew", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "crew", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "crew", new_val, game_list);
+      }
+      
+      val = get_status_bar_value(lobbyCode, "ship_health", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].ship_health;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "ship_health", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "ship_health", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "ship_health", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "fuel", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].fuel;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "fuel", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "fuel", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "fuel", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "life_support", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].life_support;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "life_support", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "life_support", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "life_support", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "power", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].power;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "power", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "power", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "power", new_val, game_list);
+      }
+    }
+  }
+}

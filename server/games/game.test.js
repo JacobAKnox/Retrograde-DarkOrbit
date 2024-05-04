@@ -8,8 +8,10 @@ import { assign_roles,
     get_player_POIs, 
     get_status_bars,
     get_status_bar_values ,
-    delete_game} from "./game.js";
-import { PLAYER_INITIAL_POIS, default_role_info } from "./game_globals";
+    delete_game,
+    process_turn} from "./game.js";
+import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info } from "./game_globals.js";
+
 
 describe("game service", () => {
     test("successful start", () => {
@@ -175,5 +177,84 @@ describe("game service", () => {
 
         delete_game("code", games);
         expect(games.code).toBeUndefined();
+    });
+
+    test("each turn status bar values update", () => {
+      // Make a game
+      let game_list = {}
+      let game_code = 'ABCDEF'
+      // Mock players
+      let players = {
+        1: {},
+        2: {},
+        3: {}
+      }
+      
+      // Mock starting a game on lobby
+      game_list[game_code] = {};
+      game_list[game_code].players = players;
+      game_list[game_code].statusBars = get_new_status_bars();
+      // Get game status bars
+      const init_status_bars = game_list[game_code].statusBars;
+      // Check status bar initial values
+      expect(init_status_bars).toEqual(get_new_status_bars());
+      // Mock POI allocations
+      game_list[game_code].players[1].pois = {
+        '1': {allocated: 1},
+        '2': {allocated: 2},
+        '3': {allocated: 3}
+      }
+      game_list[game_code].players[2].pois = {
+        '1': {allocated: 1},
+        '2': {allocated: 2},
+        '3': {allocated: 3}
+      }
+      game_list[game_code].players[3].pois = {
+        '1': {allocated: 1},
+        '2': {allocated: 2},
+        '3': {allocated: 3}
+      }
+      // Process turn
+      process_turn(game_code, game_list);
+      // Get game status bars
+      const updated_status_bars_1 = game_list[game_code].statusBars;
+      // Check status bar updated values
+      // Total point allocations: 1: 3, 2: 6, 3: 9
+      expect(updated_status_bars_1).toEqual({
+        "crew": {name: "Crew", value: 50+(3 * PLAYER_INITIAL_POIS[1].crew), max_value: 100},
+        "ship_health": {name: "Ship Health", value: 50+(6 * PLAYER_INITIAL_POIS[2].ship_health), max_value: 100},
+        "fuel": {name: "Fuel", value: 50+(9 * PLAYER_INITIAL_POIS[3].fuel), max_value: 100},
+        "life_support": {name: "Life Support", value: 50, max_value: 100},
+        "power": {name: "Power", value: 50, max_value: 100}
+      });
+      /// NEXT, test status bar upper bounds
+      // Mock POI allocations
+      game_list[game_code].players[1].pois = {
+        '1': {allocated: 50},
+        '2': {allocated: 0},
+        '3': {allocated: 0}
+      }
+      game_list[game_code].players[2].pois = {
+        '1': {allocated: 0},
+        '2': {allocated: 50},
+        '3': {allocated: 0}
+      }
+      game_list[game_code].players[3].pois = {
+        '1': {allocated: 0},
+        '2': {allocated: 0},
+        '3': {allocated: 50}
+      }
+      // Process turn
+      process_turn(game_code, game_list);
+      // Get game status bars
+      const updated_status_bars_2 = game_list[game_code].statusBars;
+      //Check status bar updated values
+      expect(updated_status_bars_2).toEqual({
+        "crew": {name: "Crew", value: 100, max_value: 100},
+        "ship_health": {name: "Ship Health", value: 100, max_value: 100},
+        "fuel": {name: "Fuel", value: 100, max_value: 100},
+        "life_support": {name: "Life Support", value: 50, max_value: 100},
+        "power": {name: "Power", value: 50, max_value: 100}
+      });
     });
 });
