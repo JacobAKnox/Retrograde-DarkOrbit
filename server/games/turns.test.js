@@ -97,7 +97,6 @@ describe("turn phases and timings", () => {
         await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
         expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS, lobbyCode);
         
-        turns.set_ids_and_names_callback(() => {});
+    turns.set_ids_and_names_callback(() => {});
     });
-      
 });
