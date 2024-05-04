@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
@@ -17,6 +17,12 @@ let status_bar_update_callback = (lobbyCode, status_bars) => {};
 
 export function set_status_bar_update(cb) {
     status_bar_update_callback = cb;
+}
+
+let winners_update_callback = (lobbyCode, winners) => {};
+
+export function winners_update(cb) {
+  winners_update_callback = cb;
 }
 
 // used as a timer that does not block other code execution from happening
@@ -59,17 +65,23 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
-            game.currentState = PHASE_STATES.INFORMATION_PHASE;
-            // add function to process clients' choices during action phase
-            process_turn(lobby_code);
-            //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
-            // add fucntion to check for win condition
-            // set to game over if a win is found
+            process_turns(lobby_code);
+            const winners = get_winners(game);
+            if(winners.team.length != 0) {
+              game.currentState = PHASE_STATES.GAME_OVER_PHASE;
+              // send winners to client
+              winners_update_callback(lobby_code, winners);
+            }
+            else {
+              game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            }
             break;
           
         case PHASE_STATES.GAME_OVER_PHASE:
           //handle a win
           updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobby_code);
+          // get winners and conditions
+          // send winners and conditions to client
           await sleep(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
           break;
     }
@@ -86,9 +98,79 @@ export async function gameLoop(lobbyCode){
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
+    let run = false;
     //Run game loop and pass in game object
-    while (true){
+    while (game.currentState !== PHASE_STATES.GAME_OVER_PHASE || !run){
         await execute_turn(game, lobbyCode);
+        run = true;
     }
+    //handle a win
+    updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobbyCode);
+    // get winners and conditions
+    // send winners and conditions to client
+    await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
+    delete_game(lobbyCode);
 }
 
+export function process_turns(lobbyCode) {
+  // Get status bars
+  const statusBars = get_status_bars(lobbyCode);
+  // Get game and players
+  const game = get_game(lobbyCode);
+  const players = game.players; 
+  // For each player in the game
+  for (let player_id in players) {
+    // Get their POIs
+    const pois = get_player_POIs(game, player_id);
+    // For each POI
+    for (let poi_id in pois) {
+      // Get name and points allocated
+      const poi_name = pois[poi_id].name;
+      const poi_points_allocated = pois[poi_id].allocated;
+      const delta = poi_points_allocated*2;
+      // Update status bars according to point allocations
+      if (poi_name == "name") {
+        const val = get_status_bar_value(lobbyCode, "crew");
+        set_status_bar_value(lobbyCode, "crew", val+delta);
+      }
+      else if (poi_name == "name1") {
+        const val = get_status_bar_value(lobbyCode, "ship_health");
+        set_status_bar_value(lobbyCode, "ship_health", val+delta);
+      }
+      else if (poi_name == "name2") {
+        const val = get_status_bar_value(lobbyCode, "fuel");
+        set_status_bar_value(lobbyCode, "fuel", val+delta);
+      }
+    }
+  }
+}
+
+// Get winning players
+// Returns a bag {team: str, names: [str]}
+// NOTE: "team" will have the group_name of the first determined winning player.
+export function get_winners(game) {
+  const status_bars = game.statusBars;
+  const players = game.players;
+  let winners = {team: "", names: [] };
+  // for each player...
+  for(const [key, player] of Object.entries(players)) {
+    let all_win_conditions_met = true;
+    // for each win condition within the "win condition" object for that player...
+    for(let win_condition in player.role.win_condition) {
+      let bar_id = win_condition;
+      // check each status bar win condition against the current game status bar values
+      if(!(status_bars[bar_id].value >= player.role.win_condition[bar_id].min &&
+          status_bars[bar_id].value <= player.role.win_condition[bar_id].max)) {
+            all_win_conditions_met = false;
+            break;
+      }
+    }
+    if(all_win_conditions_met) {
+      if(winners.team === "") {
+        winners.team = player.role.group_name;
+      }
+      winners.names.push(player.username);
+    }
+  }
+  return winners;
+}

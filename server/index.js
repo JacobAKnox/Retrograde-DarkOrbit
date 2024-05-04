@@ -6,7 +6,7 @@ import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
-import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback } from "./games/turns.js";
+import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update } from "./games/turns.js";
 
 const app = express();
 const server = createServer(app);
@@ -22,7 +22,12 @@ function redirect_user(socket) {
     return;
   }
   if (get_game(socket.roomCode)) {
-    socket.emit("redirect", `/game?code=${socket.roomCode}`);
+    const phase = get_game(socket.roomCode).currentState;
+    if (phase === PHASE_STATES.GAME_OVER_PHASE) {
+      socket.emit("redirect", `/gameover?code=${socket.roomCode}`);
+    } else {
+      socket.emit("redirect", `/game?code=${socket.roomCode}`);
+    }
     return;
   }
   socket.emit("redirect", `/lobby?code=${socket.roomCode}`);
@@ -226,6 +231,7 @@ server.listen(PORT, async () => {
   set_timer_update_callback(updateTimer);
   set_ids_and_names_callback(sendIdsAndNames);
   set_status_bar_update(updateStatusBar);
+  winners_update(sendWinnersToClient);
   console.log(`server running at http://localhost:${PORT}`);
 });
 
@@ -245,6 +251,9 @@ function updateStatusBar(lobbyCode, statusBars) {
   io.in(lobbyCode).emit("status_update", statusBars);
 }
 
+function sendWinnersToClient(lobbyCode, winners) {
+  io.in(lobbyCode).emit("winner_data", winners);
+}
 //update player lplayer
 function updatePlayerList(lobbyCode) {
   const lobby = get_lobby(lobbyCode);

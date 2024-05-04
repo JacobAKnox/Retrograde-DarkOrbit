@@ -99,6 +99,16 @@ export function get_num_ready_players(lobby_id, lobby_list = lobbies){
     return num_ready_players;
 }
 
+export function reset_ready_players(lobby_code, lobby_list=lobbies) {
+    const lobby = lobby_list[lobby_code];
+    if (!lobby) {
+        return;
+    }
+    Object.keys(lobby).forEach((player_id) => {
+        lobby[player_id].ready_state = false;
+    });
+}
+
 export function get_lobby_by_player(user_id, lobby_list=lobbies) {
     const lobby_code = Object.keys(lobby_list).find((key) => Object.keys(lobby_list[key]).includes(user_id));
     if (!lobby_code) {

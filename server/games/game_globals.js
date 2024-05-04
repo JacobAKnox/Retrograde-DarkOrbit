@@ -4,7 +4,7 @@ export const PHASE_STATES = Object.freeze({
     INFORMATION_PHASE: "Information phase",
     DISCUSSION_PHASE: "Discussion phase",
     ACTION_PHASE: "Action phase",
-    GAME_OVER_PHASE: "Game Over phase"
+    GAME_OVER_PHASE: "Game Over"
 })
 
 // time in milliseconds

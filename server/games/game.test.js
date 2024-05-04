@@ -7,8 +7,11 @@ import { assign_roles,
     set_player_POIs,
     get_player_POIs, 
     get_status_bars,
+    get_status_bar_values ,
+    delete_game,
     process_turn} from "./game.js";
 import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info } from "./game_globals.js";
+
 
 describe("game service", () => {
     test("successful start", () => {
@@ -167,6 +170,13 @@ describe("game service", () => {
         
         const result = get_status_bars("code", games);
         expect(result).toBeUndefined();
+    });
+
+    test("delete game when over", () => {
+        let games = {code: {foo: ""}};
+
+        delete_game("code", games);
+        expect(games.code).toBeUndefined();
     });
 
     test("each turn status bar values update", () => {

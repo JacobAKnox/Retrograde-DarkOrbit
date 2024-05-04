@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { getItem, storeItem } from './storage';
 
+const GAME_OVER_PHASE = "Game Over";
+
 const server_addr = process.env.NEXT_PUBLIC_SERVERADDRESS || "localhost";
 const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
 
@@ -32,11 +34,25 @@ const connect = () => {
     });
 
     socket.on("game_start", ({code}) => {
+        storeItem("code", code);
         navigate(`/game?code=${code}`);
     });
 
     socket.on("redirect", (path) => {
       navigate(path);
+    });
+
+    socket.on("update timer phase", (phase) => {
+      if (phase.name === GAME_OVER_PHASE) {
+        const code = getItem("code");
+        storeItem("time", phase.length);
+        navigate(`/gameover?code=${code}`);
+      }
+    });
+
+    //data format: {team: str, names:[str]}
+    socket.on("winner_data", (data) => {
+      storeItem("winner", data);
     });
 
     socket.connect();
@@ -82,10 +98,10 @@ export function update_player_ready(isReady) {
 const role_info_storage = "RoleInfo";
 export function update_role_info(callback) {
   socket.on("role_info", (info) => {
-    storeItem(role_info_storage, JSON.stringify(info));
-    callback(info.name, info.max_points);
+    storeItem(role_info_storage, info);
+    callback(info);
   });
-  return JSON.parse(getItem(role_info_storage));
+  return getItem(role_info_storage);
 }
 
 export const update_ready_status = (updateReadyStatus) => {
@@ -113,10 +129,10 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
 const status_bar_storage = "StatusBar";
 export function listen_status_bar_update(callback) {
   socket.on("status_update", (statusBars) => {
-    storeItem(status_bar_storage, JSON.stringify(statusBars))
+    storeItem(status_bar_storage, statusBars);
     callback(statusBars);
   });
-  return JSON.parse(getItem(status_bar_storage));
+  return getItem(status_bar_storage);
 }
 
 //update player list
@@ -143,6 +159,13 @@ socket.on("server-sent poi update", (POIs) => {
   recPOIs(POIs);
   console.log(POIs);
 })
+
+export function listen_winner_info(cb) {
+  //data format: {team: str, names:[str]}
+  socket.on("winner_data", (data) => {
+    cb(data);
+  });
+}
 
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");
