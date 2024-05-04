@@ -112,19 +112,21 @@ describe("turn phases and timings", () => {
                     role: { 
                         win_condition: {
                             "crew":           { min: 5,  max: 20 },
-                            "ship_health":    { min: 20, max: 100},
-                            "fuel":           { min: 80, max: 100},
-                            "life_support":   { min: 50, max: 100},
-                            "power":          { min: 30, max: 100}}}},
+                            "ship_health":    { min: 20, max: 100 },
+                            "fuel":           { min: 80, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 30, max: 100 }},
+                        group_name: "team-1" }},
                 "player2": {
                     username: "username2",
                     role: { 
                         win_condition: {
-                            "crew":           { min: 70, max: 100},
-                            "ship_health":    { min: 50, max: 100},
-                            "fuel":           { min: 90, max: 100},
-                            "life_support":   { min: 50, max: 100},
-                            "power":          { min: 45, max: 100}}}}},
+                            "crew":           { min: 70, max: 100 },
+                            "ship_health":    { min: 50, max: 100 },
+                            "fuel":           { min: 90, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 45, max: 100 }},
+                        group_name: "team-2" }}},
             statusBars: {   "crew":           { value: 50 },
                             "ship_health":    { value: 50 },
                             "fuel":           { value: 50 },
@@ -139,19 +141,50 @@ describe("turn phases and timings", () => {
                     role: { 
                         win_condition: {
                             "crew":           { min: 5,  max: 20 },
-                            "ship_health":    { min: 20, max: 100},
-                            "fuel":           { min: 80, max: 100},
-                            "life_support":   { min: 50, max: 100},
-                            "power":          { min: 30, max: 100}}}},
+                            "ship_health":    { min: 20, max: 100 },
+                            "fuel":           { min: 80, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 30, max: 100 }},
+                        group_name: "team-1" }},
                 "player2": {
                     username: "username2",
                     role: { 
                         win_condition: {
-                            "crew":           { min: 70, max: 100},
-                            "ship_health":    { min: 50, max: 100},
-                            "fuel":           { min: 90, max: 100},
-                            "life_support":   { min: 50, max: 100},
-                            "power":          { min: 45, max: 100}}}}},
+                            "crew":           { min: 70, max: 100 },
+                            "ship_health":    { min: 50, max: 100 },
+                            "fuel":           { min: 90, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 45, max: 100 }},
+                        group_name: "team-2" }}},
+            statusBars: {   "crew":           { value: 75 },
+                            "ship_health":    { value: 80 },
+                            "fuel":           { value: 95 },
+                            "life_support":   { value: 50 },
+                            "power":          { value: 50 }}};
+
+        // player 1 and 2 are winners
+        const game3 = {
+            players: {
+                "player1": {
+                    username: "username1",
+                    role: { 
+                        win_condition: {
+                            "crew":           { min: 5,  max: 100 },
+                            "ship_health":    { min: 20, max: 100 },
+                            "fuel":           { min: 80, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 30, max: 100 }},
+                        group_name: "team-1" }},
+                "player2": {
+                    username: "username2",
+                    role: { 
+                        win_condition: {
+                            "crew":           { min: 70, max: 100 },
+                            "ship_health":    { min: 50, max: 100 },
+                            "fuel":           { min: 90, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 45, max: 100 }},
+                        group_name: "team-2" }}},
             statusBars: {   "crew":           { value: 75 },
                             "ship_health":    { value: 80 },
                             "fuel":           { value: 95 },
@@ -160,7 +193,9 @@ describe("turn phases and timings", () => {
 
         const result1 = get_winners(game1);
         const result2 = get_winners(game2);
-        expect(result1).toEqual({});
-        expect(result2).toEqual({"player2": "username2"});
+        const result3 = get_winners(game3);
+        expect(result1).toEqual({ team: "", names: [] });
+        expect(result2).toEqual({ team: "team-2", names: ["username2"] });
+        expect(result3).toEqual({ team: "team-1", names: ["username1", "username2"] });
     });
 });

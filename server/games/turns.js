@@ -67,7 +67,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             process_turns(lobby_code);
             const winners = get_winners(game);
-            if(Object.keys(winners).length > 0) {
+            if(winners.team.length != 0) {
               game.currentState = PHASE_STATES.GAME_OVER_PHASE;
               // send winners to client
               winners_update_callback(lobby_code, winners);
@@ -140,13 +140,13 @@ export function process_turns(lobbyCode) {
   }
 }
 
-// Get winning players.
-// Returns a bag of players with usernames whose win conditions have been met.
-// Returns empty bag if no winners.
+// Get winning players
+// Returns a bag {team: str, names: [str]}
+// NOTE: "team" will have the group_name of the first determined winning player.
 export function get_winners(game) {
   const status_bars = game.statusBars;
   const players = game.players;
-  let winners = {};
+  let winners = {team: "", names: [] };
   // for each player...
   for(const [key, player] of Object.entries(players)) {
     let all_win_conditions_met = true;
@@ -161,7 +161,10 @@ export function get_winners(game) {
       }
     }
     if(all_win_conditions_met) {
-      winners[key] = player.username;
+      if(winners.team === "") {
+        winners.team = player.role.group_name;
+      }
+      winners.names.push(player.username);
     }
   }
   return winners;
