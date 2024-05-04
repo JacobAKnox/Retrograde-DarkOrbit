@@ -207,13 +207,42 @@ describe("game service", () => {
       // Process turn
       process_turn(game_code, game_list);
       // Get game status bars
-      const updated_status_bars = game_list[game_code].statusBars;
+      const updated_status_bars_1 = game_list[game_code].statusBars;
       // Check status bar updated values
       // Total point allocations: 1: 3, 2: 6, 3: 9
-      expect(updated_status_bars).toEqual({
+      expect(updated_status_bars_1).toEqual({
         "crew": {name: "Crew", value: 50+(3 * PLAYER_INITIAL_POIS[1].crew), max_value: 100},
         "ship_health": {name: "Ship Health", value: 50+(6 * PLAYER_INITIAL_POIS[2].ship_health), max_value: 100},
         "fuel": {name: "Fuel", value: 50+(9 * PLAYER_INITIAL_POIS[3].fuel), max_value: 100},
+        "life_support": {name: "Life Support", value: 50, max_value: 100},
+        "power": {name: "Power", value: 50, max_value: 100}
+      });
+      /// NEXT, test status bar upper bounds
+      // Mock POI allocations
+      game_list[game_code].players[1].pois = {
+        '1': {allocated: 50},
+        '2': {allocated: 0},
+        '3': {allocated: 0}
+      }
+      game_list[game_code].players[2].pois = {
+        '1': {allocated: 0},
+        '2': {allocated: 50},
+        '3': {allocated: 0}
+      }
+      game_list[game_code].players[3].pois = {
+        '1': {allocated: 0},
+        '2': {allocated: 0},
+        '3': {allocated: 50}
+      }
+      // Process turn
+      process_turn(game_code, game_list);
+      // Get game status bars
+      const updated_status_bars_2 = game_list[game_code].statusBars;
+      //Check status bar updated values
+      expect(updated_status_bars_2).toEqual({
+        "crew": {name: "Crew", value: 100, max_value: 100},
+        "ship_health": {name: "Ship Health", value: 100, max_value: 100},
+        "fuel": {name: "Fuel", value: 100, max_value: 100},
         "life_support": {name: "Life Support", value: 50, max_value: 100},
         "power": {name: "Power", value: 50, max_value: 100}
       });
