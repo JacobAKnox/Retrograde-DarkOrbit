@@ -2,9 +2,13 @@ import { render } from '@testing-library/react'
 import LobbyPanel from './lobby_panel'
 import "setimmediate";
 
-jest.mock('./chat_box', () => () => <div>Mocked ChatBox</div>);
-jest.mock('./user_list', () => () => <div>Mocked UserList</div>);
-jest.mock('./ready_box', () => () => <div>Mocked ReadyBox</div>);
+const ChatMock = () => <div>Mocked ChatBox</div>
+const UserMock = () => <div>Mocked UserList</div>
+const ReadyMock = () => <div>Mocked ReadyBox</div>
+
+jest.mock('./chat_box', () => ChatMock);
+jest.mock('./user_list', () => UserMock);
+jest.mock('./ready_box', () => ReadyMock);
 
 test('renders on-screen', () => {
   const page = render(<LobbyPanel/>);
