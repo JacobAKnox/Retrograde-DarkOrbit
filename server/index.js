@@ -233,8 +233,8 @@ export function closeServer() {
   server.close();
 }
 
-export function updateTimer(phase, time, lobbyCode){
-  io.in(lobbyCode).emit("update timer phase", {length: time, name: phase});
+export function updateTimer(phase, time, start, lobbyCode){
+  io.in(lobbyCode).emit("update timer phase", {length: time, name: phase, start});
 } 
 
 export function sendIdsAndNames(IDSANDNAMES, lobbyCode){
