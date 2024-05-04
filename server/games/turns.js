@@ -65,7 +65,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
-            process_turns(lobby_code);
+            process_turn(lobby_code);
             const winners = get_winners(game);
             if(winners.team.length != 0) {
               game.currentState = PHASE_STATES.GAME_OVER_PHASE;
@@ -110,39 +110,6 @@ export async function gameLoop(lobbyCode){
     // send winners and conditions to client
     await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
-}
-
-export function process_turns(lobbyCode) {
-  // Get status bars
-  const statusBars = get_status_bars(lobbyCode);
-  // Get game and players
-  const game = get_game(lobbyCode);
-  const players = game.players; 
-  // For each player in the game
-  for (let player_id in players) {
-    // Get their POIs
-    const pois = get_player_POIs(game, player_id);
-    // For each POI
-    for (let poi_id in pois) {
-      // Get name and points allocated
-      const poi_name = pois[poi_id].name;
-      const poi_points_allocated = pois[poi_id].allocated;
-      const delta = poi_points_allocated*2;
-      // Update status bars according to point allocations
-      if (poi_name == "name") {
-        const val = get_status_bar_value(lobbyCode, "crew");
-        set_status_bar_value(lobbyCode, "crew", val+delta);
-      }
-      else if (poi_name == "name1") {
-        const val = get_status_bar_value(lobbyCode, "ship_health");
-        set_status_bar_value(lobbyCode, "ship_health", val+delta);
-      }
-      else if (poi_name == "name2") {
-        const val = get_status_bar_value(lobbyCode, "fuel");
-        set_status_bar_value(lobbyCode, "fuel", val+delta);
-      }
-    }
-  }
 }
 
 // Get winning players
