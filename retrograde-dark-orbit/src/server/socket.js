@@ -5,6 +5,9 @@ import { useEffect } from 'react';
 // import this module where you need to handle
 // socket.io interactions :)
 import { io } from 'socket.io-client';
+import { getItem, storeItem } from './storage';
+
+const GAME_OVER_PHASE = "Game Over";
 
 const server_addr = process.env.NEXT_PUBLIC_SERVERADDRESS || "localhost";
 const server_port = process.env.NEXT_PUBLIC_SERVERPORT || "4000";
@@ -15,28 +18,41 @@ let socket = io(`http://${server_addr}:${server_port}`, {autoConnect: false});
 let recMessage = (e) => {};
 let recPOIs = (e) => {};
 
+const sessionID_storage = "sessionID";
+
 const connect = () => {
-    if (typeof window !== 'undefined') {
-        // session storage to make testing easier, probably change to local storage later
-        // session storage is not shared across tabs, but is across refresh
-        const sessionID = sessionStorage.getItem("sessionID");
-        if (sessionID) {
-            socket.auth = { sessionID };
-        }
+    const sessionID = getItem(sessionID_storage);
+    
+    if (sessionID) {
+        socket.auth = { sessionID };
     }
 
     socket.on("session", ({ sessionID, userID }) => {
         socket.auth = { sessionID };
-        sessionStorage.setItem("sessionID", sessionID);
+        storeItem(sessionID_storage, sessionID);
         socket.userID = userID;
     });
 
     socket.on("game_start", ({code}) => {
+        storeItem("code", code);
         navigate(`/game?code=${code}`);
     });
 
     socket.on("redirect", (path) => {
       navigate(path);
+    });
+
+    socket.on("update timer phase", (phase) => {
+      if (phase.name === GAME_OVER_PHASE) {
+        const code = getItem("code");
+        storeItem("time", phase.length);
+        navigate(`/gameover?code=${code}`);
+      }
+    });
+
+    //data format: {team: str, names:[str]}
+    socket.on("winner_data", (data) => {
+      storeItem("winner", data);
     });
 
     socket.connect();
@@ -78,10 +94,13 @@ export function update_player_ready() {
     socket.emit("player_ready");
 }
 
+const role_info_storage = "RoleInfo";
 export function update_role_info(callback) {
-  socket.on("role_info", (role) => {
-    callback(role);
+  socket.on("role_info", (info) => {
+    storeItem(role_info_storage, JSON.stringify(info));
+    callback(info.name, info.max_points);
   });
+  return JSON.parse(getItem(role_info_storage));
 }
 
 export const update_ready_status = (updateReadyStatus) => {
@@ -106,13 +125,27 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
   });
 };
 
-// chat message received from server
+const status_bar_storage = "StatusBar";
 export function listen_status_bar_update(callback) {
   socket.on("status_update", (statusBars) => {
+    storeItem(status_bar_storage, JSON.stringify(statusBars))
     callback(statusBars);
   });
+  return JSON.parse(getItem(status_bar_storage));
 }
 
+//update player list
+export function listen_update_player_list(updatePlayerList){
+  socket.on('player_list_updated', (players) => {
+    updatePlayerList(players);  
+  });
+}
+//
+export function request_current_player_list() {
+  socket.emit('request_player_list');
+}
+
+// chat message received from server
 socket.on("receive chat msg", ({username, message}) => {
     recMessage('[' + username + ']: ' + message)
 });
@@ -126,12 +159,12 @@ socket.on("server-sent poi update", (POIs) => {
   console.log(POIs);
 })
 
-socket.on("winners update", (winners) => {
-  //
-  // BAG OF WINNERS RECEIVED HERE
-  // 
-  console.log(winners);
-});
+export function listen_winner_info(cb) {
+  //data format: {team: str, names:[str]}
+  socket.on("winner_data", (data) => {
+    cb(data);
+  });
+}
 
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");

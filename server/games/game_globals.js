@@ -4,7 +4,7 @@ export const PHASE_STATES = Object.freeze({
     INFORMATION_PHASE: "Information phase",
     DISCUSSION_PHASE: "Discussion phase",
     ACTION_PHASE: "Action phase",
-    GAME_OVER_PHASE: "Game Over phase"
+    GAME_OVER_PHASE: "Game Over"
 })
 
 // time in milliseconds
@@ -20,7 +20,8 @@ export const PHASE_TIMINGS = Object.freeze({
 export const PLAYER_INITIAL_POIS = Object.freeze({
     '1': { name: 'name', allocated: 0 },
     '2': { name: 'name1', allocated: 0 },
-    '3': { name: 'name2', allocated: 0 }
+    '3': { name: 'name2', allocated: 0 },
+    "4": {  name: "from_server", allocated: 0 }
 })
 
 export function get_new_status_bars() {
