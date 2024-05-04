@@ -50,6 +50,9 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
     }
 
     delete lobby_list[lobby_id[0]][user_id];
+    if (Object.keys(lobby_list[lobby_id[0]]).length === 0) {
+        delete lobby_list[lobby_id[0]];
+    }
     return {status: 200};
 }
 
@@ -94,6 +97,16 @@ export function get_num_ready_players(lobby_id, lobby_list = lobbies){
         return count + (player.ready_state ? 1 : 0);}, 0);
 
     return num_ready_players;
+}
+
+export function reset_ready_players(lobby_code, lobby_list=lobbies) {
+    const lobby = lobby_list[lobby_code];
+    if (!lobby) {
+        return;
+    }
+    Object.keys(lobby).forEach((player_id) => {
+        lobby[player_id].ready_state = false;
+    });
 }
 
 export function get_lobby_by_player(user_id, lobby_list=lobbies) {

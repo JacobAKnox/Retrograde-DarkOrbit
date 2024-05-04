@@ -1,19 +1,22 @@
 import { fetch_roles } from "../database/database.js";
-import { PHASE_STATES, PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals.js";
+import { reset_ready_players } from "../lobbies/lobbies.js";
+import { PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
 
-let games = {};
+export let games = {};
 
-export let roles = {"test1": {name: "test_role1", id: "test1", points: 10}, "test2": {name: "test_role2", id: "test2", points: 10}};
-export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
+export let roles = default_role_info;
+export const roles_by_player_count = ["crew", "rebel", "crew", "crew", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel"];
 
 export async function setup() {
-    roles = await fetch_roles() || roles;
+    roles = await fetch_roles() || default_role_info;
 }
 
 export function start_game(lobby, lobby_code, game_list=games) {
     if (lobby_code in game_list) {
         return {status: 400, message: `Game with code '${lobby_code}' already exists`};
     }
+
+    reset_ready_players(lobby_code);
 
     game_list[lobby_code] = {};
     game_list[lobby_code].players = JSON.parse(JSON.stringify(lobby)); // deep coppy lobby object;
@@ -22,6 +25,14 @@ export function start_game(lobby, lobby_code, game_list=games) {
     game_list[lobby_code].statusBars = get_new_status_bars();
 
     return {status: 200};
+}
+
+export function delete_game(game_code, game_list=games) {
+    if (!game_list[game_code]) {
+        return
+    }
+
+    delete game_list[game_code];
 }
 
 export function get_game(game_code, game_list=games) {
@@ -57,11 +68,14 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 
 export function get_role_info(game, userID) {
     try {
-        const role = game.players[userID].role;
-        return {name: role.name, max_points: role.points}
+        let role = game.players[userID].role;
+        if (role === undefined) {
+            return {name: "Error Role", points: 0};
+        }
+        return role;
     } catch (error) {
         console.error(error);
-        return {name: "Error Role", max_points: 0};
+        return {name: "Error Role", points: 0};
     }
 }
 
@@ -119,4 +133,79 @@ function shuffle(array) {
     }
   
     return array;
+
   }
+
+export function process_turn(lobbyCode, game_list=games) {
+  // Get status bars
+  // Get game and players
+  const game = get_game(lobbyCode, game_list);
+  if (!game) {
+    return {status: 400, message: `error: game not found`};
+  }
+  const players = game.players; 
+  // For each player in the game
+  for (let player_id in players) {
+      // Get name and points allocated
+      const pois = players[player_id].pois;
+    for (let poi_id in pois) {
+      let statusBars = get_status_bars(lobbyCode, game_list);
+      const poi_points_allocated = pois[poi_id].allocated;
+      // Update status bars according to point allocations
+      let val = get_status_bar_value(lobbyCode, "crew", game_list);
+      let mult = PLAYER_INITIAL_POIS[poi_id].crew;
+      let new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "crew", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "crew", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "crew", new_val, game_list);
+      }
+      
+      val = get_status_bar_value(lobbyCode, "ship_health", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].ship_health;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "ship_health", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "ship_health", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "ship_health", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "fuel", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].fuel;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "fuel", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "fuel", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "fuel", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "life_support", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].life_support;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "life_support", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "life_support", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "life_support", new_val, game_list);
+      }
+
+      val = get_status_bar_value(lobbyCode, "power", game_list);
+      mult = PLAYER_INITIAL_POIS[poi_id].power;
+      new_val = val+(poi_points_allocated*mult);
+      if (new_val > 100) {
+        set_status_bar_value(lobbyCode, "power", 100, game_list);
+      } else if (new_val < 0) {
+        set_status_bar_value(lobbyCode, "power", 0, game_list);
+      } else {
+        set_status_bar_value(lobbyCode, "power", new_val, game_list);
+      }
+    }
+  }
+}

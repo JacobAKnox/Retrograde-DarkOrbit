@@ -1,4 +1,4 @@
-import { create_lobby, get_lobby, get_lobby_by_player, get_num_players,get_num_ready_players, get_username, set_player_ready } from "./lobbies";
+import { create_lobby, get_lobby, get_lobby_by_player, get_num_players,get_num_ready_players, get_username, reset_ready_players, set_player_ready } from "./lobbies";
 import { join_lobby, leave_lobby } from "./lobbies";
 
 describe("lobby system", () => {
@@ -216,5 +216,46 @@ describe("lobby system", () => {
 
         let result = get_username("player5", lobbies);
         expect(result).toBeUndefined();
+      });
+
+      test("lobby closes when last user leaves", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+          }
+        };
+
+        let result = leave_lobby("player1", lobbies);
+        expect(result.status).toBe(200);
+
+        expect(lobbies["ABCD"]).toBeUndefined();
+      });
+
+      test("lobby does not close when there are users", () => {
+        let lobbies = {
+          "ABCD": {
+            "player1": { username: "p1", ready_state: false },
+            "player2": { ready_state: true }
+          }
+        };
+
+        let result = leave_lobby("player1", lobbies);
+        expect(result.status).toBe(200);
+
+        expect(lobbies["ABCD"]).toBeDefined();
+      });
+
+      test("reset ready players", () => {
+        let lobbies = {
+            "ABCD": {
+              "player1": { ready_state: false },
+              "player2": { ready_state: true }
+            }
+          };
+          
+          reset_ready_players("ABCD", lobbies);
+
+          expect(lobbies["ABCD"]["player2"].ready_state).toBe(false);
+          expect(lobbies["ABCD"]["player1"].ready_state).toBe(false);
       });
 });
