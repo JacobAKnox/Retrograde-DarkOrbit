@@ -104,6 +104,11 @@ export async function gameLoop(lobbyCode){
         await execute_turn(game, lobbyCode);
         run = true;
     }
+    //handle a win
+    updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobbyCode);
+    // get winners and conditions
+    // send winners and conditions to client
+    await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
 }
 

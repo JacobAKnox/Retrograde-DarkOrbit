@@ -97,9 +97,8 @@ export function update_player_ready() {
 const role_info_storage = "RoleInfo";
 export function update_role_info(callback) {
   socket.on("role_info", (info) => {
-    console.log(info);
     storeItem(role_info_storage, info);
-    callback(info.name, info.max_points);
+    callback(info);
   });
   return getItem(role_info_storage);
 }

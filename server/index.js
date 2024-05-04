@@ -22,7 +22,12 @@ function redirect_user(socket) {
     return;
   }
   if (get_game(socket.roomCode)) {
-    socket.emit("redirect", `/game?code=${socket.roomCode}`);
+    const phase = get_game(socket.roomCode).currentState;
+    if (phase === PHASE_STATES.GAME_OVER_PHASE) {
+      socket.emit("redirect", `/gameover?code=${socket.roomCode}`);
+    } else {
+      socket.emit("redirect", `/game?code=${socket.roomCode}`);
+    }
     return;
   }
   socket.emit("redirect", `/lobby?code=${socket.roomCode}`);
