@@ -18,10 +18,11 @@ export const PHASE_TIMINGS = Object.freeze({
 // access should probably be wrapped in a function call
 // given to each player at beginning of every action phase
 export const PLAYER_INITIAL_POIS = Object.freeze({
-    '1': { name: 'name', allocated: 0, crew: 2, ship_health: 0, fuel: 0, life_support: 0, power: 0 },
-    '2': { name: 'name1', allocated: 0, crew: 0, ship_health: 2, fuel: 0, life_support: 0, power: 0 },
-    '3': { name: 'name2', allocated: 0, crew: 0, ship_health: 0, fuel: 2, life_support: 0, power: 0 },
-    "4": {  name: "from_server", allocated: 0, crew: 0, ship_health: 0, fuel: 2, life_support: 0, power: 0 }
+    '1': { name: 'Crew', allocated: 0, crew: 2, ship_health: 0, fuel: 0, life_support: 0, power: 0 },
+    '2': { name: 'Health', allocated: 0, crew: 0, ship_health: 2, fuel: 0, life_support: 0, power: 0 },
+    '3': { name: 'Fuel', allocated: 0, crew: 0, ship_health: 0, fuel: 2, life_support: 0, power: 0 },
+    "4": {  name: "Life", allocated: 0, crew: 0, ship_health: 0, fuel: 0, life_support: 2, power: 0 },
+    "5": {  name: "Power", allocated: 0, crew: 0, ship_health: 0, fuel: 0, life_support: 0, power: 2 }
 })
 
 export function get_new_status_bars() {
