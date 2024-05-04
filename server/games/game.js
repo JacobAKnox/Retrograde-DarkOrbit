@@ -125,10 +125,10 @@ export function process_turn(lobbyCode, game_list=games) {
   // Get status bars
   // Get game and players
   const game = get_game(lobbyCode, game_list);
-  const players = game.players; 
   if (!game) {
     return {status: 400, message: `error: game not found`};
   }
+  const players = game.players; 
   // For each player in the game
   for (let player_id in players) {
       // Get name and points allocated
