@@ -6,7 +6,6 @@ export default function RoleInfo() {
 
     useEffect(() => {
         const old_info = update_role_info(on_role_update);
-        console.log(`info: ${old_info}`);
         if (old_info) {
             setRoleName(old_info.name);
         }

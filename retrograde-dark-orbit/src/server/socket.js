@@ -97,10 +97,11 @@ export function update_player_ready() {
 const role_info_storage = "RoleInfo";
 export function update_role_info(callback) {
   socket.on("role_info", (info) => {
-    storeItem(role_info_storage, JSON.stringify(info));
+    console.log(info);
+    storeItem(role_info_storage, info);
     callback(info.name, info.max_points);
   });
-  return JSON.parse(getItem(role_info_storage));
+  return getItem(role_info_storage);
 }
 
 export const update_ready_status = (updateReadyStatus) => {
@@ -128,10 +129,10 @@ export const toggle_turn_timer_countdown = (toggleTurnTimer) => {
 const status_bar_storage = "StatusBar";
 export function listen_status_bar_update(callback) {
   socket.on("status_update", (statusBars) => {
-    storeItem(status_bar_storage, JSON.stringify(statusBars))
+    storeItem(status_bar_storage, statusBars);
     callback(statusBars);
   });
-  return JSON.parse(getItem(status_bar_storage));
+  return getItem(status_bar_storage);
 }
 
 //update player list

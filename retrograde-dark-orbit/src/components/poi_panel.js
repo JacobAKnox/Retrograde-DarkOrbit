@@ -24,7 +24,7 @@ export default function POIPanel() {
     useEffect(() => {
         const old_info = update_role_info(on_role_update);
         if (old_info) {
-            setTotalPoints(old_info.max_points);
+            setTotalPoints(old_info.points);
         }
         const loaded_pois = loadPOIs();
         setPOIs(loaded_pois);
@@ -85,12 +85,12 @@ export default function POIPanel() {
     }
 
     function storePOIs(pois) {
-        storeItem("POIs", JSON.stringify(pois));
+        storeItem("POIs", pois);
     }
 
     function loadPOIs() {
         const data = getItem("POIs");
-        return data ? JSON.parse(data) : default_poi;
+        return data ? data : default_poi;
     }
 
     return (
