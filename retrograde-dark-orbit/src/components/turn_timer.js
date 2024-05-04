@@ -9,7 +9,6 @@ export default function TurnTimer() {
   const [phaseText, setPhaseText] = useState("");
   let ms = 0;
   let pause = false;
-  let start = Date.now();
 
   function configureTimer(phase) {
     storeItem("timer", phase);
