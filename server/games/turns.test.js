@@ -25,7 +25,8 @@ describe("turn phases and timings", () => {
                         PHASE_STATES.INFORMATION_PHASE,
                         PHASE_STATES.DISCUSSION_PHASE,
                         PHASE_STATES.ACTION_PHASE,
-                        PHASE_STATES.SERVER_PROCESSING_PHASE];
+                        PHASE_STATES.SERVER_PROCESSING_PHASE,
+                        PHASE_STATES.GAME_OVER_PHASE];
         let resultingPhases = [];
 
         async function doTurn(phase) {
@@ -38,7 +39,7 @@ describe("turn phases and timings", () => {
             await doTurn(phase);
         }
 
-        const expectedPhases = ["Information phase", "Discussion phase", "Action phase", "Server processing", "Information phase"];
+        const expectedPhases = ["Information phase", "Discussion phase", "Action phase", "Server processing", "Information phase", PHASE_STATES.GAME_OVER_PHASE];
 
         expect(resultingPhases).toEqual(expectedPhases);
     });
@@ -59,14 +60,20 @@ describe("turn phases and timings", () => {
         game.currentState = PHASE_STATES.ACTION_PHASE;
         await turns.execute_turn(game, lobbyCode, sleep_mock);
         expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.ACTION_PHASE_LENGTH);
+
+        game.currentState = PHASE_STATES.GAME_OVER_PHASE;
+        await turns.execute_turn(game, lobbyCode, sleep_mock);
+        expect(sleep_mock).toHaveBeenCalledWith(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     });
 
     test("should call updateTimer with the correct parameters", () => {
         const lobbyCode = "testCode";
         const update_timer_mock = jest.fn(() => {});
+        const date = new Date('2020-01-01');
+        jest.useFakeTimers().setSystemTime(date);
         turns.set_timer_update_callback(update_timer_mock);
         turns.updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
-        expect(update_timer_mock).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobbyCode);
+        expect(update_timer_mock).toHaveBeenCalledWith(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, Date.now(), lobbyCode);
         turns.set_timer_update_callback(() => {});
     });
 

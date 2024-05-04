@@ -8,7 +8,7 @@ import { assign_roles,
     get_player_POIs, 
     get_status_bars,
     process_turn} from "./game.js";
-import { PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals";
+import { PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals.js";
 
 describe("game service", () => {
     test("successful start", () => {
@@ -39,7 +39,7 @@ describe("game service", () => {
             game.players[`usr${i}`] = {username: `usrnm${i}`};
         }
         const role = roles_by_player_count;
-        const role_list = {"test1": {name: "test_role1", id: "test1"}, "test2": {name: "test_role2", id: "test2"}};;
+        const role_list = default_role_info;
 
         assign_roles(game, role_list, role);
 
@@ -48,10 +48,10 @@ describe("game service", () => {
         for (let i = 1; i <= users; i++) {
             expect(game.players[`usr${i}`].role).toBeDefined();
             switch(game.players[`usr${i}`].role.id) {
-                case "test1":
+                case "crew":
                     role1_count++;
                     break;
-                case "test2":
+                case "rebel":
                     role2_count++;
                     break;
             }
@@ -67,7 +67,7 @@ describe("game service", () => {
 
         const result = get_role_info(game, "usr1");
 
-        expect(result).toEqual({name: "test1", max_points: 10});
+        expect(result).toEqual({name: "test1", points: 10});
     });
 
     test("fail to get player role", () => {
@@ -75,7 +75,7 @@ describe("game service", () => {
         
         const result = get_role_info(game, "usr1");
 
-        expect(result).toEqual({name: "Error Role", max_points: 0});
+        expect(result).toEqual({name: "Error Role", points: 0});
     });
 
     test("validate client-sent poi values", () => {

@@ -1,13 +1,13 @@
 import { fetch_roles } from "../database/database.js";
-import { PHASE_STATES, PLAYER_INITIAL_POIS, get_new_status_bars } from "./game_globals.js";
+import { PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
 
 let games = {};
 
-export let roles = {"test1": {name: "test_role1", id: "test1", points: 10}, "test2": {name: "test_role2", id: "test2", points: 10}};
-export const roles_by_player_count = ["test1", "test2", "test1", "test1", "test1", "test1", "test1", "test2","test1", "test1", "test1", "test2","test1", "test1", "test1", "test2"];
+export let roles = default_role_info;
+export const roles_by_player_count = ["crew", "rebel", "crew", "crew", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel"];
 
 export async function setup() {
-    roles = await fetch_roles() || roles;
+    roles = await fetch_roles() || default_role_info;
 }
 
 export function start_game(lobby, lobby_code, game_list=games) {
@@ -57,11 +57,14 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
 
 export function get_role_info(game, userID) {
     try {
-        const role = game.players[userID].role;
-        return {name: role.name, max_points: role.points}
+        let role = game.players[userID].role;
+        if (role === undefined) {
+            return {name: "Error Role", points: 0};
+        }
+        return role;
     } catch (error) {
         console.error(error);
-        return {name: "Error Role", max_points: 0};
+        return {name: "Error Role", points: 0};
     }
 }
 

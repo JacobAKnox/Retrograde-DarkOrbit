@@ -1,7 +1,8 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn} from "./game.js";
 
-let timer_update_callback = () => {};
+let timer_update_callback = (phase, time, start, lobbyCode) => {};
+
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
 
 export function set_timer_update_callback(cb) {
@@ -58,19 +59,26 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
+            game.currentState = PHASE_STATES.INFORMATION_PHASE;
             // add function to process clients' choices during action phase
             process_turn(lobby_code);
             //updateClientsPhase(PHASE_STATES.SERVER_PROCESSING_PHASE);
             // add fucntion to check for win condition
-            game.currentState = PHASE_STATES.INFORMATION_PHASE;
+            // set to game over if a win is found
             break;
+          
+        case PHASE_STATES.GAME_OVER_PHASE:
+          //handle a win
+          updateClientsPhase(PHASE_STATES.GAME_OVER_PHASE, PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH, lobby_code);
+          await sleep(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
+          break;
     }
 }
 
 export function updateClientsPhase(phase, time, lobbyCode) {
     // send phase to client
     // call Update Timer 
-    timer_update_callback(phase, time, lobbyCode);
+    timer_update_callback(phase, time, Date.now(), lobbyCode);
     return phase;
 }
 

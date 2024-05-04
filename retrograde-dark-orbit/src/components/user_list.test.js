@@ -1,7 +1,9 @@
-import { render } from '@testing-library/react'
-import UserList from './user_list'
+import { render } from '@testing-library/react';
+import UserList from './user_list'; 
 
-test('renders on-screen', () => {
-  const page = render(<UserList/>);
-  expect(page).toMatchSnapshot();
+describe('UserList Component', () => {
+  it('renders correctly and matches snapshot', () => {
+    const { asFragment } = render(<UserList />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
