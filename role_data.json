@@ -1,247 +1,821 @@
 [{
-    "_id": {
-      "$oid": "65e3cbecc68c11930879148e"
-    },
-    "name": "test_role1_database",
-    "id": "test1",
-    "points": 9
+  "_id": {
+    "$oid": "65e3cbecc68c11930879148e"
   },
-  {
-    "_id": {
-      "$oid": "65e3cc5dc68c11930879148f"
-    },
-    "name": "test_role2",
-    "id": "test2",
-    "points": 10
+  "name": "test_role1_database",
+  "id": "test1",
+  "points": 9
+},
+{
+  "_id": {
+    "$oid": "65e3cc5dc68c11930879148f"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb6e"
+  "name": "test_role2",
+  "id": "test2",
+  "points": 10
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb6e"
+  },
+  "name": "Crew Member",
+  "id": "crew",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Crew Member",
-    "id": "crew",
-    "points": 10,
-    "win_group": "good",
-    "group_name": "Ship Crew",
-    "win_text": "Temp Text",
-    "win_condition": {
-      "crew": {
-        "min": 5,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 20,
-        "max": 100
-      },
-      "fuel": {
-        "min": 80,
-        "max": 100
-      },
-      "life_support": {
-        "min": 50,
-        "max": 100
-      },
-      "power": {
-        "min": 30,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f02"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb6f"
+  "name": "Doctor",
+  "id": "doctor",
+  "points": 10,
+  "ability": "doctor",
+  "ability_text": "Once per game add 20% to the life support",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Rebel Leader",
-    "id": "rebel",
-    "points": 10,
-    "win_group": "evil",
-    "group_name": "Rebels",
-    "win_text": "Get Fuel above 90%",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 100
-      },
-      "fuel": {
-        "min": 90,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 100
-      },
-      "power": {
-        "min": 0,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f03"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb70"
+  "name": "Engineer",
+  "id": "engineer",
+  "points": 10,
+  "ability": "engineer",
+  "ability_text": "Once per game decrease the power bar by 20%",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Alien",
-    "id": "alien",
-    "points": 10,
-    "win_group": "evil",
-    "group_name": "Aliens",
-    "win_text": "Get Crew to 0",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 0
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 100
-      },
-      "fuel": {
-        "min": 0,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 100
-      },
-      "power": {
-        "min": 0,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f04"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb71"
+  "name": "Captain",
+  "id": "captaan",
+  "points": 10,
+  "ability": "captain",
+  "ability_text": "Once per game, give all players one additional action point",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Robot",
-    "id": "robot",
-    "points": 10,
-    "win_group": "evil",
-    "group_name": "Robots",
-    "win_text": "Get Power above 80%",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 100
-      },
-      "fuel": {
-        "min": 0,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 100
-      },
-      "power": {
-        "min": 80,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f05"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb72"
+  "name": "Navigator",
+  "id": "navigator",
+  "points": 10,
+  "ability": "navigator",
+  "ability_text": "Once per game, add 2 more POIs for the next turn",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Fungal Parasite",
-    "id": "parasite",
-    "points": 10,
-    "win_group": "evil",
-    "group_name": "Prasites",
-    "win_text": "Get Life support to 0",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 100
-      },
-      "fuel": {
-        "min": 0,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 0
-      },
-      "power": {
-        "min": 0,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f06"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb73"
+  "name": "Chemist",
+  "id": "chemist",
+  "points": 10,
+  "ability": "chemist",
+  "ability_text": "Once per game, increase or decrease the fuel by 20%",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "Scavenger Boss",
-    "id": "scavenger",
-    "points": 10,
-    "win_group": "evil",
-    "group_name": "Scavengers",
-    "win_text": "Get Ship health below 10%",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 10
-      },
-      "fuel": {
-        "min": 0,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 100
-      },
-      "power": {
-        "min": 0,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f07"
   },
-  {
-    "_id": {
-      "$oid": "66297cceb24e4abc71dbbb74"
+  "name": "Detective",
+  "id": "detective",
+  "points": 10,
+  "ability": "detective",
+  "ability_text": "Every turn, select two players other than yourself. Learn if they are on the same team",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
     },
-    "name": "deafault_role",
-    "id": "default_role",
-    "points": 0,
-    "win_group": "",
-    "group_name": "",
-    "win_text": "Do not use",
-    "win_condition": {
-      "crew": {
-        "min": 0,
-        "max": 100
-      },
-      "ship_health": {
-        "min": 0,
-        "max": 100
-      },
-      "fuel": {
-        "min": 0,
-        "max": 100
-      },
-      "life_support": {
-        "min": 0,
-        "max": 100
-      },
-      "power": {
-        "min": 0,
-        "max": 100
-      }
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
     }
-  }]
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f08"
+  },
+  "name": "Communications Officer",
+  "id": "comms_off",
+  "points": 10,
+  "ability": "comms_off",
+  "ability_text": "Once per game, choose a player you can talk privately with them this turn",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f09"
+  },
+  "name": "Supply Officer",
+  "id": "supply_off",
+  "points": 10,
+  "ability": "supply_off",
+  "ability_text": "Every turn, choose a player you can see how they affected the status bars last turn",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0a"
+  },
+  "name": "Security Officer",
+  "id": "sec_off",
+  "points": 10,
+  "ability": "sec_off",
+  "ability_text": "Once per game, prevent the crew from decreasing this turn",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0b"
+  },
+  "name": "Mad Politican",
+  "id": "mad_pol",
+  "points": 10,
+  "ability": "mad_pol",
+  "ability_text": "Once per game, decrease crew by 5% to increase life support by 30%",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0c"
+  },
+  "name": "Business Officer",
+  "id": "bus_off",
+  "points": 10,
+  "ability": "bus_off",
+  "ability_text": "Every turn, see how many points were unspent last turn",
+  "win_group": "good",
+  "group_name": "Ship Crew",
+  "win_text": "Temp Text",
+  "win_condition": {
+    "crew": {
+      "min": 5,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 20,
+      "max": 100
+    },
+    "fuel": {
+      "min": 80,
+      "max": 100
+    },
+    "life_support": {
+      "min": 50,
+      "max": 100
+    },
+    "power": {
+      "min": 30,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb6f"
+  },
+  "name": "Rebel Leader",
+  "id": "rebel",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "evil",
+  "group_name": "Rebels",
+  "win_text": "Get Fuel above 90%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 100
+    },
+    "fuel": {
+      "min": 90,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb70"
+  },
+  "name": "Alien",
+  "id": "alien",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "evil",
+  "group_name": "Aliens",
+  "win_text": "Get Crew to 0",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 0
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 100
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb71"
+  },
+  "name": "Robot",
+  "id": "robot",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "evil",
+  "group_name": "Robots",
+  "win_text": "Get Power above 80%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 100
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 80,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb72"
+  },
+  "name": "Fungal Parasite",
+  "id": "parasite",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "evil",
+  "group_name": "Prasites",
+  "win_text": "Get Life support to 0",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 100
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 0
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb73"
+  },
+  "name": "Scavenger Boss",
+  "id": "scavenger",
+  "points": 10,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0d"
+  },
+  "name": "Sabotuer",
+  "id": "sabptuer",
+  "points": 10,
+  "ability": "sabotuer",
+  "ability_text": "Once per game, block any POI",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0e"
+  },
+  "name": "Hacker",
+  "id": "hacker",
+  "points": 10,
+  "ability": "hacker",
+  "ability_text": "Once per game, close chat during the next discussion phase",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f0f"
+  },
+  "name": "Demolitionist",
+  "id": "demo",
+  "points": 10,
+  "ability": "demo",
+  "ability_text": "Once per game, decrease crew by 5% and decrease ship health by 20%",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f10"
+  },
+  "name": "Bounty Hunter",
+  "id": "bounty_hunter",
+  "points": 10,
+  "ability": "bounty_hunter",
+  "ability_text": "Once per game, prevent a player from spending action points this turn",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "663801251b5582db6d9a6f11"
+  },
+  "name": "Cultist",
+  "id": "cultist",
+  "points": 10,
+  "ability": "cultist",
+  "ability_text": "Once per game, choose a player. They become a random evil role",
+  "win_group": "evil",
+  "group_name": "Scavengers",
+  "win_text": "Get Ship health below 10%",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 10
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "66297cceb24e4abc71dbbb74"
+  },
+  "name": "deafault_role",
+  "id": "default_role",
+  "points": 0,
+  "ability": "default",
+  "ability_text": "no ability",
+  "win_group": "",
+  "group_name": "",
+  "win_text": "Do not use",
+  "win_condition": {
+    "crew": {
+      "min": 0,
+      "max": 100
+    },
+    "ship_health": {
+      "min": 0,
+      "max": 100
+    },
+    "fuel": {
+      "min": 0,
+      "max": 100
+    },
+    "life_support": {
+      "min": 0,
+      "max": 100
+    },
+    "power": {
+      "min": 0,
+      "max": 100
+    }
+  }
+}]
