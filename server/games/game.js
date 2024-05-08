@@ -1,14 +1,16 @@
-import { fetch_roles } from "../database/database.js";
+import { fetch_roles, fetch_pois } from "../database/database.js";
 import { reset_ready_players } from "../lobbies/lobbies.js";
 import { PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
 
 export let games = {};
 
 export let roles = default_role_info;
+export let pois = PLAYER_INITIAL_POIS;
 export const roles_by_player_count = ["crew", "rebel", "crew", "crew", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel"];
 
 export async function setup() {
     roles = await fetch_roles() || default_role_info;
+    pois = await fetch_pois() || PLAYER_INITIAL_POIS;
 }
 
 export function start_game(lobby, lobby_code, game_list=games) {
@@ -147,13 +149,13 @@ export function process_turn(lobbyCode, game_list=games) {
   // For each player in the game
   for (let player_id in players) {
       // Get name and points allocated
-      const pois = players[player_id].pois;
-    for (let poi_id in pois) {
+      const player_pois = players[player_id].pois;
+    for (let poi_id in player_pois) {
       let statusBars = get_status_bars(lobbyCode, game_list);
-      const poi_points_allocated = pois[poi_id].allocated;
+      const poi_points_allocated = player_pois[poi_id].allocated;
       // Update status bars according to point allocations
       let val = get_status_bar_value(lobbyCode, "crew", game_list);
-      let mult = PLAYER_INITIAL_POIS[poi_id].crew;
+      let mult = pois[poi_id].crew;
       let new_val = val+(poi_points_allocated*mult);
       if (new_val > 100) {
         set_status_bar_value(lobbyCode, "crew", 100, game_list);
@@ -164,7 +166,7 @@ export function process_turn(lobbyCode, game_list=games) {
       }
       
       val = get_status_bar_value(lobbyCode, "ship_health", game_list);
-      mult = PLAYER_INITIAL_POIS[poi_id].ship_health;
+      mult = pois[poi_id].ship_health;
       new_val = val+(poi_points_allocated*mult);
       if (new_val > 100) {
         set_status_bar_value(lobbyCode, "ship_health", 100, game_list);
@@ -175,7 +177,7 @@ export function process_turn(lobbyCode, game_list=games) {
       }
 
       val = get_status_bar_value(lobbyCode, "fuel", game_list);
-      mult = PLAYER_INITIAL_POIS[poi_id].fuel;
+      mult = pois[poi_id].fuel;
       new_val = val+(poi_points_allocated*mult);
       if (new_val > 100) {
         set_status_bar_value(lobbyCode, "fuel", 100, game_list);
@@ -186,7 +188,7 @@ export function process_turn(lobbyCode, game_list=games) {
       }
 
       val = get_status_bar_value(lobbyCode, "life_support", game_list);
-      mult = PLAYER_INITIAL_POIS[poi_id].life_support;
+      mult = pois[poi_id].life_support;
       new_val = val+(poi_points_allocated*mult);
       if (new_val > 100) {
         set_status_bar_value(lobbyCode, "life_support", 100, game_list);
@@ -197,7 +199,7 @@ export function process_turn(lobbyCode, game_list=games) {
       }
 
       val = get_status_bar_value(lobbyCode, "power", game_list);
-      mult = PLAYER_INITIAL_POIS[poi_id].power;
+      mult = pois[poi_id].power;
       new_val = val+(poi_points_allocated*mult);
       if (new_val > 100) {
         set_status_bar_value(lobbyCode, "power", 100, game_list);
