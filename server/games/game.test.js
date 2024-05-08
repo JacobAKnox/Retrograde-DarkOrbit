@@ -9,8 +9,9 @@ import { assign_roles,
     get_status_bars,
     get_status_bar_values ,
     delete_game,
-    process_turn} from "./game.js";
-import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info } from "./game_globals.js";
+    process_turn,
+    automatic_status_bar_updates} from "./game.js";
+import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_ROUND_POWER_INCREASE } from "./game_globals.js";
 
 
 describe("game service", () => {
@@ -256,5 +257,19 @@ describe("game service", () => {
         "life_support": {name: "Life Support", value: 50, max_value: 100},
         "power": {name: "Power", value: 50, max_value: 100}
       });
+    });
+
+    test("Power increase by a constant rate each round", () => {
+      const game_list = {
+        ABCD: {
+          statusBars: get_new_status_bars()
+        }
+      }
+
+      expect(game_list.ABCD.statusBars.power.value).toBe(50);
+
+      automatic_status_bar_updates("ABCD", game_list);
+
+      expect(game_list.ABCD.statusBars.power.value).toBe(50+PER_ROUND_POWER_INCREASE);
     });
 });

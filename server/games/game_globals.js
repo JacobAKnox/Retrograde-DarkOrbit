@@ -9,9 +9,9 @@ export const PHASE_STATES = Object.freeze({
 
 // time in milliseconds
 export const PHASE_TIMINGS = Object.freeze({
-    INFORMATION_PHASE_LENGTH: 20000,
-    DISCUSSION_PHASE_LENGTH: 60000,
-    ACTION_PHASE_LENGTH: 20000,
+    INFORMATION_PHASE_LENGTH: 2000,
+    DISCUSSION_PHASE_LENGTH: 6000,
+    ACTION_PHASE_LENGTH: 2000,
     GAME_OVER_PHASE_LENGTH: 15000
 })
 
@@ -69,3 +69,5 @@ export const default_role_info = Object.freeze({
         }
     }
 });
+
+export const PER_ROUND_POWER_INCREASE = 20;

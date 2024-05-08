@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
@@ -66,6 +66,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             process_turn(lobby_code);
+            automatic_status_bar_updates(lobby_code);
             const winners = get_winners(game);
             if(winners.team.length != 0) {
               game.currentState = PHASE_STATES.GAME_OVER_PHASE;
