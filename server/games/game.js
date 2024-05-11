@@ -1,6 +1,6 @@
 import { fetch_roles } from "../database/database.js";
-import { reset_ready_players } from "../lobbies/lobbies.js";
-import { PER_ROUND_POWER_INCREASE, PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
+import { get_num_players, reset_ready_players } from "../lobbies/lobbies.js";
+import { PER_PLAYER_POWER_INCREASE, PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_bars } from "./game_globals.js";
 
 export let games = {};
 
@@ -138,12 +138,15 @@ function shuffle(array) {
 
 export function automatic_status_bar_updates(lobbyCode, game_list=games) {
   // constant power increase
-  const satatus_bars = get_status_bars(lobbyCode, game_list);
-  if (!satatus_bars) {
+  const status_bars = get_status_bars(lobbyCode, game_list);
+  if (!status_bars) {
     return;
   }
 
-  satatus_bars.power.value += PER_ROUND_POWER_INCREASE;
+  const player_count = get_num_players(lobbyCode);
+
+  status_bars.power.value += (PER_PLAYER_POWER_INCREASE * player_count);
+  status_bars.power.value = status_bars.power.value > 100 ? 100 : status_bars.power.value;
 }
 
 export function process_turn(lobbyCode, game_list=games) {

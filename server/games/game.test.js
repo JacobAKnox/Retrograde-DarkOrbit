@@ -11,7 +11,10 @@ import { assign_roles,
     delete_game,
     process_turn,
     automatic_status_bar_updates} from "./game.js";
-import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_ROUND_POWER_INCREASE } from "./game_globals.js";
+import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE } from "./game_globals.js";
+
+const get_num_players_mock = jest.spyOn(require("./../lobbies/lobbies.js"), "get_num_players");
+get_num_players_mock.mockImplementation((_) => { return 10; });
 
 
 describe("game service", () => {
@@ -270,6 +273,6 @@ describe("game service", () => {
 
       automatic_status_bar_updates("ABCD", game_list);
 
-      expect(game_list.ABCD.statusBars.power.value).toBe(50+PER_ROUND_POWER_INCREASE);
+      expect(game_list.ABCD.statusBars.power.value).toBe(50+(10*PER_PLAYER_POWER_INCREASE));
     });
 });
