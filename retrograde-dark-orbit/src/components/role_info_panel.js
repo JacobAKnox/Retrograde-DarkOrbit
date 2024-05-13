@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
     const [abilityInfo, setAbilityInfo] = useState("");
+    const [teamName, setTeamName] = useState("");
 
     useEffect(() => {
         const old_info = update_role_info(on_role_update);
         if (old_info) {
-            setRoleName(old_info.name);
-            setAbilityInfo(old_info.ability_text);
+            on_role_update(old_info);
         }
     });
 
     function on_role_update(role) {
         setRoleName(role.name);
         setAbilityInfo(role.ability_text);
+        setTeamName(role.group_name);
     }
 
     return (
@@ -31,6 +32,12 @@ export default function RoleInfo() {
                 </b>
                 <br/>
                 {roleName}
+                <br className="leading-10"/>
+                <b className="text-slate-200">
+                    Team
+                </b>
+                <br/>
+                {teamName}
                 <br className="leading-10"/>
                 <b className="text-slate-200">
                     Ability

@@ -176,6 +176,15 @@ exports[`renders on-screen 1`] = `
                 <b
                   class="text-slate-200"
                 >
+                  Team
+                </b>
+                <br />
+                <br
+                  class="leading-10"
+                />
+                <b
+                  class="text-slate-200"
+                >
                   Ability
                 </b>
                 <br />
@@ -377,6 +386,15 @@ exports[`renders on-screen 1`] = `
                 class="text-slate-200"
               >
                 Name
+              </b>
+              <br />
+              <br
+                class="leading-10"
+              />
+              <b
+                class="text-slate-200"
+              >
+                Team
               </b>
               <br />
               <br
