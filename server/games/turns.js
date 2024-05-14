@@ -67,14 +67,23 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             process_turn(lobby_code);
             automatic_status_bar_updates(lobby_code);
-            const winners = get_winners(game);
-            if(winners.team.length != 0) {
+
+            // check for winners if any global win condition is met 
+            const global_winners = get_winners_from_global_win_conditions(game);
+            if(global_winners.team.length != 0) {
               game.currentState = PHASE_STATES.GAME_OVER_PHASE;
-              // send winners to client
-              winners_update_callback(lobby_code, winners);
+              winners_update_callback(lobby_code, global_winners);
             }
             else {
-              game.currentState = PHASE_STATES.INFORMATION_PHASE;
+              // check for winners if any role specific win conditions have been met
+              const role_winners = get_winners_from_role_win_conditions(game);
+              if(role_winners.team.length != 0) {
+                game.currentState = PHASE_STATES.GAME_OVER_PHASE;
+                winners_update_callback(lobby_code, role_winners);
+              }
+              else {
+                game.currentState = PHASE_STATES.INFORMATION_PHASE;
+              }
             }
             break;
           
@@ -113,10 +122,10 @@ export async function gameLoop(lobbyCode){
     delete_game(lobbyCode);
 }
 
-// Get winning players
+// Get winning players based on if their role win conditions are met
 // Returns a bag {team: str, names: [str]}
 // NOTE: "team" will have the group_name of the first determined winning player.
-export function get_winners(game) {
+export function get_winners_from_role_win_conditions(game) {
   const status_bars = game.statusBars;
   const players = game.players;
   let winners = {team: "", names: [] };
@@ -140,5 +149,31 @@ export function get_winners(game) {
       winners.names.push(player.username);
     }
   }
+  return winners;
+}
+
+// Get winning players based on if any global win conditions have been met.
+// Global win conditions are checked in a specific order so if more than one global condition is met,
+//   only the first checked condition and winning team are the resulting winners.
+// Returns a bag {team: str, names: [str]}
+export function get_winners_from_global_win_conditions(game) {
+  let winners = {team: "", names: [] };
+
+  // Check if crew status bar is 0
+  if(game.statusBars.crew.value == 0) {
+    for(const [key, player] of Object.entries(game.players)) {
+      if(player.role.win_group == "evil") {
+        if(winners.team.length == 0) {
+          winners.team = "evil";
+        }
+        winners.names.push(player.username);
+      }
+    }
+  }
+
+  //
+  // ADD OTHER GLOBAL WIN CHECKS TO THIS FUNCTION
+  //
+
   return winners;
 }
