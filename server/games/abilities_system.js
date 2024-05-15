@@ -1,4 +1,4 @@
-import { test_ability } from "./abilities";
+import { test_ability, increaseStatusBar, decreaseStatusBar } from "./abilities";
 import { get_game } from "./game";
 
 export function get_ability_function(lobby_code, player_id) {
@@ -23,10 +23,33 @@ export function get_ability_function(lobby_code, player_id) {
     return ability_map[ability_id];
 }
 
-export function use_ability(lobby_code, player_id, data) {
+export function use_ability(lobby_code, player_id, abilityName, data) {
     const ability = get_ability_function(lobby_code, player_id);
     if (!ability) {
+        console.log("Ability function not found.");
         return;
     }
-    ability(lobby_code, player_id, data);
+
+    ability(data);
+
+    const game = get_game(lobby_code);
+    if (!game) {
+        console.log("Game not found.");
+        return;
+    }
+
+    switch(abilityName) {
+        case 'increaseHealth':
+            increaseStatusBar(game, data.amount, 'health');
+            break;
+        case 'decreaseHealth':
+            decreaseStatusBar(game, data.amount, 'health');
+            break;
+        default:
+            console.log("No such ability.");
+            return;
+    }
+
+    console.log(`Ability used: ${abilityName} by ${player_id} with amount ${data.amount}`);
 }
+
