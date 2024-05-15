@@ -39,11 +39,35 @@ export function use_ability(lobby_code, player_id, abilityName, data) {
     }
 
     switch(abilityName) {
+        case 'increaseCrew':
+            increaseStatusBar(game, data.amount, 'crew');
+            break;
+        case 'decreaseCrew':
+            decreaseStatusBar(game, data.amount, 'crew');
+            break;
         case 'increaseHealth':
             increaseStatusBar(game, data.amount, 'health');
             break;
         case 'decreaseHealth':
             decreaseStatusBar(game, data.amount, 'health');
+            break;
+        case 'increaseFuel': 
+            increaseStatusBar(game, data.amount, 'fuel');
+            break;
+        case 'decreaseFuel':
+            decreaseStatusBar(game, data.amount, 'fuel');
+            break;
+        case 'increaseLifeSupport':
+            increaseStatusBar(game, data.amount, 'life');
+            break;
+        case 'decreaseLifeSupport':
+            decreaseStatusBar(game, data.amount, 'life');
+            break;
+        case 'increasePower':
+            increaseStatusBar(game, data.amount, 'power');
+            break;
+        case 'decreasePower':
+            decreaseStatusBar(game, data.amount, 'power');
             break;
         default:
             console.log("No such ability.");
