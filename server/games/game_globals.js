@@ -75,3 +75,6 @@ export const default_role_info = Object.freeze({
 });
 
 export const PER_PLAYER_POWER_INCREASE = 5;
+
+// this can be a float and won't break anything
+export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 1;

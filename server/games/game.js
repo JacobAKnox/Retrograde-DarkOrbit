@@ -1,6 +1,6 @@
 import { fetch_roles } from "../database/database.js";
 import { get_num_players, reset_ready_players } from "../lobbies/lobbies.js";
-import { PER_PLAYER_POWER_INCREASE, PHASE_STATES, PLAYER_INITIAL_POIS, GAME_GLOBALS ,default_role_info, get_new_status_bars} from "./game_globals.js";
+import { PER_PLAYER_POWER_INCREASE, PHASE_STATES, PLAYER_INITIAL_POIS, GAME_GLOBALS ,default_role_info, get_new_status_bars, LIFE_SUPPORT_DECREASE_MULTIPLIER} from "./game_globals.js";
 
 export let games = {};
 
@@ -150,6 +150,11 @@ function shuffle(array) {
 
     if (status_bars.life_support && status_bars.life_support.value === 0) {
         status_bars.crew.value = Math.max(0, status_bars.crew.value - GAME_GLOBALS.CREW_DECREASE_RATE);
+    }
+
+    // life support decreases each turn proportionally to the number of crew
+    if(status_bars.life_support && status_bars.crew && status_bars.life_support.value > 0 && status_bars.crew.value > 0) {
+      status_bars.life_support.value -= Math.ceil(status_bars.crew.value * LIFE_SUPPORT_DECREASE_MULTIPLIER);
     }
 }
 

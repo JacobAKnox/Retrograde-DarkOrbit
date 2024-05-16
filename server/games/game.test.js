@@ -290,6 +290,51 @@ describe("game service", () => {
 
     automatic_status_bar_updates("ABCD", game_list);
     expect(game_list.ABCD.statusBars.crew.value).toBe(49);
-});
+  });
+
+  test("Decrease life support proportionally to number of crew each turn", () =>{
+    let game_list1 = {
+      ABCD: {
+        statusBars: {
+          life_support: { value: 0 },
+          crew: { value: 50 }
+        }
+      }
+    };
+
+    let game_list2 = {
+      ABCD: {
+        statusBars: {
+          life_support: { value: 50 },
+          crew: { value: 0 }
+        }
+      }
+    };
+
+    let game_list3 = {
+      ABCD: {
+        statusBars: {
+          life_support: { value: 50 },
+          crew: { value: 50 }
+        }
+      }
+    };
+
+    // life_support already 0 --> no change
+    automatic_status_bar_updates("ABCD", game_list1);
+    // crew already 0 --> no change
+    automatic_status_bar_updates("ABCD", game_list2);
+    // since multiplier can change, it only matters that a decrease on life support occurs.
+    automatic_status_bar_updates("ABCD", game_list3);
+
+    const result_1 = game_list1.ABCD.statusBars.life_support.value;
+    const result_2 = game_list2.ABCD.statusBars.life_support.value;
+    let result_3 = false;
+    if(game_list3.ABCD.statusBars.life_support.value < 50) { result_3 = true };
+
+    expect(result_1).toBe(0);
+    expect(result_2).toBe(50);
+    expect(result_3).toBe(true);
+  });
 
 });
