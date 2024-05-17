@@ -189,6 +189,11 @@ exports[`renders on-screen 1`] = `
                 </b>
                 <br />
               </p>
+              <button
+                class="bg-slate-700 rounded-xl py-2 px-5 m-2 hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
+              >
+                Activate
+              </button>
             </div>
           </div>
         </div>
@@ -407,6 +412,11 @@ exports[`renders on-screen 1`] = `
               </b>
               <br />
             </p>
+            <button
+              class="bg-slate-700 rounded-xl py-2 px-5 m-2 hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
+            >
+              Activate
+            </button>
           </div>
         </div>
       </div>

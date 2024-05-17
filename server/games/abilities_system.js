@@ -10,8 +10,9 @@ import {
     decreasePower,
     increaseLifeSupport,
     decreaseLifeSupport,
+    doctor_ability,
 } from "./abilities.js";
-import { get_game } from "./game";
+import { get_game } from "./game.js";
 
 export function get_ability_function(lobby_code, player_id) {
     const ability_map = Object.freeze({
@@ -25,15 +26,14 @@ export function get_ability_function(lobby_code, player_id) {
         increasePower: increasePower,
         decreasePower: decreasePower,
         increaseLifeSupport: increaseLifeSupport,
-        decreaseLifeSupport: decreaseLifeSupport  
+        decreaseLifeSupport: decreaseLifeSupport,
+        doctor: doctor_ability
     });
-
     const game = get_game(lobby_code);
     if (!game || !game.players[player_id]) {
         return undefined;
     }
-
-    const ability_id = game.players[player_id].ability;
+    const ability_id = game.players[player_id].role.ability;
     return ability_map[ability_id];
 }
 

@@ -1,5 +1,6 @@
 import { update_role_info } from "../server/socket";
 import { useEffect, useState } from "react";
+import IncreaseDecrease from "./ability_components/in_de_component";
 
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
@@ -45,6 +46,8 @@ export default function RoleInfo() {
                 <br/>
                 {abilityInfo}
             </p>
+            {/* this is temporary, load the correct component here when working on #86*/}
+            <IncreaseDecrease/>
         </div>
     );
 }

@@ -225,7 +225,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("use_ability", (data) => {
-    use_ability(socket.lobbyCode, socket.userId, data);
+    use_ability(socket.roomCode, socket.userID, data);
   });
 
 });

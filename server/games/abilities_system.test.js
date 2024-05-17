@@ -6,24 +6,24 @@ const get_game_mock = jest.spyOn(require("./game.js"), "get_game");
 get_game_mock.mockImplementation((_) => {
     return {
         players: {
-            "id": { ability: "test" },
-            "id_health": { ability: "increaseHealth" },
-            "id_health_decrease": { ability: "decreaseHealth" },
-            "id_crew": { ability: "increaseCrew" },
-            "id_crew_decrease": { ability: "decreaseCrew" },
-            "id_fuel": { ability: "increaseFuel" },
-            "id_fuel_decrease": { ability: "decreaseFuel" },
-            "id_power": { ability: "increasePower" },
-            "id_power_decrease": { ability: "decreasePower" },
-            "id_life_support": { ability: "increaseLifeSupport" },
-            "id_life_support_decrease": { ability: "decreaseLifeSupport" }
+            "id": { role: { ability: "test" } },
+            "id_health": { role: { ability: "increaseHealth" } },
+            "id_health_decrease": { role: { ability: "decreaseHealth" } },
+            "id_crew": { role: { ability: "increaseCrew" } },
+            "id_crew_decrease": { role: { ability: "decreaseCrew" } },
+            "id_fuel": { role: { ability: "increaseFuel" } },
+            "id_fuel_decrease": { role: { ability: "decreaseFuel" } },
+            "id_power": { role: { ability: "increasePower" } },
+            "id_power_decrease": { role: { ability: "decreasePower" } },
+            "id_life_support": { role: { ability: "increaseLifeSupport" } },
+            "id_life_support_decrease": { role: { ability: "decreaseLifeSupport" } }
         },
         statusBars: {
-            health: 50,
-            crew: 1,
-            fuel: 50,
-            power: 50,
-            life_support: 50
+            health: { value: 50 },
+            crew: { value: 1 },
+            fuel: { value: 50 },
+            power: { value: 50 },
+            life_support: { value: 50 }
         }
     };
 });
@@ -154,11 +154,11 @@ describe("ability system", () => {
 
     test("get unknown ability", () => {
         const player_id = "id";
-        get_game_mock.mockImplementation((_) => { return {players: {"id": {ability: "fake"}}}});
+        get_game_mock.mockImplementation((_) => { return {players: {"id": { role: { ability: "fake"}}}}});
         const ab_func = get_ability_function("code", player_id);
 
         expect(ab_func).toBeUndefined();
-        get_game_mock.mockImplementation((_) => { return {players: {"id": {ability: "test"}}}});
+        get_game_mock.mockImplementation((_) => { return {players: {"id": { role: {ability: "test"}}}}});
     });
 
     test("get and run ability function", () => {

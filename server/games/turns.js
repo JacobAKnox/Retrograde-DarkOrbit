@@ -13,7 +13,7 @@ export function set_ids_and_names_callback(cb) {
     ids_and_names_callback = cb;
 }
 
-let status_bar_update_callback = (lobbyCode, status_bars) => {};
+export let status_bar_update_callback = (lobbyCode, status_bars) => {};
 
 export function set_status_bar_update(cb) {
     status_bar_update_callback = cb;

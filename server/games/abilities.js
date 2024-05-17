@@ -1,22 +1,35 @@
-import { get_game } from "./game";
+import { get_game, get_status_bars } from "./game.js";
+import { status_bar_update_callback } from "./turns.js";
+
 export function test_ability() {}
+
+export function doctor_ability(lobby_code, player_id, data) {
+    const game = get_game(lobby_code);
+    const role = game.players[player_id].role;
+    if (!role || role.used) {
+        return;
+    }
+    handleAbilityAction(lobby_code, player_id, {amount: 20}, increaseStatusBar, "life_support");
+    status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    role.used = true;
+}
 
 export const increaseStatusBar = (game, amount, statusBarName) => {
     if (!game.statusBars) {
         game.statusBars = {};
     }
-    game.statusBars[statusBarName] = game.statusBars[statusBarName] || 0;
-    game.statusBars[statusBarName] += amount;
-    game.statusBars[statusBarName] = Math.min(game.statusBars[statusBarName], 100); 
+    game.statusBars[statusBarName].value = game.statusBars[statusBarName].value || 0;
+    game.statusBars[statusBarName].value += amount;
+    game.statusBars[statusBarName].value = Math.min(game.statusBars[statusBarName].value, 100); 
 };
 
 export const decreaseStatusBar = (game, amount, statusBarName) => {
     if (!game.statusBars) {
         game.statusBars = {};
     }
-    game.statusBars[statusBarName] = game.statusBars[statusBarName] || 0;
-    game.statusBars[statusBarName] -= amount;
-    game.statusBars[statusBarName] = Math.max(game.statusBars[statusBarName], 0); 
+    game.statusBars[statusBarName].value = game.statusBars[statusBarName].value || 0;
+    game.statusBars[statusBarName].value -= amount;
+    game.statusBars[statusBarName].value = Math.max(game.statusBars[statusBarName].value, 0); 
 };
 
 function handleAbilityAction(lobby_code, player_id, data, action, statusBarName) {
