@@ -163,8 +163,8 @@ export function get_winners_from_global_win_conditions(game) {
   if(game.statusBars.crew.value == 0) {
     for(const [key, player] of Object.entries(game.players)) {
       if(player.role.win_group == "evil") {
-        if(winners.team.length == 0) {
-          winners.team = "evil";
+        if(winners.team == "") {
+          winners.team = player.role.group_name;
         }
         winners.names.push(player.username);
       }

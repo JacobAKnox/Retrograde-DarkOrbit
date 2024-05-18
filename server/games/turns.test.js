@@ -220,11 +220,13 @@ describe("turn phases and timings", () => {
                 "player1": {
                     username: "username1",
                     role: {
-                        win_group: "good"}},
+                        win_group: "good",
+                        group_name: "heros"}},
                 "player2": {
                     username: "username2",
                     role: {
-                        win_group: "evil"}}},
+                        win_group: "evil",
+                        group_name: "vilians"}}},
             statusBars: {   "crew":           { value: 50 },
                             "ship_health":    { value: 50 },
                             "fuel":           { value: 50 },
@@ -237,15 +239,18 @@ describe("turn phases and timings", () => {
                 "player1": {
                     username: "username1",
                     role: {
-                        win_group: "good"}},
+                        win_group: "good",
+                        group_name: "heros"}},
                 "player2": {
                     username: "username2",
                     role: {
-                        win_group: "evil"}},
+                        win_group: "evil",
+                        group_name: "vilians"}},
                 "player3": {
                     username: "username3",
                     role: {
-                        win_group: "evil"}}},
+                        win_group: "evil",
+                        group_name: "vilians"}}},
             statusBars: {   "crew":           { value: 0 },
                             "ship_health":    { value: 50 },
                             "fuel":           { value: 50 },
@@ -255,6 +260,6 @@ describe("turn phases and timings", () => {
         const result1 = get_winners_from_global_win_conditions(game1);
         const result2 = get_winners_from_global_win_conditions(game2);
         expect(result1).toEqual({ team: "", names: [] });
-        expect(result2).toEqual({ team: "evil", names: ["username2", "username3"] });
+        expect(result2).toEqual({ team: "vilians", names: ["username2", "username3"] });
     });
 });
