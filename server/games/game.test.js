@@ -11,7 +11,7 @@ import { assign_roles,
     delete_game,
     process_turn,
     automatic_status_bar_updates} from "./game.js";
-import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE, GAME_GLOBALS } from "./game_globals.js";
+import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE, GAME_GLOBALS, CREW_DECREASE_RATE } from "./game_globals.js";
 
 const get_num_players_mock = jest.spyOn(require("./../lobbies/lobbies.js"), "get_num_players");
 get_num_players_mock.mockImplementation((_) => { return 10; });
@@ -286,10 +286,8 @@ describe("game service", () => {
         }
     };
 
-    GAME_GLOBALS.CREW_DECREASE_RATE = 1; 
-
     automatic_status_bar_updates("ABCD", game_list);
-    expect(game_list.ABCD.statusBars.crew.value).toBe(49);
+    expect(game_list.ABCD.statusBars.crew.value).toBe(50 - CREW_DECREASE_RATE);
   });
 
   test("Decrease life support proportionally to number of crew each turn", () =>{
