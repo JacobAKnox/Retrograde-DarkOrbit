@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals";
-import { win_conditions_check, get_winners } from "./turns";
+import { get_winners_from_role_win_conditions, get_winners_from_global_win_conditions } from "./turns";
 
 import * as turns from "./turns";
 
@@ -11,6 +11,9 @@ get_game_mock.mockImplementation((_) => { return {players: {}}});
 
 const shuffle_pois_mock = jest.spyOn(require("./game.js"), "shuffle_pois");
 shuffle_pois_mock.mockImplementation(() => {return PLAYER_INITIAL_POIS});
+
+const automatic_status_bar_updates_mock = jest.spyOn(require("./game.js"), "automatic_status_bar_updates");
+automatic_status_bar_updates_mock.mockImplementation((_) => {});
 
 describe("turn phases and timings", () => {
     beforeEach(() => {
@@ -109,7 +112,16 @@ describe("turn phases and timings", () => {
         turns.set_ids_and_names_callback(() => {});
     });
 
-    test("win condition checking", () => {
+    test("should call automatic status updates during server processing", async () => {
+        let game = {    players: { "player": { username: "username", role: { win_condition:{ "crew": { min: 90, max: 100 }}}}},
+                        currentState: PHASE_STATES.SERVER_PROCESSING_PHASE,
+                        statusBars: {"crew": 5 }};
+        const lobbyCode = "testCode";
+        await turns.execute_turn(game, lobbyCode, async () => {});
+        expect(automatic_status_bar_updates_mock).toHaveBeenCalledWith(lobbyCode);
+    });
+
+    test("role specific win condition checking", () => {
         // no winners
         const game1 = {
             players: {
@@ -197,11 +209,61 @@ describe("turn phases and timings", () => {
                             "life_support":   { value: 50 },
                             "power":          { value: 50 }}};
 
-        const result1 = get_winners(game1);
-        const result2 = get_winners(game2);
-        const result3 = get_winners(game3);
+        const result1 = get_winners_from_role_win_conditions(game1);
+        const result2 = get_winners_from_role_win_conditions(game2);
+        const result3 = get_winners_from_role_win_conditions(game3);
         expect(result1).toEqual({ team: "", names: [] });
         expect(result2).toEqual({ team: "team-2", names: ["username2"] });
         expect(result3).toEqual({ team: "team-1", names: ["username1", "username2"] });
+    });
+
+    test("global win condition checking", () => {
+        // no winning team
+        const game1 = {
+            players: {
+                "player1": {
+                    username: "username1",
+                    role: {
+                        win_group: "good",
+                        group_name: "heros"}},
+                "player2": {
+                    username: "username2",
+                    role: {
+                        win_group: "evil",
+                        group_name: "vilians"}}},
+            statusBars: {   "crew":           { value: 50 },
+                            "ship_health":    { value: 50 },
+                            "fuel":           { value: 50 },
+                            "life_support":   { value: 50 },
+                            "power":          { value: 50 }}};
+
+        // crew at 0, evil team wins
+        const game2 = {
+            players: {
+                "player1": {
+                    username: "username1",
+                    role: {
+                        win_group: "good",
+                        group_name: "heros"}},
+                "player2": {
+                    username: "username2",
+                    role: {
+                        win_group: "evil",
+                        group_name: "vilians"}},
+                "player3": {
+                    username: "username3",
+                    role: {
+                        win_group: "evil",
+                        group_name: "vilians"}}},
+            statusBars: {   "crew":           { value: 0 },
+                            "ship_health":    { value: 50 },
+                            "fuel":           { value: 50 },
+                            "life_support":   { value: 50 },
+                            "power":          { value: 50 }}};
+
+        const result1 = get_winners_from_global_win_conditions(game1);
+        const result2 = get_winners_from_global_win_conditions(game2);
+        expect(result1).toEqual({ team: "", names: [] });
+        expect(result2).toEqual({ team: "vilians", names: ["username2", "username3"] });
     });
 });

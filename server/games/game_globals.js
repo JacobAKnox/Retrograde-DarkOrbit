@@ -12,7 +12,7 @@ export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 20000,
     DISCUSSION_PHASE_LENGTH: 60000,
     ACTION_PHASE_LENGTH: 20000,
-    GAME_OVER_PHASE_LENGTH: 15000
+    GAME_OVER_PHASE_LENGTH: 150000
 })
 
 // access should probably be wrapped in a function call
@@ -69,3 +69,10 @@ export const default_role_info = Object.freeze({
         }
     }
 });
+
+export const PER_PLAYER_POWER_INCREASE = 5;
+
+// this can be a float and won't break anything
+export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 1;
+
+export const CREW_DECREASE_RATE = 1;
