@@ -132,7 +132,7 @@ describe("game service", () => {
     test("get player POIs", () => {
         // Player object has no POIs.
         // Player object has POIs.
-        const game1 = {players: {"player1": {}}};
+        const game1 = {players: {"player1": {}}, pois: PLAYER_INITIAL_POIS};
         const game2 = {players: {"player1": {pois: {"1": {name: "name1", allocated: 1},
                                                     "2": {name: "name2", allocated: 2},
                                                     "3": {name: "name3", allocated: 3}}}}};
@@ -194,6 +194,7 @@ describe("game service", () => {
       game_list[game_code] = {};
       game_list[game_code].players = players;
       game_list[game_code].statusBars = get_new_status_bars();
+      game_list[game_code].pois = PLAYER_INITIAL_POIS;
       // Get game status bars
       const init_status_bars = game_list[game_code].statusBars;
       // Check status bar initial values

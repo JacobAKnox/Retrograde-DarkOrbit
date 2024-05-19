@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, shuffle_pois} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, shuffle_pois, set_new_pois} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
@@ -45,6 +45,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             // Send POIs from here
             const SELECTED_POIs = shuffle_pois();
             ids_and_names_callback(SELECTED_POIs, lobby_code)
+            set_new_pois(game, SELECTED_POIs);
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
         
             // add function to send client the data for information phase here

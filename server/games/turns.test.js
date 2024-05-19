@@ -9,6 +9,9 @@ get_status_mock.mockImplementation((_) => {return "status"});
 const get_game_mock = jest.spyOn(require("./game.js"), "get_game");
 get_game_mock.mockImplementation((_) => { return {players: {}}});
 
+const shuffle_pois_mock = jest.spyOn(require("./game.js"), "shuffle_pois");
+shuffle_pois_mock.mockImplementation(() => {return PLAYER_INITIAL_POIS});
+
 describe("turn phases and timings", () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -23,7 +26,8 @@ describe("turn phases and timings", () => {
 
         let game = {    players: { "player": { username: "username", role: { win_condition:{ "crew": { min: 90, max: 100 }}}}},
                         currentState: {},
-                        statusBars: {"crew": 5 }};
+                        statusBars: {"crew": 5 },
+                        pois: PLAYER_INITIAL_POIS};
         const phases = [PHASE_STATES.GAME_SETUP_PHASE,
                         PHASE_STATES.INFORMATION_PHASE,
                         PHASE_STATES.DISCUSSION_PHASE,
@@ -88,7 +92,7 @@ describe("turn phases and timings", () => {
        
         turns.set_status_bar_update(status_bar_mock);
 
-        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
+        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE, players: {}}, lobbyCode, async () => {});
         expect(get_status_mock).toHaveBeenCalledWith(lobbyCode);
         
         turns.set_status_bar_update(() => {});
@@ -99,10 +103,10 @@ describe("turn phases and timings", () => {
         const lobbyCode = "testCode";
         const update_ids_names_mock = jest.fn(() => {});
         turns.set_ids_and_names_callback(update_ids_names_mock);
-        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE}, lobbyCode, async () => {});
+        await turns.execute_turn({currentState: PHASE_STATES.INFORMATION_PHASE, players: {}}, lobbyCode, async () => {});
         expect(update_ids_names_mock).toHaveBeenCalledWith(PLAYER_INITIAL_POIS, lobbyCode);
         
-    turns.set_ids_and_names_callback(() => {});
+        turns.set_ids_and_names_callback(() => {});
     });
 
     test("win condition checking", () => {

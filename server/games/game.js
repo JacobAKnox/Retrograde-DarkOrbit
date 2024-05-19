@@ -25,6 +25,7 @@ export function start_game(lobby, lobby_code, game_list=games) {
     game_list[lobby_code].currentState = PHASE_STATES.GAME_SETUP_PHASE;
     game_list[lobby_code].lobbyCode = lobby_code;
     game_list[lobby_code].statusBars = get_new_status_bars();
+    game_list[lobby_code].pois = PLAYER_INITIAL_POIS;
 
     return {status: 200};
 }
@@ -68,6 +69,14 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
     });
 }
 
+export function set_new_pois(game, pois) 
+{
+  game.pois = pois;
+  Object.keys(game.players).forEach((p) => {
+    set_player_POIs(game, p, pois);
+  });
+}
+
 export function get_role_info(game, userID) {
     try {
         let role = game.players[userID].role;
@@ -84,6 +93,7 @@ export function get_role_info(game, userID) {
 export function validate_received_user_poi_values(game, userID, POIs) {
     const totalPossiblePoints = game.players[userID].role.points;
     let pointTotal = 0;
+    const game_pois = game.pois || PLAYER_INITIAL_POIS;
 
     console.log("Total possible points: " + totalPossiblePoints);
     console.log(POIs);
@@ -94,6 +104,9 @@ export function validate_received_user_poi_values(game, userID, POIs) {
         }
         else {
             pointTotal += value.allocated;
+        }
+        if (!(key in Object.keys(game_pois))) {
+          return false;
         }
     }
 
@@ -116,7 +129,7 @@ export function get_player_POIs(game, userID) {
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }
-    else { return PLAYER_INITIAL_POIS; };
+    else { return game.pois; };
 }
 
 function shuffle(array) {
@@ -165,7 +178,8 @@ function shuffle(array) {
 export function process_turn(lobbyCode, game_list=games) {
   // Get status bars
   // Get game and players
-  const game = get_game(lobbyCode, game_list);
+  const game = get_game(lobbyCode, game_list) || {};
+  const pois = game.pois || PLAYER_INITIAL_POIS;
   if (!game) {
     return {status: 400, message: `error: game not found`};
   }
