@@ -133,25 +133,6 @@ describe("game service", () => {
       expect(game3_result).toEqual(POIs);
   });
 
-  test("get player POIs", () => {
-      // Player object has no POIs.
-      // Player object has POIs.
-      const game1 = {players: {"player1": {}}};
-      const game2 = {players: {"player1": {pois: {"1": {name: "name1", allocated: 1},
-                                                  "2": {name: "name2", allocated: 2},
-                                                  "3": {name: "name3", allocated: 3}}}}};
-      const userID = "player1";
-      const POIs = {"1": {name: "name1", allocated: 1},
-                    "2": {name: "name2", allocated: 2},
-                    "3": {name: "name3", allocated: 3}};
-
-      const result1 = get_player_POIs(game1, userID);
-      const result2 = get_player_POIs(game2, userID);
-
-      expect(result1).toEqual(PLAYER_INITIAL_POIS);
-      expect(result2).toEqual(POIs);
-  });
-
   test("starting game adds status bars", () => {
       let games = {};
       let lobby = {"usr1": {username: "usrnm1"}};

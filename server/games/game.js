@@ -130,7 +130,7 @@ export function get_player_POIs(game, userID) {
     if(game.players[userID].pois) {
         return game.players[userID].pois;
     }
-    else { return game.pois; };
+    else { return game.pois; }
 }
 
 function shuffle(array) {
