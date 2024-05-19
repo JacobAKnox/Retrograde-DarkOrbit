@@ -138,6 +138,30 @@ function shuffle(array) {
 
   }
 
+  export function shuffle_pois(){
+
+    const data = Object.values(pois);
+    
+    //Grab by ID
+    const requiredPOIs = [6, 7, 8];
+    const filteredPOIs = data.filter(item => requiredPOIs.includes(item.id));
+
+    const remainingPOIs = data.filter(item => !requiredPOIs.includes(item.id));
+
+    // Randomly select 3 additional POIs from the remaining ones
+    const randomPOIs = [];
+    while (randomPOIs.length < 3 && remainingPOIs.length > 0) {
+      const randomIndex = Math.floor(Math.random() * remainingPOIs.length);
+      randomPOIs.push(remainingPOIs.splice(randomIndex, 1)[0]);
+    }
+
+    // Combine required POIs with randomly selected POIs
+    const selectedPOIs = [...filteredPOIs, ...randomPOIs];
+
+    return selectedPOIs;
+    
+  }
+
 export function process_turn(lobbyCode, game_list=games) {
   // Get status bars
   // Get game and players
