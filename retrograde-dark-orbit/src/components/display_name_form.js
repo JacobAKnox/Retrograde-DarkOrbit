@@ -11,7 +11,6 @@ export default function DisplayNameForm() {
         try {
             // Attempt to join the lobby through the server
             const result = await create_lobby(username); 
-            console.log(result["code"]);
             if (result.status === 200) {
                 storeItem("code", result["code"])
                 navigate(`/lobby?code=${result["code"]}`);

@@ -6,7 +6,6 @@ export default function Display_user_list({ showStatus = true, showNamesOnly = f
 
   useEffect(() => {
     const handlePlayerListUpdate = (playerList) => {
-      console.log('Updated player list received:', playerList);
       if (Array.isArray(playerList)) { 
         setUsers(playerList);
       }
