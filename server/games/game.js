@@ -5,7 +5,7 @@ import { PHASE_STATES, PLAYER_INITIAL_POIS, default_role_info, get_new_status_ba
 export let games = {};
 
 export let roles = default_role_info;
-export const roles_by_player_count = ["crew", "rebel", "crew", "crew", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel", "crew", "crew", "crew", "rebel"];
+export const roles_by_player_count = ["good", "e_leader", "good", "good", "good", "good", "good", "e_minion", "good", "good", "good", "e_minion", "good", "good", "good", "e_minion"];
 
 export async function setup() {
     roles = await fetch_roles() || default_role_info;
@@ -56,14 +56,49 @@ export function set_status_bar_value(game_code, bar_id, val, game_list=games) {
 }
 
 export function assign_roles(game, role_list = roles, role_players = roles_by_player_count) {
-    const player_count =  Object.keys(game.players).length;
-    let roles_in_game = role_players.slice(0, player_count);
-    roles_in_game = shuffle(roles_in_game);
+  const player_count =  Object.keys(game.players).length;  
+  // copy roles, split by tag
+  const good = Object.keys(role_list).filter((r) => {return role_list[r].type === "good"});
+  const evil_leaders = Object.keys(role_list).filter((r) => {return role_list[r].type === "e_leader"});
+  const evil_minions = Object.keys(role_list).filter((r) => {return role_list[r].type === "e_minion"});
+  // pick tags in play
+  let roles_in_game = role_players.slice(0, player_count);
+  // shuffle tags
+  roles_in_game = shuffle(roles_in_game);
+  // assign each role, keep track of minions
+  let minions = [];
+  let leader;
+  Object.keys(game.players).forEach((p, i) => {
+    let roles;
+    switch (roles_in_game[i]) {
+      case "good":
+        roles = good;
+        break;
+      case "e_leader":
+        // when leader shows up, note the player
+        roles = evil_leaders;
+        leader = game.players[p];
+        break;
+      case "e_minion":
+        // note the minions
+        roles = evil_minions;
+        minions.push(game.players[p]);
+        break;
+    }
+    const role = roles.splice(Math.floor(Math.random() * roles.length), 1)[0]
+    console.log(`roles: ${roles}`);
+    game.players[p].role = role_list[role];
+    set_player_POIs(game, p, PLAYER_INITIAL_POIS);
+  });
 
-    Object.keys(game.players).forEach((p, i) => {
-        game.players[p].role = role_list[roles_in_game[i]];
-        set_player_POIs(game, p, PLAYER_INITIAL_POIS);
-    });
+  // at the end give minions group name and stuff
+  console.log(minions);
+  console.log(leader);
+  minions.forEach((m) => {
+    m.role.win_text = leader.role.win_text;
+    m.role.group_name = leader.role.group_name;
+    m.role.win_condition = leader.role.win_condition;
+  });
 }
 
 export function get_role_info(game, userID) {

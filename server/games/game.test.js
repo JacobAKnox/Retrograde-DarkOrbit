@@ -37,32 +37,40 @@ describe("game service", () => {
 
     test("assign roles to users", () => {
         let game = {players: {}};
-        const users = 5
+        const users = 5;
         for (let i = 1; i <= users; i++) {
             game.players[`usr${i}`] = {username: `usrnm${i}`};
         }
-        const role = roles_by_player_count;
+        const role = ["good", "e_leader", "good", "good", "e_minion"];
         const role_list = default_role_info;
+
+        const evil_leader = default_role_info.rebel;
 
         assign_roles(game, role_list, role);
 
-        let role1_count = 0;
-        let role2_count = 0;
+        let good_count = 0;
+        let evil_leader_count = 0;
+        let evil_minion_count = 0;
         for (let i = 1; i <= users; i++) {
             expect(game.players[`usr${i}`].role).toBeDefined();
-            switch(game.players[`usr${i}`].role.id) {
-                case "crew":
-                    role1_count++;
+            switch(game.players[`usr${i}`].role.type) {
+                case "good":
+                    good_count++;
                     break;
-                case "rebel":
-                    role2_count++;
+                case "e_leader":
+                    evil_leader_count++;
+                    break;
+                case "e_minion":
+                    evil_minion_count++;
+                    expect(game.players[`usr${i}`].role.win_text).toBe(evil_leader.win_text);
+                    expect(game.players[`usr${i}`].role.win_condition).toEqual(evil_leader.win_condition);
                     break;
             }
         }
 
-        expect(role1_count).toBe(4);
-        expect(role2_count).toBe(1);
-        expect(role.length).toBe(16);
+        expect(good_count).toBe(3);
+        expect(evil_leader_count).toBe(1);
+        expect(evil_minion_count).toBe(1);
     });
 
     test("get player role", () => {
