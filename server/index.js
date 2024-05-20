@@ -48,11 +48,9 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("user connected");
-
   // text chat
   socket.on("send chat msg", ({message}) => {
-    console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
+    console.warn('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
     io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
   });
 
@@ -60,11 +58,15 @@ io.on("connection", (socket) => {
 
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
-    console.log('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
+    console.warn('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
     if (Object.keys(POIs).length === 0) { 
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+      callback({
+        status: 400,
+        message: "No POIs provided"
+      });
+      return;
     }
     if (!game) {
       callback({
@@ -79,8 +81,13 @@ io.on("connection", (socket) => {
         status: 405,
         message: "cannot update point allocation during this phase"
       });
+
       if (Object.keys(get_player_POIs(game, socket.userID)).length === 0) { 
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        callback({
+          status: 400,
+          message: "No POIs provided"
+        });
+        return;
       }
       socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
       return;
@@ -91,7 +98,6 @@ io.on("connection", (socket) => {
         status: 409,
         message: "client POIs not valid"
       });
-      console.log("POIs BAG FAILED!");
       socket.emit("server-sent poi update", get_player_POIs(game, socket.userID));
     }
     else {
@@ -122,7 +128,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave", (callback) => {
-    console.log("left");
     callback(leave_lobby(socket.userID));
     updatePlayerList(socket.roomCode); //added this
   });
@@ -135,7 +140,6 @@ io.on("connection", (socket) => {
   // socket.emit("lobby code", socket.roomCode);
 
   socket.on("disconnect", () => {
-    console.log("user disconnected")
     updatePlayerList(socket.roomCode); //added this 
   });
 
@@ -232,7 +236,7 @@ server.listen(PORT, async () => {
   set_ids_and_names_callback(sendIdsAndNames);
   set_status_bar_update(updateStatusBar);
   winners_update(sendWinnersToClient);
-  console.log(`server running at http://localhost:${PORT}`);
+  console.warn(`server running at http://localhost:${PORT}`);
 });
 
 export function closeServer() {
@@ -254,10 +258,10 @@ function updateStatusBar(lobbyCode, statusBars) {
 function sendWinnersToClient(lobbyCode, winners) {
   io.in(lobbyCode).emit("winner_data", winners);
 }
+
 //update player lplayer
 function updatePlayerList(lobbyCode) {
   const lobby = get_lobby(lobbyCode);
-  console.log(`Lobby retrieved: ${JSON.stringify(lobby)}`);
   
   if (!lobby || !Object.keys(lobby).length) {
       console.error(`No players in lobby: ${lobbyCode} or lobby does not exist.`);
@@ -270,6 +274,6 @@ function updatePlayerList(lobbyCode) {
       ready: player.ready_state 
   }));
 
-  console.log(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
+  console.error(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
   io.in(lobbyCode).emit('player_list_updated', playerList);
 }
