@@ -239,6 +239,7 @@ export function process_turn(lobbyCode, game_list=games) {
     return {status: 400, message: `error: game not found`};
   }
   const players = game.players; 
+
   // For each player in the game
   for (let player_id in players) {
       // Get name and points allocated
@@ -302,5 +303,36 @@ export function process_turn(lobbyCode, game_list=games) {
         set_status_bar_value(lobbyCode, "power", new_val, game_list);
       }
     }
+  }
+}
+
+
+export function startTurn(game_code, game_list = games) {
+  const game = get_game(game_code, game_list);
+  if (game) {
+      game.statusBarSnapshot = JSON.parse(JSON.stringify(game.statusBars)); // Taking a deep copy snapshot of the status bars
+  }
+}
+
+export function endTurn(game_code, game_list = games) {
+  const game = get_game(game_code, game_list);
+  if (game && game.statusBarSnapshot) {
+      const messages = [];
+      if (!game.messageQueue) {
+          game.messageQueue = [];
+      }
+      for (const [key, value] of Object.entries(game.statusBars)) {
+          const initial = game.statusBarSnapshot[key].value;
+          const current = value.value;
+          let percentageChange;
+          if (initial === 0) {
+              percentageChange = current === 0 ? 0 : 100; // Handle division by zero
+          } else {
+              percentageChange = ((current - initial) / initial) * 100;
+          }
+          const message = `${key} changed by ${percentageChange.toFixed(2)}%`;
+          messages.push(message);
+      }
+      game.messageQueue.push(...messages);
   }
 }
