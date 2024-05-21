@@ -1,18 +1,23 @@
 import { update_role_info } from "../server/socket";
 import { useEffect, useState } from "react";
+import IncreaseDecrease from "./ability_components/in_de_component";
 
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
+    const [abilityInfo, setAbilityInfo] = useState("");
+    const [teamName, setTeamName] = useState("");
 
     useEffect(() => {
         const old_info = update_role_info(on_role_update);
         if (old_info) {
-            setRoleName(old_info.name);
+            on_role_update(old_info);
         }
     });
 
     function on_role_update(role) {
         setRoleName(role.name);
+        setAbilityInfo(role.ability_text);
+        setTeamName(role.group_name);
     }
 
     return (
@@ -28,7 +33,21 @@ export default function RoleInfo() {
                 </b>
                 <br/>
                 {roleName}
+                <br className="leading-10"/>
+                <b className="text-slate-200">
+                    Team
+                </b>
+                <br/>
+                {teamName}
+                <br className="leading-10"/>
+                <b className="text-slate-200">
+                    Ability
+                </b>
+                <br/>
+                {abilityInfo}
             </p>
+            {/* this is temporary, load the correct component here when working on #86*/}
+            <IncreaseDecrease/>
         </div>
     );
 }

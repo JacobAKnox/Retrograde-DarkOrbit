@@ -167,6 +167,10 @@ export function listen_winner_info(cb) {
   });
 }
 
+export function use_ability(data) {
+  socket.emit("use_ability", data);
+}
+
 // socket.on("lobby code", (code) => {
 //     console.log("FROM SOCKET ON");
 //     console.log(code);
