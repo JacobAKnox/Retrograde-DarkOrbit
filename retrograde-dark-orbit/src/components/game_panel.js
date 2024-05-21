@@ -9,8 +9,6 @@ export default function GamePanel() {
     <div className="border-4 w-full md:w-2/3 border-blue-400 min-h-[600px] bg-gray-800 md:mx-20 p-4 rounded-xl flex flex-row items-start">
       <div className="flex flex-col w-full md:w-3/4">
         <div className="flex flex-col w-full mb-4">
-          <DisplayTimer />
-          <RoleInfo />
         </div>
         <div className="flex flex-grow m-2">
           <POIPanel />
@@ -19,7 +17,9 @@ export default function GamePanel() {
           <WideChatBox />
         </div>
       </div>
-      <div className="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4">
+      <div className="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4 pt-7">
+        <DisplayTimer />
+        <RoleInfo />
         <InformationBar />
       </div>
     </div>
