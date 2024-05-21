@@ -9,7 +9,6 @@ export default function WinnerPanel({team="Team", names=["name1", "name2"]}) {
     useEffect(() => {
         listen_winner_info(handle_winner);
         const winner = getItem("winner");
-        console.log(winner);
         if (winner) {
             setTeamName(winner.team);
             setNamesList(winner.names);

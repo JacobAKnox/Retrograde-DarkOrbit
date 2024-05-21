@@ -8,8 +8,6 @@ export default function ReadyButton() {
 
   function updateReadyState() {
     update_player_ready();
-
-    //toggle();
   }
 
 
