@@ -1,19 +1,43 @@
 import { update_role_info } from "../server/socket";
 import { useEffect, useState } from "react";
+import IncreaseDecrease from "./ability_components/in_de_component";
+import IncreaseFuel from "./ability_components/increase_fuel";
+import DecreaseLifeSupport from "./ability_components/decrease_life_support";
+import BlockPOI from "./ability_components/block_poi";
+import CloseChat from "./ability_components/close_chat";
 
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
+    const [abilityInfo, setAbilityInfo] = useState("");
+    const [teamName, setTeamName] = useState("");
 
     useEffect(() => {
         const old_info = update_role_info(on_role_update);
         if (old_info) {
-            setRoleName(old_info.name);
+            on_role_update(old_info);
         }
     });
 
     function on_role_update(role) {
         setRoleName(role.name);
+        setAbilityInfo(role.ability_text);
+        setTeamName(role.group_name);
     }
+
+    const renderAbility = (abilityInfo) => {
+        switch (abilityInfo) {
+          case 'Increase Fuel':
+            return <IncreaseFuel/>;
+          case 'Decrease Life Support':
+            return <DecreaseLifeSupport/>
+          case 'Block Point Of Interest':
+            return <BlockPOI/>;
+          case 'CloseChat':
+            return <CloseChat />;
+          default:
+            return <></>;
+        }
+      };
 
     return (
         <div className="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl">
@@ -28,7 +52,20 @@ export default function RoleInfo() {
                 </b>
                 <br/>
                 {roleName}
+                <br className="leading-10"/>
+                <b className="text-slate-200">
+                    Team
+                </b>
+                <br/>
+                {teamName}
+                <br className="leading-10"/>
+                <b className="text-slate-200">
+                    Ability
+                </b>
+                <br/>
+                {abilityInfo}
             </p>
+            {renderAbility(abilityInfo)}
         </div>
     );
 }

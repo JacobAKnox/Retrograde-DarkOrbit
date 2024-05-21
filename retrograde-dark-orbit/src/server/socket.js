@@ -157,7 +157,6 @@ export async function send_poi_update(POIs) {
 
 socket.on("server-sent poi update", (POIs) => {
   recPOIs(POIs);
-  console.log(POIs);
 })
 
 export function listen_winner_info(cb) {
@@ -167,7 +166,7 @@ export function listen_winner_info(cb) {
   });
 }
 
-// socket.on("lobby code", (code) => {
-//     console.log("FROM SOCKET ON");
-//     console.log(code);
-// })
+export function use_ability(data) {
+  socket.emit("use_ability", data);
+}
+

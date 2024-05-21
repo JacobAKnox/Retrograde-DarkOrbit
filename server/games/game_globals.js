@@ -12,7 +12,7 @@ export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 20000,
     DISCUSSION_PHASE_LENGTH: 60000,
     ACTION_PHASE_LENGTH: 20000,
-    GAME_OVER_PHASE_LENGTH: 15000
+    GAME_OVER_PHASE_LENGTH: 150000
 })
 
 // access should probably be wrapped in a function call
@@ -42,6 +42,7 @@ export const default_role_info = Object.freeze({
         "name": "Crew Member",
         "id": "crew",
         "points": 10,
+        "type": "good",
         "win_group": "good",
         "group_name": "Ship Crew",
         "win_text": "Temp Text",
@@ -53,10 +54,83 @@ export const default_role_info = Object.freeze({
             "power": {"min": 30, "max": 100}
         }
     },
+    doctor: {
+        "_id": {
+          "$oid": "663801251b5582db6d9a6f02"
+        },
+        "name": "Doctor",
+        "id": "doctor",
+        "points": 10,
+        "type": "good",
+        "ability": "doctor",
+        "ability_text": "Once per game add 20% to the life support",
+        "win_group": "good",
+        "group_name": "Ship Crew",
+        "win_text": "Temp Text",
+        "win_condition": {
+          "crew": {
+            "min": 5,
+            "max": 100
+          },
+          "ship_health": {
+            "min": 20,
+            "max": 100
+          },
+          "fuel": {
+            "min": 80,
+            "max": 100
+          },
+          "life_support": {
+            "min": 50,
+            "max": 100
+          },
+          "power": {
+            "min": 30,
+            "max": 100
+          }
+        }
+    },
+    engineer: {
+        "_id": {
+          "$oid": "663801251b5582db6d9a6f03"
+        },
+        "name": "Engineer",
+        "id": "engineer",
+        "points": 10,
+        "type": "good",
+        "ability": "engineer",
+        "ability_text": "Once per game decrease the power bar by 20%",
+        "win_group": "good",
+        "group_name": "Ship Crew",
+        "win_text": "Temp Text",
+        "win_condition": {
+          "crew": {
+            "min": 5,
+            "max": 100
+          },
+          "ship_health": {
+            "min": 20,
+            "max": 100
+          },
+          "fuel": {
+            "min": 80,
+            "max": 100
+          },
+          "life_support": {
+            "min": 50,
+            "max": 100
+          },
+          "power": {
+            "min": 30,
+            "max": 100
+          }
+        }
+      },
     rebel:  {
         "name": "Rebel Leader",
         "id": "rebel",
         "points": 10,
+        "type": "e_leader",
         "win_group": "evil",
         "group_name": "Rebels",
         "win_text": "Get Fuel above 90%",
@@ -67,5 +141,28 @@ export const default_role_info = Object.freeze({
             "life_support": {"min": 0, "max": 100},
             "power": {"min": 0, "max": 100}
         }
+    },
+    demo: {
+        "name": "Demolitionist",
+        "id": "demo",
+        "points": 10,
+        "type": "e_minion",
+        "win_group": "evil",
+        "group_name": "",
+        "win_text": "",
+        "win_condition": {
+            "crew": {"min": 0, "max": 100},
+            "ship_health": {"min": 0, "max": 100},
+            "fuel": {"min": 0, "max": 100},
+            "life_support": {"min": 0, "max": 100},
+            "power": {"min": 0, "max": 100}
+        }
     }
 });
+
+export const PER_PLAYER_POWER_INCREASE = 5;
+
+// this can be a float and won't break anything
+export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 1;
+
+export const CREW_DECREASE_RATE = 1;
