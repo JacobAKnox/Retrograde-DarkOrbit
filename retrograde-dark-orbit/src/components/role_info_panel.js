@@ -65,7 +65,6 @@ export default function RoleInfo() {
                 <br/>
                 {abilityInfo}
             </p>
-            {/* this is temporary, load the correct component here when working on #86*/}
             {renderAbility(abilityInfo)}
         </div>
     );
