@@ -13,37 +13,7 @@ exports[`renders on-screen 1`] = `
         >
           <div
             class="flex flex-col w-full mb-4"
-          >
-            <div
-              class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
-            >
-              <div>
-                <br />
-                <p />
-              </div>
-            </div>
-            <div
-              class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
-            >
-              <b
-                class="text-3xl text-red-300"
-              >
-                <strong>
-                  Role
-                </strong>
-              </b>
-              <p
-                class="mb-5"
-              >
-                <b
-                  class="text-slate-200"
-                >
-                  Name
-                </b>
-                <br />
-              </p>
-            </div>
-          </div>
+          />
           <div
             class="flex flex-grow m-2"
           >
@@ -202,8 +172,37 @@ exports[`renders on-screen 1`] = `
           </div>
         </div>
         <div
-          class="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4"
+          class="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4 pt-7"
         >
+          <div
+            class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
+          >
+            <div>
+              <br />
+              <p />
+            </div>
+          </div>
+          <div
+            class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+          >
+            <b
+              class="text-3xl text-red-300"
+            >
+              <strong>
+                Role
+              </strong>
+            </b>
+            <p
+              class="mb-5"
+            >
+              <b
+                class="text-slate-200"
+              >
+                Name
+              </b>
+              <br />
+            </p>
+          </div>
           <style>
             
                 .information-bar {
@@ -298,37 +297,7 @@ exports[`renders on-screen 1`] = `
       >
         <div
           class="flex flex-col w-full mb-4"
-        >
-          <div
-            class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
-          >
-            <div>
-              <br />
-              <p />
-            </div>
-          </div>
-          <div
-            class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
-          >
-            <b
-              class="text-3xl text-red-300"
-            >
-              <strong>
-                Role
-              </strong>
-            </b>
-            <p
-              class="mb-5"
-            >
-              <b
-                class="text-slate-200"
-              >
-                Name
-              </b>
-              <br />
-            </p>
-          </div>
-        </div>
+        />
         <div
           class="flex flex-grow m-2"
         >
@@ -487,8 +456,37 @@ exports[`renders on-screen 1`] = `
         </div>
       </div>
       <div
-        class="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4"
+        class="w-full md:w-1/4 p-4 bg-gray-800 rounded-xl ml-4 pt-7"
       >
+        <div
+          class="bg-slate-900 text-xl text-white m-1 py-2 px-10 rounded-xl disabled:bg-slate-950 disabled:text-gray-700"
+        >
+          <div>
+            <br />
+            <p />
+          </div>
+        </div>
+        <div
+          class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+        >
+          <b
+            class="text-3xl text-red-300"
+          >
+            <strong>
+              Role
+            </strong>
+          </b>
+          <p
+            class="mb-5"
+          >
+            <b
+              class="text-slate-200"
+            >
+              Name
+            </b>
+            <br />
+          </p>
+        </div>
         <style>
           
                 .information-bar {
