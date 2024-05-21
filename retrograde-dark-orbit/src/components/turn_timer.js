@@ -42,13 +42,11 @@ export default function TurnTimer() {
     const interval = setInterval(() => {
       if (pause == false) {
         if (ms <= 0) {
-          console.log("time in ms = " + ms);
           pause = true;
         }
         else {
           ms -= 1000;
           let display_string = formatDisplayTime(ms);
-          console.log('updated time to ' + ms + ' ms');
           setDisplayTime(display_string);
         }
       }

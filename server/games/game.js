@@ -130,10 +130,8 @@ export function get_role_info(game, userID) {
 export function validate_received_user_poi_values(game, userID, POIs) {
     const totalPossiblePoints = game.players[userID].role.points;
     let pointTotal = 0;
+  
     const game_pois = game.pois || PLAYER_INITIAL_POIS;
-
-    console.log("Total possible points: " + totalPossiblePoints);
-    console.log(POIs);
     
     for(const [key, value] of Object.entries(POIs)) {
         if(value.allocated < 0) {
@@ -146,8 +144,6 @@ export function validate_received_user_poi_values(game, userID, POIs) {
           return false;
         }
     }
-
-    console.log("Accumulated point total:" + pointTotal);
 
     if(pointTotal > totalPossiblePoints) {
         return false;

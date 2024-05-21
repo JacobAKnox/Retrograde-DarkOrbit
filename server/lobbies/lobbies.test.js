@@ -39,7 +39,6 @@ describe("lobby system", () => {
     test("successful join", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
         const result = join_lobby("ABCD", "test", "123", lobbies);
-        console.log(result)
         expect(result.status).toBe(200);
         expect(result.uuid).toBeDefined();
         expect(result.username).toBe("test");
@@ -50,7 +49,6 @@ describe("lobby system", () => {
     test("successful create", () => {
         let lobbies = {"ABCD": {}, "WXYZ": {}};
         const result = create_lobby("test", 123, lobbies);
-        console.log(lobbies);
         expect(result.status).toBe(200);
         expect(Object.keys(lobbies).length).toBe(3)
         expect(result.uuid).toBeDefined();

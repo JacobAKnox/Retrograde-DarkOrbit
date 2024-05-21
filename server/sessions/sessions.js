@@ -4,7 +4,6 @@ let sessionStore = {}
 
 export function find_or_create_session(sessionId, sessions=sessionStore) {
     if (sessionId) {
-      // find existing session
       const session = sessions[sessionId];
       if (session) {
         const code = get_lobby_by_player(session.userId);
@@ -15,8 +14,6 @@ export function find_or_create_session(sessionId, sessions=sessionStore) {
         return session;
       }
     }
-    // create new session
-    console.log("new session")
     sessionId = crypto.randomUUID();
     const userId = crypto.randomUUID();
     sessions[sessionId] = {sessionId, userId, code: "", username: ""};

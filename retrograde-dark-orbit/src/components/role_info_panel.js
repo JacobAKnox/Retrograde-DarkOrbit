@@ -1,6 +1,10 @@
 import { update_role_info } from "../server/socket";
 import { useEffect, useState } from "react";
 import IncreaseDecrease from "./ability_components/in_de_component";
+import IncreaseFuel from "./ability_components/increase_fuel";
+import DecreaseLifeSupport from "./ability_components/decrease_life_support";
+import BlockPOI from "./ability_components/block_poi";
+import CloseChat from "./ability_components/close_chat";
 
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
@@ -19,6 +23,21 @@ export default function RoleInfo() {
         setAbilityInfo(role.ability_text);
         setTeamName(role.group_name);
     }
+
+    const renderAbility = (abilityInfo) => {
+        switch (abilityInfo) {
+          case 'Increase Fuel':
+            return <IncreaseFuel/>;
+          case 'Decrease Life Support':
+            return <DecreaseLifeSupport/>
+          case 'Block Point Of Interest':
+            return <BlockPOI/>;
+          case 'CloseChat':
+            return <CloseChat />;
+          default:
+            return <></>;
+        }
+      };
 
     return (
         <div className="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl">
@@ -46,8 +65,7 @@ export default function RoleInfo() {
                 <br/>
                 {abilityInfo}
             </p>
-            {/* this is temporary, load the correct component here when working on #86*/}
-            <IncreaseDecrease/>
+            {renderAbility(abilityInfo)}
         </div>
     );
 }
