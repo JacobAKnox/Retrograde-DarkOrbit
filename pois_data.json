@@ -1,0 +1,143 @@
+[{
+  "_id": {
+    "$oid": "663abbc44a680990decf637f"
+  },
+  "id": 1,
+  "name": "crew",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": 0,
+  "power": 0,
+  "crew": 2
+},
+{
+  "_id": {
+    "$oid": "663abcb34a680990decf6388"
+  },
+  "id": 2,
+  "name": "health",
+  "allocated": 0,
+  "ship_health": 2,
+  "fuel": 0,
+  "life_support": 0,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663abd4a4a680990decf6389"
+  },
+  "id": 3,
+  "name": "fuel",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 2,
+  "life_support": 0,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663abd644a680990decf638a"
+  },
+  "id": 4,
+  "name": "life",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": 2,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663abdb94a680990decf638b"
+  },
+  "id": 5,
+  "name": "power",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": 0,
+  "power": 2,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c18"
+  },
+  "id": 6,
+  "name": "mining",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 2,
+  "life_support": 0,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c19"
+  },
+  "id": 7,
+  "name": "maintenance",
+  "allocated": 0,
+  "ship_health": 2,
+  "fuel": 0,
+  "life_support": 0,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c1a"
+  },
+  "id": 8,
+  "name": "hydroponics",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": 2,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c1b"
+  },
+  "id": 9,
+  "name": "generator",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": -2,
+  "life_support": 0,
+  "power": 1,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c1c"
+  },
+  "id": 10,
+  "name": "atmospheric scoop",
+  "allocated": 0,
+  "ship_health": -2,
+  "fuel": 0,
+  "life_support": 3,
+  "power": 0,
+  "crew": 0
+},
+{
+  "_id": {
+    "$oid": "663bd7d244c8a107ad182c1d"
+  },
+  "id": 11,
+  "name": "barricade",
+  "allocated": 0,
+  "ship_health": 3,
+  "fuel": 0,
+  "life_support": -2,
+  "power": 0,
+  "crew": 0
+}]

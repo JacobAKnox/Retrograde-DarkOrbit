@@ -165,3 +165,8 @@ export function listen_winner_info(cb) {
     cb(data);
   });
 }
+
+export function use_ability(data) {
+  socket.emit("use_ability", data);
+}
+

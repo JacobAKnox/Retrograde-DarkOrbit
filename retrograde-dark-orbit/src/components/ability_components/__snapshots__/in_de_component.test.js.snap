@@ -1,91 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders on-screen 1`] = `
+exports[`chat_box component test 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div
-        class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+      <button
+        class="bg-slate-700 rounded-xl py-2 px-5 m-2 hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
       >
-        <b
-          class="text-3xl text-red-300"
-        >
-          <strong>
-            Role
-          </strong>
-        </b>
-        <p
-          class="mb-5"
-        >
-          <b
-            class="text-slate-200"
-          >
-            Name
-          </b>
-          <br />
-          <br
-            class="leading-10"
-          />
-          <b
-            class="text-slate-200"
-          >
-            Team
-          </b>
-          <br />
-          <br
-            class="leading-10"
-          />
-          <b
-            class="text-slate-200"
-          >
-            Ability
-          </b>
-          <br />
-        </p>
-      </div>
+        Activate
+      </button>
     </div>
   </body>,
   "container": <div>
-    <div
-      class="bg-slate-900 text-xl text-white text-center m-1 py-2 px-10 rounded-xl"
+    <button
+      class="bg-slate-700 rounded-xl py-2 px-5 m-2 hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
     >
-      <b
-        class="text-3xl text-red-300"
-      >
-        <strong>
-          Role
-        </strong>
-      </b>
-      <p
-        class="mb-5"
-      >
-        <b
-          class="text-slate-200"
-        >
-          Name
-        </b>
-        <br />
-        <br
-          class="leading-10"
-        />
-        <b
-          class="text-slate-200"
-        >
-          Team
-        </b>
-        <br />
-        <br
-          class="leading-10"
-        />
-        <b
-          class="text-slate-200"
-        >
-          Ability
-        </b>
-        <br />
-      </p>
-    </div>
+      Activate
+    </button>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

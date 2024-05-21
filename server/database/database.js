@@ -11,3 +11,8 @@ export async function fetch_roles() {
     const roles = database.collection("roles");
     return (await roles.find({}).toArray()).reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {});
 }
+
+export async function fetch_pois() {
+  const pois = database.collection("pois");
+  return (await pois.find({}).toArray()).reduce((obj, item) => Object.assign(obj, { [item.id]: item}), {});
+}

@@ -7,6 +7,7 @@ import { assign_roles, get_game, get_role_info, setup, start_game, validate_rece
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
 import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update } from "./games/turns.js";
+import { use_ability } from "./games/abilities_system.js";
 
 const app = express();
 const server = createServer(app);
@@ -225,6 +226,10 @@ io.on("connection", (socket) => {
 
   socket.on('request_player_list', () => {
     updatePlayerList(socket.roomCode);
+  });
+
+  socket.on("use_ability", (data) => {
+    use_ability(socket.roomCode, socket.userID, data);
   });
 
 });

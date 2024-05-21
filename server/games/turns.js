@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
@@ -13,7 +13,7 @@ export function set_ids_and_names_callback(cb) {
     ids_and_names_callback = cb;
 }
 
-let status_bar_update_callback = (lobbyCode, status_bars) => {};
+export let status_bar_update_callback = (lobbyCode, status_bars) => {};
 
 export function set_status_bar_update(cb) {
     status_bar_update_callback = cb;
@@ -42,7 +42,10 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
             updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobby_code);
             //Send Ids and Names here
-            ids_and_names_callback(PLAYER_INITIAL_POIS, lobby_code)
+            // Send POIs from here
+            const SELECTED_POIs = shuffle_pois();
+            ids_and_names_callback(SELECTED_POIs, lobby_code)
+            set_new_pois(game, SELECTED_POIs);
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
         
             // add function to send client the data for information phase here
@@ -66,14 +69,24 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
 
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             process_turn(lobby_code);
-            const winners = get_winners(game);
-            if(winners.team.length != 0) {
+            automatic_status_bar_updates(lobby_code);
+
+            // check for winners if any global win condition is met 
+            const global_winners = get_winners_from_global_win_conditions(game);
+            if(global_winners.team.length != 0) {
               game.currentState = PHASE_STATES.GAME_OVER_PHASE;
-              // send winners to client
-              winners_update_callback(lobby_code, winners);
+              winners_update_callback(lobby_code, global_winners);
             }
             else {
-              game.currentState = PHASE_STATES.INFORMATION_PHASE;
+              // check for winners if any role specific win conditions have been met
+              const role_winners = get_winners_from_role_win_conditions(game);
+              if(role_winners.team.length != 0) {
+                game.currentState = PHASE_STATES.GAME_OVER_PHASE;
+                winners_update_callback(lobby_code, role_winners);
+              }
+              else {
+                game.currentState = PHASE_STATES.INFORMATION_PHASE;
+              }
             }
             break;
           
@@ -112,10 +125,10 @@ export async function gameLoop(lobbyCode){
     delete_game(lobbyCode);
 }
 
-// Get winning players
+// Get winning players based on if their role win conditions are met
 // Returns a bag {team: str, names: [str]}
 // NOTE: "team" will have the group_name of the first determined winning player.
-export function get_winners(game) {
+export function get_winners_from_role_win_conditions(game) {
   const status_bars = game.statusBars;
   const players = game.players;
   let winners = {team: "", names: [] };
@@ -139,5 +152,31 @@ export function get_winners(game) {
       winners.names.push(player.username);
     }
   }
+  return winners;
+}
+
+// Get winning players based on if any global win conditions have been met.
+// Global win conditions are checked in a specific order so if more than one global condition is met,
+//   only the first checked condition and winning team are the resulting winners.
+// Returns a bag {team: str, names: [str]}
+export function get_winners_from_global_win_conditions(game) {
+  let winners = {team: "", names: [] };
+
+  // Check if crew status bar is 0
+  if(game.statusBars.crew.value == 0) {
+    for(const [key, player] of Object.entries(game.players)) {
+      if(player.role.win_group == "evil") {
+        if(winners.team == "") {
+          winners.team = player.role.group_name;
+        }
+        winners.names.push(player.username);
+      }
+    }
+  }
+
+  //
+  // ADD OTHER GLOBAL WIN CHECKS TO THIS FUNCTION
+  //
+
   return winners;
 }
