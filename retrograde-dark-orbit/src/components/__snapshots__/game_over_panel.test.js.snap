@@ -165,34 +165,9 @@ exports[`renders on-screen 1`] = `
                 <button
                   class="bg-slate-700 text-white w-1/4 h-10 rounded-xl hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
                 >
-<<<<<<< HEAD
-                  Name
-                </b>
-                <br />
-                <br
-                  class="leading-10"
-                />
-                <b
-                  class="text-slate-200"
-                >
-                  Team
-                </b>
-                <br />
-                <br
-                  class="leading-10"
-                />
-                <b
-                  class="text-slate-200"
-                >
-                  Ability
-                </b>
-                <br />
-              </p>
-=======
                   Send
                 </button>
               </div>
->>>>>>> feature/move-status-bars-ui
             </div>
           </div>
         </div>
@@ -224,6 +199,24 @@ exports[`renders on-screen 1`] = `
                 class="text-slate-200"
               >
                 Name
+              </b>
+              <br />
+              <br
+                class="leading-10"
+              />
+              <b
+                class="text-slate-200"
+              >
+                Team
+              </b>
+              <br />
+              <br
+                class="leading-10"
+              />
+              <b
+                class="text-slate-200"
+              >
+                Ability
               </b>
               <br />
             </p>
@@ -474,34 +467,9 @@ exports[`renders on-screen 1`] = `
               <button
                 class="bg-slate-700 text-white w-1/4 h-10 rounded-xl hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
               >
-<<<<<<< HEAD
-                Name
-              </b>
-              <br />
-              <br
-                class="leading-10"
-              />
-              <b
-                class="text-slate-200"
-              >
-                Team
-              </b>
-              <br />
-              <br
-                class="leading-10"
-              />
-              <b
-                class="text-slate-200"
-              >
-                Ability
-              </b>
-              <br />
-            </p>
-=======
                 Send
               </button>
             </div>
->>>>>>> feature/move-status-bars-ui
           </div>
         </div>
       </div>
@@ -533,6 +501,24 @@ exports[`renders on-screen 1`] = `
               class="text-slate-200"
             >
               Name
+            </b>
+            <br />
+            <br
+              class="leading-10"
+            />
+            <b
+              class="text-slate-200"
+            >
+              Team
+            </b>
+            <br />
+            <br
+              class="leading-10"
+            />
+            <b
+              class="text-slate-200"
+            >
+              Ability
             </b>
             <br />
           </p>
