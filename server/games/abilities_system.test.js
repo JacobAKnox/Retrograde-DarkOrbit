@@ -1,4 +1,4 @@
-import { test_ability } from "./abilities.js";
+import { test_ability, useOnce } from "./abilities.js";
 import { get_ability_function, use_ability } from "./abilities_system.js";
 
 const get_game_mock = jest.spyOn(require("./game.js"), "get_game");
@@ -177,5 +177,27 @@ describe("ability system", () => {
         use_ability(code, player_id, test_data);
 
         expect(test_ability_mock).toHaveBeenCalledTimes(0);
+    });
+
+    test("use ability once", () => {
+        const game_id = "game";
+        const player_id = "plr";
+        let game = {players: {
+            plr: {
+                role: {
+
+                }
+            }
+        }};
+
+        get_game_mock.mockImplementation((_) => {
+            return game;
+        });
+
+        const action = jest.fn(() => {});
+        useOnce(game_id, player_id, action);
+        expect(action).toHaveBeenCalledTimes(1);
+        useOnce(game_id, player_id, action);
+        expect(action).toHaveBeenCalledTimes(1);
     });
 });

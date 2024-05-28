@@ -11,6 +11,10 @@ import {
     increaseLifeSupport,
     decreaseLifeSupport,
     doctor_ability,
+    engineer_ability,
+    rebel_ability,
+    alien_ability,
+    robot_ability,
 } from "./abilities.js";
 import { get_game } from "./game.js";
 
@@ -27,7 +31,12 @@ export function get_ability_function(lobby_code, player_id) {
         decreasePower: decreasePower,
         increaseLifeSupport: increaseLifeSupport,
         decreaseLifeSupport: decreaseLifeSupport,
-        doctor: doctor_ability
+        doctor: doctor_ability,
+        engineer: engineer_ability,
+        rebel: rebel_ability,
+        alien: alien_ability,
+        robot: robot_ability,
+        
     });
     const game = get_game(lobby_code);
     if (!game || !game.players[player_id]) {

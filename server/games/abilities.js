@@ -4,14 +4,52 @@ import { status_bar_update_callback } from "./turns.js";
 export function test_ability() {}
 
 export function doctor_ability(lobby_code, player_id, data) {
-    const game = get_game(lobby_code);
-    const role = game.players[player_id].role;
-    if (!role || role.used) {
-        return;
-    }
-    handleAbilityAction(lobby_code, player_id, {amount: 20}, increaseStatusBar, "life_support");
-    status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
-    role.used = true;
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 20}, increaseStatusBar, "life_support");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function engineer_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 10}, decreaseStatusBar, "power");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function rebel_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 5}, increaseStatusBar, "fuel");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function alien_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 2}, decreaseStatusBar, "crew");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function robot_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 10}, increaseStatusBar, "power");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function parasite_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 10}, decreaseStatusBar, "life_support");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
+}
+
+export function scavenger_ability(lobby_code, player_id, data) {
+    useOnce(lobby_code, player_id, () => {
+        handleAbilityAction(lobby_code, player_id, {amount: 5}, decreaseStatusBar, "fuel");
+        status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
+    });
 }
 
 export const increaseStatusBar = (game, amount, statusBarName) => {
@@ -31,6 +69,17 @@ export const decreaseStatusBar = (game, amount, statusBarName) => {
     game.statusBars[statusBarName].value -= amount;
     game.statusBars[statusBarName].value = Math.max(game.statusBars[statusBarName].value, 0); 
 };
+
+// allows the use of action once per game
+export function useOnce(lobby_code, player_id, action) {
+    const game = get_game(lobby_code);
+    const role = game.players[player_id].role;
+    if (!role || role.used) {
+        return;
+    }
+    action();
+    role.used = true;
+}
 
 function handleAbilityAction(lobby_code, player_id, data, action, statusBarName) {
     const game = get_game(lobby_code);

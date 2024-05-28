@@ -9,6 +9,7 @@ import CloseChat from "./ability_components/close_chat";
 export default function RoleInfo() {
     const [roleName, setRoleName] = useState("");
     const [abilityInfo, setAbilityInfo] = useState("");
+    const [ability, setAbility] = useState("");
     const [teamName, setTeamName] = useState("");
 
     useEffect(() => {
@@ -22,20 +23,21 @@ export default function RoleInfo() {
         setRoleName(role.name);
         setAbilityInfo(role.ability_text);
         setTeamName(role.group_name);
+        setAbility(role.ability)
     }
 
     const renderAbility = (abilityInfo) => {
         switch (abilityInfo) {
-          case 'Increase Fuel':
-            return <IncreaseFuel/>;
-          case 'Decrease Life Support':
-            return <DecreaseLifeSupport/>
-          case 'Block Point Of Interest':
-            return <BlockPOI/>;
-          case 'CloseChat':
-            return <CloseChat />;
-          default:
-            return <></>;
+            case 'doctor':
+            case 'engineer':
+            case 'rebel':
+            case 'alien':
+            case 'robot':
+            case 'parasite':
+            case 'scanevenger':
+                return <IncreaseDecrease/>
+            default:
+                return <></>;
         }
       };
 
@@ -65,7 +67,7 @@ export default function RoleInfo() {
                 <br/>
                 {abilityInfo}
             </p>
-            {renderAbility(abilityInfo)}
+            {renderAbility(ability)}
         </div>
     );
 }

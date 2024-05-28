@@ -454,8 +454,8 @@
   "id": "rebel",
   "points": 10,
   "type": "e_leader",
-  "ability": "default",
-  "ability_text": "no ability",
+  "ability": "rebel",
+  "ability_text": "Once per game add 5% to the fuel",
   "win_group": "evil",
   "group_name": "Rebels",
   "win_text": "Get Fuel above 90%",
@@ -490,8 +490,8 @@
   "id": "alien",
   "points": 10,
   "type": "e_leader",
-  "ability": "default",
-  "ability_text": "no ability",
+  "ability": "alien",
+  "ability_text": "Once per game kill 2% of crew",
   "win_group": "evil",
   "group_name": "Aliens",
   "win_text": "Get Crew to 0",
@@ -526,8 +526,8 @@
   "id": "robot",
   "points": 10,
   "type": "e_leader",
-  "ability": "default",
-  "ability_text": "no ability",
+  "ability": "robot",
+  "ability_text": "Once per game, add 10% power",
   "win_group": "evil",
   "group_name": "Robots",
   "win_text": "Get Power above 80%",
@@ -562,8 +562,8 @@
   "id": "parasite",
   "points": 10,
   "type": "e_leader",
-  "ability": "default",
-  "ability_text": "no ability",
+  "ability": "parasite",
+  "ability_text": "Once per game, decrease life support by 10%",
   "win_group": "evil",
   "group_name": "Prasites",
   "win_text": "Get Life support to 0",
@@ -598,8 +598,8 @@
   "id": "scavenger",
   "points": 10,
   "type": "e_leader",
-  "ability": "default",
-  "ability_text": "no ability",
+  "ability": "scanevenger",
+  "ability_text": "Once per game remove 5% of the fuel",
   "win_group": "evil",
   "group_name": "Scavengers",
   "win_text": "Get Ship health below 10%",
@@ -791,42 +791,6 @@
     "ship_health": {
       "min": 0,
       "max": 10
-    },
-    "fuel": {
-      "min": 0,
-      "max": 100
-    },
-    "life_support": {
-      "min": 0,
-      "max": 100
-    },
-    "power": {
-      "min": 0,
-      "max": 100
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "66297cceb24e4abc71dbbb74"
-  },
-  "name": "deafault_role",
-  "id": "default_role",
-  "points": 0,
-  "type": "good",
-  "ability": "default",
-  "ability_text": "no ability",
-  "win_group": "",
-  "group_name": "",
-  "win_text": "Do not use",
-  "win_condition": {
-    "crew": {
-      "min": 0,
-      "max": 100
-    },
-    "ship_health": {
-      "min": 0,
-      "max": 100
     },
     "fuel": {
       "min": 0,
