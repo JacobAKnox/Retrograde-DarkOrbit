@@ -1,5 +1,5 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois, takeStatusBarSnapshot, queueStatusBarChanges} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
@@ -108,6 +108,7 @@ export function updateClientsPhase(phase, time, lobbyCode) {
 }
 
 export async function gameLoop(lobbyCode){
+    takeStatusBarSnapshot(game_code, game_list);
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
@@ -123,6 +124,7 @@ export async function gameLoop(lobbyCode){
     // send winners and conditions to client
     await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
+    queueStatusBarChanges(game_code, game_list);
 }
 
 // Get winning players based on if their role win conditions are met

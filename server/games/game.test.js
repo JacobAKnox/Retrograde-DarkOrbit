@@ -11,8 +11,8 @@ import { assign_roles,
     delete_game,
     process_turn,
     automatic_status_bar_updates,
-    startTurn,
-    endTurn
+    takeStatusBarSnapshot,
+    queueStatusBarChanges
   } from "./game.js";
 import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE, GAME_GLOBALS, CREW_DECREASE_RATE } from "./game_globals.js";
 
@@ -437,7 +437,7 @@ describe("game service", () => {
           pois: PLAYER_INITIAL_POIS
       };
 
-      startTurn(game_code, game_list);
+      takeStatusBarSnapshot(game_code, game_list);
 
       expect(game_list[game_code].statusBarSnapshot).toEqual(get_new_status_bars());
   });
@@ -457,7 +457,7 @@ describe("game service", () => {
     game_list[game_code].statusBars.ship_health.value = 25;
 
     // Take a snapshot
-    startTurn(game_code, game_list);
+    takeStatusBarSnapshot(game_code, game_list);
 
     console.log('Initial snapshot:', game_list[game_code].statusBarSnapshot);
 
@@ -467,7 +467,7 @@ describe("game service", () => {
 
     console.log('Before endTurn, statusBars:', game_list[game_code].statusBars);
 
-    endTurn(game_code, game_list);
+    queueStatusBarChanges(game_code, game_list);
 
     console.log('Initial crew value:', game_list[game_code].statusBarSnapshot.crew.value);
     console.log('Final crew value:', game_list[game_code].statusBars.crew.value);

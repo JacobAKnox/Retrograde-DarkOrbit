@@ -307,14 +307,14 @@ export function process_turn(lobbyCode, game_list=games) {
 }
 
 
-export function startTurn(game_code, game_list = games) {
+export function takeStatusBarSnapshot(game_code, game_list = games) {
   const game = get_game(game_code, game_list);
   if (game) {
-      game.statusBarSnapshot = JSON.parse(JSON.stringify(game.statusBars)); // Taking a deep copy snapshot of the status bars
+      game.statusBarSnapshot = structuredClone(game.statusBars);
   }
 }
 
-export function endTurn(game_code, game_list = games) {
+export function queueStatusBarChanges(game_code, game_list = games) {
   const game = get_game(game_code, game_list);
   if (game && game.statusBarSnapshot) {
       const messages = [];
