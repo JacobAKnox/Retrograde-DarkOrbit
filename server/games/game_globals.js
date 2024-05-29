@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 export const PHASE_STATES = Object.freeze({
     GAME_SETUP_PHASE: "Game setup",
     SERVER_PROCESSING_PHASE: "Server processing",
@@ -166,3 +168,6 @@ export const PER_PLAYER_POWER_INCREASE = 5;
 export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 1;
 
 export const CREW_DECREASE_RATE = 1;
+
+export const MIN_PLAYERS = process.env.MIN_PLAYERS || 1;
+export const MAX_PLAYERS = process.env.MAX_PLAYERS || 15;

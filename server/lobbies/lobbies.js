@@ -1,3 +1,5 @@
+import { MAX_PLAYERS } from "../games/game_globals.js";
+
 let lobbies = {"ABCD": {}, "WXYZ": {}};
 
 export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
@@ -8,6 +10,10 @@ export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
 
     if (lobby_list[lobby_code][user_id] !== undefined) {
         return {status: 200, uuid: user_id, username: lobby_list[lobby_code][user_id].username, code: lobby_code};
+    }
+
+    if (get_num_players(lobby_code, lobby_list) >= MAX_PLAYERS) {
+        return{status: 400, message: `Lobby is full`};
     }
 
     if (Object.values(lobby_list[lobby_code]).map((usr) => {
