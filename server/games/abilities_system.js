@@ -12,7 +12,8 @@ import {
     decreaseLifeSupport,
     doctor_ability,
 } from "./abilities.js";
-import { get_game } from "./game.js";
+import { get_game, addMessageToQueue } from "./game.js";
+
 
 export function get_ability_function(lobby_code, player_id) {
     const ability_map = Object.freeze({
@@ -43,4 +44,7 @@ export function use_ability(lobby_code, player_id, data) {
         return;
     }
     ability(lobby_code, player_id, data);
+
+    // Add ability to queue
+    addMessageToQueue(lobby_code, "Ability Used:" + data)
 }
