@@ -12,7 +12,9 @@ import { assign_roles,
     process_turn,
     automatic_status_bar_updates,
     takeStatusBarSnapshot,
-    queueStatusBarChanges
+    queueStatusBarChanges,
+    addMessageToQueue,
+    clearMessageQueue
   } from "./game.js";
 import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE, GAME_GLOBALS, CREW_DECREASE_RATE } from "./game_globals.js";
 
@@ -485,6 +487,27 @@ describe("game service", () => {
     console.log('Message queue:', game_list[game_code].messageQueue);
 
     expect(game_list[game_code].messageQueue).toEqual(expectedMessages);
-});
+  });
+
+  test("add message to message queue", () => {
+    const msg = "Hello there!";
+    // message queue does not already exist
+    let games = { "ABCD": {},
+                  "EFGH": { messageQueue: [] }};
+
+    addMessageToQueue("ABCD", games, msg);
+    addMessageToQueue("EFGH", games, msg);
+    addMessageToQueue("EFGH", games, msg);
+
+    expect(games["ABCD"].messageQueue).toEqual(["Hello there!"]);
+    expect(games["EFGH"].messageQueue).toEqual(["Hello there!", "Hello there!"]);
+  });
+
+  test("clear message queue", () => {
+    let games = { "ABCD": { messageQueue: ["hi", "hello", "how are you?"] }};
+
+    clearMessageQueue("ABCD", games);
+    expect(games["ABCD"].messageQueue).toEqual([]);
+  });
 
 });

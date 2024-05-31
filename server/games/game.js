@@ -336,3 +336,23 @@ export function queueStatusBarChanges(game_code, game_list = games) {
       game.messageQueue.push(...messages);
   }
 }
+
+// Add a message (string) to the message queue on the game object.
+// The message queue is an array.
+export function addMessageToQueue(game_code, game_list = games, message) {
+  const game = get_game(game_code, game_list);
+  if(game) {
+    if(!game.messageQueue) {
+      game.messageQueue = [];
+    }
+    game.messageQueue.push(message);
+  }
+}
+
+// Clear the message queue on the game object.
+export function clearMessageQueue(game_code, game_list = games) {
+  let game = get_game(game_code, game_list);
+  if(game && game.messageQueue) {
+    game.messageQueue = [];
+  }
+}

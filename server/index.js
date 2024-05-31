@@ -3,7 +3,7 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
-import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
+import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs, clearMessageQueue } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
 import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update } from "./games/turns.js";
@@ -281,4 +281,25 @@ function updatePlayerList(lobbyCode) {
 
   console.error(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
   io.in(lobbyCode).emit('player_list_updated', playerList);
+}
+
+// for use with sendQueuedMessagesToClient; time in milliseconds
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Send messages from message queue on game object to clients in relevant game.
+// Each message has a short delay before being sent.
+// Message queue is cleared once all messages have been sent.
+export function sendQueuedMessagesToClient(lobbyCode) {
+  let game = get_game(lobbyCode);
+  if(game && game.messageQueue) {
+    for(message of game.messageQueue) {
+      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", message); });
+    }
+    clearMessageQueue(lobbyCode);
+  }
+  else {
+    io.in(lobbyCode).emit("receive chat msg", "ERROR: No game or no messageQueue");
+  }
 }
