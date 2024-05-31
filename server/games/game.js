@@ -40,7 +40,7 @@ export function delete_game(game_code, game_list=games) {
 }
 
 export function get_game(game_code, game_list=games) {
-    console.log(game_code);
+    //console.log(game_code);
     return game_list[game_code];
 }
 
@@ -91,14 +91,14 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
         break;
     }
     const role = roles.splice(Math.floor(Math.random() * roles.length), 1)[0]
-    console.log(`roles: ${roles}`);
+    //console.log(`roles: ${roles}`);
     game.players[p].role = role_list[role];
     set_player_POIs(game, p, PLAYER_INITIAL_POIS);
   });
 
   // at the end give minions group name and stuff
-  console.log(minions);
-  console.log(leader);
+  //console.log(minions);
+  //console.log(leader);
   minions.forEach((m) => {
     m.role.win_text = leader.role.win_text;
     m.role.group_name = leader.role.group_name;

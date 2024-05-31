@@ -1,10 +1,15 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
 import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois, takeStatusBarSnapshot, queueStatusBarChanges} from "./game.js";
-import { sendQueuedMessagesToClient } from "../index.js"
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
+
+let message_queue_send_callback = (lobbyCode) => {};
+
+export function message_queue_send(cb) {
+  message_queue_send_callback = cb;
+}
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
@@ -49,7 +54,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             set_new_pois(game, SELECTED_POIs);
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
             // send message queue then wait a moment
-            sendQueuedMessagesToClient(lobby_code);
+            message_queue_send_callback(lobby_code);
             await sleep(4000);
             // add function to send client the data for information phase here
             await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH); // this is zero for this phase

@@ -461,20 +461,20 @@ describe("game service", () => {
     // Take a snapshot
     takeStatusBarSnapshot(game_code, game_list);
 
-    console.log('Initial snapshot:', game_list[game_code].statusBarSnapshot);
+    //console.log('Initial snapshot:', game_list[game_code].statusBarSnapshot);
 
     // Change status bars to simulate the end of a turn
     game_list[game_code].statusBars.crew.value = 50;
     game_list[game_code].statusBars.ship_health.value = 50;
 
-    console.log('Before endTurn, statusBars:', game_list[game_code].statusBars);
+    //console.log('Before endTurn, statusBars:', game_list[game_code].statusBars);
 
     queueStatusBarChanges(game_code, game_list);
 
-    console.log('Initial crew value:', game_list[game_code].statusBarSnapshot.crew.value);
-    console.log('Final crew value:', game_list[game_code].statusBars.crew.value);
-    console.log('Initial ship_health value:', game_list[game_code].statusBarSnapshot.ship_health.value);
-    console.log('Final ship_health value:', game_list[game_code].statusBars.ship_health.value);
+    //console.log('Initial crew value:', game_list[game_code].statusBarSnapshot.crew.value);
+    //console.log('Final crew value:', game_list[game_code].statusBars.crew.value);
+    //console.log('Initial ship_health value:', game_list[game_code].statusBarSnapshot.ship_health.value);
+    //console.log('Final ship_health value:', game_list[game_code].statusBars.ship_health.value);
 
     const expectedMessages = [
         "crew changed by -33.33%",
@@ -484,7 +484,7 @@ describe("game service", () => {
         "power changed by 0.00%"
     ];
 
-    console.log('Message queue:', game_list[game_code].messageQueue);
+    //console.log('Message queue:', game_list[game_code].messageQueue);
 
     expect(game_list[game_code].messageQueue).toEqual(expectedMessages);
   });

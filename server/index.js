@@ -6,7 +6,7 @@ import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs, clearMessageQueue } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { PHASE_STATES } from "./games/game_globals.js";
-import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update } from "./games/turns.js";
+import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update, message_queue_send } from "./games/turns.js";
 import { use_ability } from "./games/abilities_system.js";
 
 const app = express();
@@ -241,6 +241,7 @@ server.listen(PORT, async () => {
   set_ids_and_names_callback(sendIdsAndNames);
   set_status_bar_update(updateStatusBar);
   winners_update(sendWinnersToClient);
+  message_queue_send(sendQueuedMessagesToClient);
   console.warn(`server running at http://localhost:${PORT}`);
 });
 
@@ -291,7 +292,7 @@ function sleep(ms) {
 // Send messages from message queue on game object to clients in relevant game.
 // Each message has a short delay before being sent.
 // Message queue is cleared once all messages have been sent.
-export function sendQueuedMessagesToClient(lobbyCode) {
+function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
   if(game && game.messageQueue) {
     for(message of game.messageQueue) {
