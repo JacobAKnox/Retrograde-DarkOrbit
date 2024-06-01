@@ -296,11 +296,8 @@ function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
   if(game && game.messageQueue && game.messageQueue.length > 0) {
     for(message of game.messageQueue) {
-      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", message); });
+      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", "[SERVER]: " + message); });
     }
     clearMessageQueue(lobbyCode);
-  }
-  else {
-    io.in(lobbyCode).emit("receive chat msg", "ERROR: No game or no messageQueue");
   }
 }

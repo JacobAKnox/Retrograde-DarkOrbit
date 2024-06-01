@@ -14,6 +14,13 @@ export default function WideChatBox() {
         setMessage("");
     }
 
+    async function enterSendHandler() {
+        if (messageInput != "" ) {
+            chat_message(messageInput).then();
+            setMessage("");
+          }
+    }
+
     function displayMessage(message) {
         const div = document.createElement("div");
         div.textContent = message;
