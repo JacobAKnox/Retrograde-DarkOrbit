@@ -263,43 +263,79 @@ exports[`renders on-screen 1`] = `
           >
             <label>
               Crew: 
-              <progress
-                aria-label="Crew"
-                max="100"
-                value="50"
-              />
+              <div
+                class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+              >
+                <div
+                  class="bg-green-700 h-5 absolute bottom-0"
+                  style="left: 5%; width: 95%;"
+                />
+                <div
+                  class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                  style="left: 50%;"
+                />
+              </div>
+               
             </label>
             <label>
               Ship Health: 
-              <progress
-                aria-label="Ship Health"
-                max="100"
-                value="50"
-              />
+              <div
+                class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+              >
+                <div
+                  class="bg-green-700 h-5 absolute bottom-0"
+                  style="left: 20%; width: 80%;"
+                />
+                <div
+                  class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                  style="left: 50%;"
+                />
+              </div>
             </label>
             <label>
               Fuel: 
-              <progress
-                aria-label="Fuel"
-                max="100"
-                value="50"
-              />
+              <div
+                class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+              >
+                <div
+                  class="bg-green-700 h-5 absolute bottom-0"
+                  style="left: 80%; width: 20%;"
+                />
+                <div
+                  class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                  style="left: 50%;"
+                />
+              </div>
             </label>
             <label>
               Life Support: 
-              <progress
-                aria-label="Life Support"
-                max="100"
-                value="50"
-              />
+              <div
+                class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+              >
+                <div
+                  class="bg-green-700 h-5 absolute bottom-0"
+                  style="left: 50%; width: 50%;"
+                />
+                <div
+                  class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                  style="left: 50%;"
+                />
+              </div>
             </label>
             <label>
               Power: 
-              <progress
-                aria-label="Power"
-                max="100"
-                value="50"
-              />
+              <div
+                class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+              >
+                <div
+                  class="bg-green-700 h-5 absolute bottom-0"
+                  style="left: 30%; width: 70%;"
+                />
+                <div
+                  class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                  style="left: 50%;"
+                />
+              </div>
             </label>
           </div>
         </div>
@@ -565,43 +601,79 @@ exports[`renders on-screen 1`] = `
         >
           <label>
             Crew: 
-            <progress
-              aria-label="Crew"
-              max="100"
-              value="50"
-            />
+            <div
+              class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+            >
+              <div
+                class="bg-green-700 h-5 absolute bottom-0"
+                style="left: 5%; width: 95%;"
+              />
+              <div
+                class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                style="left: 50%;"
+              />
+            </div>
+             
           </label>
           <label>
             Ship Health: 
-            <progress
-              aria-label="Ship Health"
-              max="100"
-              value="50"
-            />
+            <div
+              class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+            >
+              <div
+                class="bg-green-700 h-5 absolute bottom-0"
+                style="left: 20%; width: 80%;"
+              />
+              <div
+                class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                style="left: 50%;"
+              />
+            </div>
           </label>
           <label>
             Fuel: 
-            <progress
-              aria-label="Fuel"
-              max="100"
-              value="50"
-            />
+            <div
+              class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+            >
+              <div
+                class="bg-green-700 h-5 absolute bottom-0"
+                style="left: 80%; width: 20%;"
+              />
+              <div
+                class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                style="left: 50%;"
+              />
+            </div>
           </label>
           <label>
             Life Support: 
-            <progress
-              aria-label="Life Support"
-              max="100"
-              value="50"
-            />
+            <div
+              class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+            >
+              <div
+                class="bg-green-700 h-5 absolute bottom-0"
+                style="left: 50%; width: 50%;"
+              />
+              <div
+                class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                style="left: 50%;"
+              />
+            </div>
           </label>
           <label>
             Power: 
-            <progress
-              aria-label="Power"
-              max="100"
-              value="50"
-            />
+            <div
+              class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+            >
+              <div
+                class="bg-green-700 h-5 absolute bottom-0"
+                style="left: 30%; width: 70%;"
+              />
+              <div
+                class="bg-slate-700 h-5 w-1 absolute bottom-0"
+                style="left: 50%;"
+              />
+            </div>
           </label>
         </div>
       </div>

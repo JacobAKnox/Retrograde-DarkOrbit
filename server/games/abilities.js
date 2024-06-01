@@ -1,4 +1,4 @@
-import { get_game, get_status_bars } from "./game.js";
+import { get_game, get_status_bars, addMessageToQueue } from "./game.js";
 import { status_bar_update_callback } from "./turns.js";
 
 export function test_ability() {}
@@ -12,6 +12,8 @@ export function doctor_ability(lobby_code, player_id, data) {
     handleAbilityAction(lobby_code, player_id, {amount: 20}, increaseStatusBar, "life_support");
     status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
     role.used = true;
+
+    addMessageToQueue(lobby_code, "Healing Ability Used");
 }
 
 export const increaseStatusBar = (game, amount, statusBarName) => {

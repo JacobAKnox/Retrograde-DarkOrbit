@@ -11,7 +11,7 @@ export const PHASE_STATES = Object.freeze({
 
 // time in milliseconds
 export const PHASE_TIMINGS = Object.freeze({
-    INFORMATION_PHASE_LENGTH: 20000,
+    INFORMATION_PHASE_LENGTH: 0,
     DISCUSSION_PHASE_LENGTH: 60000,
     ACTION_PHASE_LENGTH: 20000,
     GAME_OVER_PHASE_LENGTH: 150000

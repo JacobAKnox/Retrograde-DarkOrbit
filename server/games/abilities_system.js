@@ -14,6 +14,7 @@ import {
 } from "./abilities.js";
 import { get_game } from "./game.js";
 
+
 export function get_ability_function(lobby_code, player_id) {
     const ability_map = Object.freeze({
         test: test_ability,
