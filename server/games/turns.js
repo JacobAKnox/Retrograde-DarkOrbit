@@ -45,7 +45,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             break;
 
         case PHASE_STATES.INFORMATION_PHASE:
-
+            takeStatusBarSnapshot(lobby_code);
             updateClientsPhase(PHASE_STATES.INFORMATION_PHASE, PHASE_TIMINGS.INFORMATION_PHASE_LENGTH, lobby_code);
             //Send Ids and Names here
             // Send POIs from here
@@ -78,6 +78,7 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
         case PHASE_STATES.SERVER_PROCESSING_PHASE:
             process_turn(lobby_code);
             automatic_status_bar_updates(lobby_code);
+            queueStatusBarChanges(lobby_code);
 
             // check for winners if any global win condition is met 
             const global_winners = get_winners_from_global_win_conditions(game);
@@ -116,7 +117,6 @@ export function updateClientsPhase(phase, time, lobbyCode) {
 }
 
 export async function gameLoop(lobbyCode){
-    takeStatusBarSnapshot(game_code, game_list);
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
@@ -132,7 +132,6 @@ export async function gameLoop(lobbyCode){
     // send winners and conditions to client
     await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
-    queueStatusBarChanges(game_code, game_list);
 }
 
 // Get winning players based on if the evil leader's win conditions are met
