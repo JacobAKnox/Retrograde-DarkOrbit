@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
   
 
   // POI updates during action phase
-  socket.on("client-sent poi update", (POIs, callback) => {s
+  socket.on("client-sent poi update", (POIs, callback) => {
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
     if (Object.keys(POIs).length === 0) { 
