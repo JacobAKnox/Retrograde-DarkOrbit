@@ -339,7 +339,7 @@ export function queueStatusBarChanges(game_code, game_list = games) {
 
 // Add a message (string) to the message queue on the game object.
 // The message queue is an array.
-export function addMessageToQueue(game_code, game_list = games, message) {
+export function addMessageToQueue(game_code, message, game_list = games) {
   const game = get_game(game_code, game_list);
   if(game) {
     if(!game.messageQueue) {

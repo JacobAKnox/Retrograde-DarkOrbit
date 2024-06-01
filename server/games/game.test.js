@@ -495,9 +495,9 @@ describe("game service", () => {
     let games = { "ABCD": {},
                   "EFGH": { messageQueue: [] }};
 
-    addMessageToQueue("ABCD", games, msg);
-    addMessageToQueue("EFGH", games, msg);
-    addMessageToQueue("EFGH", games, msg);
+    addMessageToQueue("ABCD", msg, games);
+    addMessageToQueue("EFGH", msg, games);
+    addMessageToQueue("EFGH", msg, games);
 
     expect(games["ABCD"].messageQueue).toEqual(["Hello there!"]);
     expect(games["EFGH"].messageQueue).toEqual(["Hello there!", "Hello there!"]);
