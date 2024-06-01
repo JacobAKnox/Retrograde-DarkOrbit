@@ -1,9 +1,15 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois, takeStatusBarSnapshot, queueStatusBarChanges} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
+
+let message_queue_send_callback = (lobbyCode) => {};
+
+export function message_queue_send(cb) {
+  message_queue_send_callback = cb;
+}
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
@@ -47,9 +53,11 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             ids_and_names_callback(SELECTED_POIs, lobby_code)
             set_new_pois(game, SELECTED_POIs);
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
-        
+            // send message queue then wait a moment
+            message_queue_send_callback(lobby_code);
+            await sleep(4000);
             // add function to send client the data for information phase here
-            await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
+            await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH); // this is zero for this phase
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
             break;
 
@@ -108,6 +116,7 @@ export function updateClientsPhase(phase, time, lobbyCode) {
 }
 
 export async function gameLoop(lobbyCode){
+    takeStatusBarSnapshot(game_code, game_list);
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
@@ -123,35 +132,42 @@ export async function gameLoop(lobbyCode){
     // send winners and conditions to client
     await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
+    queueStatusBarChanges(game_code, game_list);
 }
 
-// Get winning players based on if their role win conditions are met
+// Get winning players based on if the evil leader's win conditions are met
 // Returns a bag {team: str, names: [str]}
-// NOTE: "team" will have the group_name of the first determined winning player.
 export function get_winners_from_role_win_conditions(game) {
   const status_bars = game.statusBars;
   const players = game.players;
   let winners = {team: "", names: [] };
-  // for each player...
+
+  // check evil leader's win conditions
   for(const [key, player] of Object.entries(players)) {
-    let all_win_conditions_met = true;
-    // for each win condition within the "win condition" object for that player...
-    for(let win_condition in player.role.win_condition) {
-      let bar_id = win_condition;
-      // check each status bar win condition against the current game status bar values
-      if(!(status_bars[bar_id].value >= player.role.win_condition[bar_id].min &&
-          status_bars[bar_id].value <= player.role.win_condition[bar_id].max)) {
-            all_win_conditions_met = false;
-            break;
+    if(player.role.type == "e_leader") {
+      for(let win_condition in player.role.win_condition) {
+        let bar_id = win_condition;
+
+        if(!(status_bars[bar_id].value >= player.role.win_condition[bar_id].min &&
+            status_bars[bar_id].value <= player.role.win_condition[bar_id].max)) {
+              // at least one win condition not met. Return empty winners bag.
+              return winners;
+        }
       }
     }
-    if(all_win_conditions_met) {
-      if(winners.team === "") {
-        winners.team = player.role.group_name;
-      }
+  }
+
+  // evil leader's win conditions met
+  for(const [key, player] of Object.entries(players)) {
+    if(player.role.type == "e_leader") {
+      winners.team = player.role.group_name;
+      winners.names.push(player.username);
+    }
+    if(player.role.type == "e_minion") {
       winners.names.push(player.username);
     }
   }
+
   return winners;
 }
 

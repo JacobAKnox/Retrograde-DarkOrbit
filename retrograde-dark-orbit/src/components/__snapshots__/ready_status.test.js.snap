@@ -10,7 +10,7 @@ exports[`renders on-screen 1`] = `
       >
         0
         /
-        0
+        5
          players ready
       </div>
     </div>
@@ -21,7 +21,7 @@ exports[`renders on-screen 1`] = `
     >
       0
       /
-      0
+      5
        players ready
     </div>
   </div>,

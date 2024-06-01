@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { listen_status_bar_update } from '../server/socket';
+import { listen_status_bar_update, update_role_info } from '../server/socket';
+import StatusBar from './status_bar';
 
 export default function InformationBar() {
     const [gameStatus, setGameStatus] = useState({
@@ -10,12 +11,42 @@ export default function InformationBar() {
       "power": {name: "Power", value: 50, max_value: 100}
     });
 
+    const [winCon, setWinCon] = useState({
+            "crew": {
+              "min": 5,
+              "max": 100
+            },
+            "ship_health": {
+              "min": 20,
+              "max": 100
+            },
+            "fuel": {
+              "min": 80,
+              "max": 100
+            },
+            "life_support": {
+              "min": 50,
+              "max": 100
+            },
+            "power": {
+              "min": 30,
+              "max": 100
+            }
+          });
+
     useEffect(() => {
        const old_status = listen_status_bar_update(setGameStatus);
        if (old_status) {
             setGameStatus(old_status);
        }
+       on_role_update(update_role_info(on_role_update));
     }, []);
+
+    function on_role_update(role) {
+        if (!role || !role.win_condition) {return;}
+        console.log(role);
+        setWinCon(role.win_condition);
+    }
 
     return (
         <>
@@ -57,11 +88,11 @@ export default function InformationBar() {
                 `}
             </style>
             <div className="information-bar">
-                <label>Crew: <progress value={gameStatus.crew.value} max={gameStatus.crew.max_value} aria-label="Crew"></progress></label>
-                <label>Ship Health: <progress value={gameStatus.ship_health.value} max={gameStatus.ship_health.max_value} aria-label="Ship Health"></progress></label>
-                <label>Fuel: <progress value={gameStatus.fuel.value} max={gameStatus.fuel.max_value} aria-label="Fuel"></progress></label>
-                <label>Life Support: <progress value={gameStatus.life_support.value} max={gameStatus.life_support.max_value} aria-label="Life Support"></progress></label>
-                <label>Power: <progress value={gameStatus.power.value} max={gameStatus.power.max_value} aria-label="Power"></progress></label>
+                <label>Crew: <StatusBar value={gameStatus.crew.value} low={winCon.crew.min} high={winCon.crew.max} aria-label="Crew"/> </label>
+                <label>Ship Health: <StatusBar value={gameStatus.ship_health.value} low={winCon.ship_health.min} high={winCon.ship_health.max} aria-label="Ship Health"/></label>
+                <label>Fuel: <StatusBar value={gameStatus.fuel.value} low={winCon.fuel.min} high={winCon.fuel.max} aria-label="Fuel"/></label>
+                <label>Life Support: <StatusBar value={gameStatus.life_support.value} low={winCon.life_support.min} high={winCon.life_support.max} aria-label="Life Support"/></label>
+                <label>Power: <StatusBar value={gameStatus.power.value} low={winCon.power.min} high={winCon.power.max} aria-label="Power"/></label>
             </div>
         </>
     );

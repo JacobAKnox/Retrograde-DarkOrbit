@@ -40,7 +40,6 @@ export function delete_game(game_code, game_list=games) {
 }
 
 export function get_game(game_code, game_list=games) {
-    console.log(game_code);
     return game_list[game_code];
 }
 
@@ -91,14 +90,11 @@ export function assign_roles(game, role_list = roles, role_players = roles_by_pl
         break;
     }
     const role = roles.splice(Math.floor(Math.random() * roles.length), 1)[0]
-    console.log(`roles: ${roles}`);
     game.players[p].role = role_list[role];
     set_player_POIs(game, p, PLAYER_INITIAL_POIS);
   });
 
   // at the end give minions group name and stuff
-  console.log(minions);
-  console.log(leader);
   minions.forEach((m) => {
     m.role.win_text = leader.role.win_text;
     m.role.group_name = leader.role.group_name;
@@ -239,6 +235,7 @@ export function process_turn(lobbyCode, game_list=games) {
     return {status: 400, message: `error: game not found`};
   }
   const players = game.players; 
+
   // For each player in the game
   for (let player_id in players) {
       // Get name and points allocated
@@ -302,5 +299,56 @@ export function process_turn(lobbyCode, game_list=games) {
         set_status_bar_value(lobbyCode, "power", new_val, game_list);
       }
     }
+  }
+}
+
+
+export function takeStatusBarSnapshot(game_code, game_list = games) {
+  const game = get_game(game_code, game_list);
+  if (game) {
+      game.statusBarSnapshot = structuredClone(game.statusBars);
+  }
+}
+
+export function queueStatusBarChanges(game_code, game_list = games) {
+  const game = get_game(game_code, game_list);
+  if (game && game.statusBarSnapshot) {
+      const messages = [];
+      if (!game.messageQueue) {
+          game.messageQueue = [];
+      }
+      for (const [key, value] of Object.entries(game.statusBars)) {
+          const initial = game.statusBarSnapshot[key].value;
+          const current = value.value;
+          let percentageChange;
+          if (initial === 0) {
+              percentageChange = current === 0 ? 0 : 100; // Handle division by zero
+          } else {
+              percentageChange = ((current - initial) / initial) * 100;
+          }
+          const message = `${key} changed by ${percentageChange.toFixed(2)}%`;
+          messages.push(message);
+      }
+      game.messageQueue.push(...messages);
+  }
+}
+
+// Add a message (string) to the message queue on the game object.
+// The message queue is an array.
+export function addMessageToQueue(game_code, message, game_list = games) {
+  const game = get_game(game_code, game_list);
+  if(game) {
+    if(!game.messageQueue) {
+      game.messageQueue = [];
+    }
+    game.messageQueue.push(message);
+  }
+}
+
+// Clear the message queue on the game object.
+export function clearMessageQueue(game_code, game_list = games) {
+  let game = get_game(game_code, game_list);
+  if(game && game.messageQueue) {
+    game.messageQueue = [];
   }
 }
