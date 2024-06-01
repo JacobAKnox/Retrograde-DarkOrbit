@@ -51,11 +51,9 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   // text chat
   socket.on("send chat msg", ({message}) => {
-    console.warn('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
+    console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
     io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
   });
-
-  
 
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
@@ -242,7 +240,7 @@ server.listen(PORT, async () => {
   set_status_bar_update(updateStatusBar);
   winners_update(sendWinnersToClient);
   message_queue_send(sendQueuedMessagesToClient);
-  console.warn(`server running at http://localhost:${PORT}`);
+  console.log(`server running at http://localhost:${PORT}`);
 });
 
 export function closeServer() {
@@ -280,7 +278,6 @@ function updatePlayerList(lobbyCode) {
       ready: player.ready_state 
   }));
 
-  console.error(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
   io.in(lobbyCode).emit('player_list_updated', playerList);
 }
 
@@ -295,8 +292,8 @@ function sleep(ms) {
 function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
   if(game && game.messageQueue && game.messageQueue.length > 0) {
-    for(message of game.messageQueue) {
-      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", "[SERVER]: " + message); });
+    for(let message of game.messageQueue) {
+      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", {username: "server", message: message}); });
     }
     clearMessageQueue(lobbyCode);
   }

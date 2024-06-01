@@ -66,9 +66,9 @@ export async function leave_lobby() {
     return await socket.emitWithAck('leave');
 }
 
-socket.on("receive chat msg", (message) => {
-    console.log(message, socket.id);
-})
+// socket.on("receive chat msg", (message) => {
+//     console.log(message, socket.id);
+// })
 
 export async function create_lobby(username) {
     return await socket.emitWithAck('create', {username});

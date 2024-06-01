@@ -127,7 +127,7 @@ export default function POIPanel() {
             <div className="grid grid-cols-3 bg-slate-900 rounded-xl m-1 p-2">
                 {
                     Object.keys(POIs).map((p) => {
-                        return (<PoiBox key={p} displayText={POIs[p].name} update_callback={point_update} id={p} points={POIs[p].allocated}/>)
+                        return (<PoiBox key={p} displayText={POIs[p].name} explaination={POIs[p].explaination} update_callback={point_update} id={p} points={POIs[p].allocated}/>)
                     })
                 }
             </div>
