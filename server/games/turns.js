@@ -1,9 +1,15 @@
 import { PHASE_STATES, PHASE_TIMINGS, PLAYER_INITIAL_POIS } from "./game_globals.js"
-import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois} from "./game.js";
+import { get_game, get_status_bars, set_status_bar_value, get_status_bar_value, get_player_POIs, set_player_POIs, process_turn, delete_game, automatic_status_bar_updates, shuffle_pois, set_new_pois, takeStatusBarSnapshot, queueStatusBarChanges} from "./game.js";
 
 let timer_update_callback = (phase, time, start, lobbyCode) => {};
 
 let ids_and_names_callback = (IDSANDNAMES, lobbyCode) => {};
+
+let message_queue_send_callback = (lobbyCode) => {};
+
+export function message_queue_send(cb) {
+  message_queue_send_callback = cb;
+}
 
 export function set_timer_update_callback(cb) {
     timer_update_callback = cb;
@@ -47,9 +53,11 @@ export async function execute_turn(game, lobby_code, sleep=sleep_function) {
             ids_and_names_callback(SELECTED_POIs, lobby_code)
             set_new_pois(game, SELECTED_POIs);
             status_bar_update_callback(lobby_code, get_status_bars(lobby_code));
-        
+            // send message queue then wait a moment
+            message_queue_send_callback(lobby_code);
+            await sleep(4000);
             // add function to send client the data for information phase here
-            await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH);
+            await sleep(PHASE_TIMINGS.INFORMATION_PHASE_LENGTH); // this is zero for this phase
             game.currentState = PHASE_STATES.DISCUSSION_PHASE;
             break;
 
@@ -108,6 +116,7 @@ export function updateClientsPhase(phase, time, lobbyCode) {
 }
 
 export async function gameLoop(lobbyCode){
+    takeStatusBarSnapshot(game_code, game_list);
     //Gameloop - execute turns
     //define game
     let game = get_game(lobbyCode);
@@ -123,6 +132,7 @@ export async function gameLoop(lobbyCode){
     // send winners and conditions to client
     await sleep_function(PHASE_TIMINGS.GAME_OVER_PHASE_LENGTH);
     delete_game(lobbyCode);
+    queueStatusBarChanges(game_code, game_list);
 }
 
 // Get winning players based on if the evil leader's win conditions are met

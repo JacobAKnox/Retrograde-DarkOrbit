@@ -10,7 +10,12 @@ import { assign_roles,
     get_status_bar_values ,
     delete_game,
     process_turn,
-    automatic_status_bar_updates} from "./game.js";
+    automatic_status_bar_updates,
+    takeStatusBarSnapshot,
+    queueStatusBarChanges,
+    addMessageToQueue,
+    clearMessageQueue
+  } from "./game.js";
 import { PLAYER_INITIAL_POIS, get_new_status_bars, default_role_info, PER_PLAYER_POWER_INCREASE, GAME_GLOBALS, CREW_DECREASE_RATE } from "./game_globals.js";
 
 const get_num_players_mock = jest.spyOn(require("./../lobbies/lobbies.js"), "get_num_players");
@@ -423,4 +428,86 @@ describe("game service", () => {
         "power": {name: "Power", value: 50, max_value: 100}
       });
     });
+
+
+    test("startTurn takes a snapshot of status bars", () => {
+      let game_list = {};
+      let game_code = 'testCode';
+      game_list[game_code] = {
+          players: { usr1: { username: "usr1" } },
+          statusBars: get_new_status_bars(),
+          pois: PLAYER_INITIAL_POIS
+      };
+
+      takeStatusBarSnapshot(game_code, game_list);
+
+      expect(game_list[game_code].statusBarSnapshot).toEqual(get_new_status_bars());
+  });
+
+  test("endTurn queues percentage change messages", () => {
+    let game_list = {};
+    let game_code = 'testCode';
+    game_list[game_code] = {
+        players: { usr1: { username: "usr1" } },
+        statusBars: get_new_status_bars(),
+        pois: PLAYER_INITIAL_POIS,
+        messageQueue: []
+    };
+
+    // Simulate a turn with status bar changes
+    game_list[game_code].statusBars.crew.value = 75;
+    game_list[game_code].statusBars.ship_health.value = 25;
+
+    // Take a snapshot
+    takeStatusBarSnapshot(game_code, game_list);
+
+    //console.log('Initial snapshot:', game_list[game_code].statusBarSnapshot);
+
+    // Change status bars to simulate the end of a turn
+    game_list[game_code].statusBars.crew.value = 50;
+    game_list[game_code].statusBars.ship_health.value = 50;
+
+    //console.log('Before endTurn, statusBars:', game_list[game_code].statusBars);
+
+    queueStatusBarChanges(game_code, game_list);
+
+    //console.log('Initial crew value:', game_list[game_code].statusBarSnapshot.crew.value);
+    //console.log('Final crew value:', game_list[game_code].statusBars.crew.value);
+    //console.log('Initial ship_health value:', game_list[game_code].statusBarSnapshot.ship_health.value);
+    //console.log('Final ship_health value:', game_list[game_code].statusBars.ship_health.value);
+
+    const expectedMessages = [
+        "crew changed by -33.33%",
+        "ship_health changed by 100.00%",
+        "fuel changed by 0.00%",
+        "life_support changed by 0.00%",
+        "power changed by 0.00%"
+    ];
+
+    //console.log('Message queue:', game_list[game_code].messageQueue);
+
+    expect(game_list[game_code].messageQueue).toEqual(expectedMessages);
+  });
+
+  test("add message to message queue", () => {
+    const msg = "Hello there!";
+    // message queue does not already exist
+    let games = { "ABCD": {},
+                  "EFGH": { messageQueue: [] }};
+
+    addMessageToQueue("ABCD", msg, games);
+    addMessageToQueue("EFGH", msg, games);
+    addMessageToQueue("EFGH", msg, games);
+
+    expect(games["ABCD"].messageQueue).toEqual(["Hello there!"]);
+    expect(games["EFGH"].messageQueue).toEqual(["Hello there!", "Hello there!"]);
+  });
+
+  test("clear message queue", () => {
+    let games = { "ABCD": { messageQueue: ["hi", "hello", "how are you?"] }};
+
+    clearMessageQueue("ABCD", games);
+    expect(games["ABCD"].messageQueue).toEqual([]);
+  });
+
 });
