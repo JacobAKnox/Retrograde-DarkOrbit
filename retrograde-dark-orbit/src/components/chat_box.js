@@ -16,13 +16,6 @@ export default function ChatBox() {
       }
     }
 
-    async function enterSendHandler() {
-        if (messageInput != "" ) {
-            chat_message(messageInput).then();
-            setMessage("");
-          }
-    }
-
     function displayMessage(message) {
         const div = document.createElement("div");
         div.textContent = message;
@@ -41,7 +34,7 @@ export default function ChatBox() {
                 onChange={e => {setMessage(e.target.value)}}
                 placeholder="message"
                 aria-label="message"
-                onKeyDown={(e) => { if (e.key === "Enter") {enterSendHandler(); }}}/>
+                onKeyDown={(e) => { if (e.key === "Enter") {clickSendHandler(); }}}/>
                 <button className="bg-slate-700 text-white w-1/4 h-10 rounded-xl hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
                 onClick={clickSendHandler}>
                     Send

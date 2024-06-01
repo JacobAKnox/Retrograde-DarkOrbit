@@ -10,15 +10,10 @@ export default function WideChatBox() {
         chat_message_listener(displayMessage)}, [])
 
     async function clickSendHandler() {
-        chat_message(messageInput).then();
-        setMessage("");
-    }
-
-    async function enterSendHandler() {
         if (messageInput != "" ) {
             chat_message(messageInput).then();
             setMessage("");
-          }
+            }
     }
 
     function displayMessage(message) {
@@ -38,7 +33,8 @@ export default function WideChatBox() {
                 value={messageInput}
                 onChange={e => {setMessage(e.target.value)}}
                 placeholder="message"
-                aria-label="message"/>
+                aria-label="message"
+                onKeyDown={(e) => { if (e.key === "Enter") {clickSendHandler(); }}}/>
                 <button className="bg-slate-700 text-white w-1/4 h-10 rounded-xl hover:bg-slate-600 disabled:bg-slate-950 disabled:text-gray-700"
                 onClick={clickSendHandler}>
                     Send
