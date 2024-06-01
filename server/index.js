@@ -5,7 +5,7 @@ import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
-import { PHASE_STATES } from "./games/game_globals.js";
+import { MIN_PLAYERS, PHASE_STATES } from "./games/game_globals.js";
 import { gameLoop, set_status_bar_update, set_timer_update_callback, set_ids_and_names_callback, winners_update } from "./games/turns.js";
 import { use_ability } from "./games/abilities_system.js";
 
@@ -59,7 +59,6 @@ io.on("connection", (socket) => {
 
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
-    console.warn('[Room: ' + socket.roomCode + ', User: ' + socket.username + ', POI update]:');
     const allowed_phases = [PHASE_STATES.DISCUSSION_PHASE, PHASE_STATES.ACTION_PHASE];
     let game = get_game(socket.roomCode);
     if (Object.keys(POIs).length === 0) { 
@@ -188,7 +187,8 @@ io.on("connection", (socket) => {
     if (!lobby) {
       return;
     }
-    if (get_num_ready_players(socket.roomCode) < get_num_players(socket.roomCode)) {
+    const num_players = get_num_players(socket.roomCode);
+    if (get_num_ready_players(socket.roomCode) < num_players || num_players < MIN_PLAYERS) {
       // not enough players ready
       return;
     }

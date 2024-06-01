@@ -24,6 +24,20 @@ describe("lobby system", () => {
         expect(lobbies).toStrictEqual(copy);
     });
 
+    test("try to join a full lobby", () => {
+      let lobbies = {"ABCD": {}};
+      for (let i = 0; i < 15; i++) {
+        lobbies["ABCD"][`${i}`] = {};
+      }
+      const copy = JSON.parse(JSON.stringify(lobbies));
+      const result = join_lobby("ABCD", "test", "456", lobbies);
+
+      expect(result.status).toBe(400);
+      expect(result.uuid).toBeUndefined();
+      expect(result.message).toBe("Lobby is full");
+      expect(lobbies).toStrictEqual(copy);
+    });
+
     test("try to join a lobby you are already in", () => {
         let lobbies = {"ABCD": {"123": {username: "test"}}};
         const copy = JSON.parse(JSON.stringify(lobbies));
