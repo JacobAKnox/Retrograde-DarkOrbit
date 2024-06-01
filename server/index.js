@@ -294,7 +294,7 @@ function sleep(ms) {
 // Message queue is cleared once all messages have been sent.
 function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
-  if(game && game.messageQueue) {
+  if(game && game.messageQueue && game.messageQueue.length > 0) {
     for(message of game.messageQueue) {
       sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", message); });
     }
