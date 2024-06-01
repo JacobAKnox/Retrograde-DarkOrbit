@@ -1,0 +1,298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InformationBar /> renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <style>
+        
+                .information-bar {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    background: #151B30; 
+                    padding: 15px;
+                    border-radius: 8px;
+                    color: #fff; 
+                    margin: 10px 0;
+                }
+
+                .information-bar label {
+                    font-size: 0.9rem;
+                    color: #FFFFFF;
+                }
+
+                .information-bar progress {
+                    width: 100%;
+                    height: 20px;
+                    border-radius: 10px;
+                    color: #4caf50;
+                    background-color: #4ade80;
+                }
+               
+                .information-bar progress::-webkit-progress-value {
+                    background-color: #4caf50;
+                    border-radius: 10px;
+                }
+     
+                .information-bar progress::-webkit-progress-bar {
+                    background-color: #333;
+                    border-radius: 10px;
+                }
+                
+      </style>
+      <div
+        class="information-bar"
+      >
+        <label>
+          Crew: 
+          <div
+            class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+          >
+            <div
+              class="bg-green-700 h-5 absolute bottom-0"
+              style="left: 5%; width: 95%;"
+            />
+            <div
+              class="bg-slate-700 h-5 w-1 absolute bottom-0"
+              style="left: 50%;"
+            />
+          </div>
+           
+        </label>
+        <label>
+          Ship Health: 
+          <div
+            class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+          >
+            <div
+              class="bg-green-700 h-5 absolute bottom-0"
+              style="left: 20%; width: 80%;"
+            />
+            <div
+              class="bg-slate-700 h-5 w-1 absolute bottom-0"
+              style="left: 50%;"
+            />
+          </div>
+        </label>
+        <label>
+          Fuel: 
+          <div
+            class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+          >
+            <div
+              class="bg-green-700 h-5 absolute bottom-0"
+              style="left: 80%; width: 20%;"
+            />
+            <div
+              class="bg-slate-700 h-5 w-1 absolute bottom-0"
+              style="left: 50%;"
+            />
+          </div>
+        </label>
+        <label>
+          Life Support: 
+          <div
+            class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+          >
+            <div
+              class="bg-green-700 h-5 absolute bottom-0"
+              style="left: 50%; width: 50%;"
+            />
+            <div
+              class="bg-slate-700 h-5 w-1 absolute bottom-0"
+              style="left: 50%;"
+            />
+          </div>
+        </label>
+        <label>
+          Power: 
+          <div
+            class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+          >
+            <div
+              class="bg-green-700 h-5 absolute bottom-0"
+              style="left: 30%; width: 70%;"
+            />
+            <div
+              class="bg-slate-700 h-5 w-1 absolute bottom-0"
+              style="left: 50%;"
+            />
+          </div>
+        </label>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <style>
+      
+                .information-bar {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    background: #151B30; 
+                    padding: 15px;
+                    border-radius: 8px;
+                    color: #fff; 
+                    margin: 10px 0;
+                }
+
+                .information-bar label {
+                    font-size: 0.9rem;
+                    color: #FFFFFF;
+                }
+
+                .information-bar progress {
+                    width: 100%;
+                    height: 20px;
+                    border-radius: 10px;
+                    color: #4caf50;
+                    background-color: #4ade80;
+                }
+               
+                .information-bar progress::-webkit-progress-value {
+                    background-color: #4caf50;
+                    border-radius: 10px;
+                }
+     
+                .information-bar progress::-webkit-progress-bar {
+                    background-color: #333;
+                    border-radius: 10px;
+                }
+                
+    </style>
+    <div
+      class="information-bar"
+    >
+      <label>
+        Crew: 
+        <div
+          class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+        >
+          <div
+            class="bg-green-700 h-5 absolute bottom-0"
+            style="left: 5%; width: 95%;"
+          />
+          <div
+            class="bg-slate-700 h-5 w-1 absolute bottom-0"
+            style="left: 50%;"
+          />
+        </div>
+         
+      </label>
+      <label>
+        Ship Health: 
+        <div
+          class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+        >
+          <div
+            class="bg-green-700 h-5 absolute bottom-0"
+            style="left: 20%; width: 80%;"
+          />
+          <div
+            class="bg-slate-700 h-5 w-1 absolute bottom-0"
+            style="left: 50%;"
+          />
+        </div>
+      </label>
+      <label>
+        Fuel: 
+        <div
+          class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+        >
+          <div
+            class="bg-green-700 h-5 absolute bottom-0"
+            style="left: 80%; width: 20%;"
+          />
+          <div
+            class="bg-slate-700 h-5 w-1 absolute bottom-0"
+            style="left: 50%;"
+          />
+        </div>
+      </label>
+      <label>
+        Life Support: 
+        <div
+          class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+        >
+          <div
+            class="bg-green-700 h-5 absolute bottom-0"
+            style="left: 50%; width: 50%;"
+          />
+          <div
+            class="bg-slate-700 h-5 w-1 absolute bottom-0"
+            style="left: 50%;"
+          />
+        </div>
+      </label>
+      <label>
+        Power: 
+        <div
+          class="bg-slate-200 relative rounded-xl text-black text-center border-slate-600 border-solid border-2 h-6 content-center overflow-clip"
+        >
+          <div
+            class="bg-green-700 h-5 absolute bottom-0"
+            style="left: 30%; width: 70%;"
+          />
+          <div
+            class="bg-slate-700 h-5 w-1 absolute bottom-0"
+            style="left: 50%;"
+          />
+        </div>
+      </label>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

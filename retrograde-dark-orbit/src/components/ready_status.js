@@ -18,7 +18,7 @@ export default function ReadyStatus() {
  
   return (
     <div className="flex justify-center">
-      {numPlayersReady}/{numPlayersTotal} players ready
+      {numPlayersReady}/{numPlayersTotal < 5 ? 5 : numPlayersTotal} players ready
     </div>
   )
 }

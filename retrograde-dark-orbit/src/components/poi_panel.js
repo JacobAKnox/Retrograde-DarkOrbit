@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import PoiBox from "./poi_box"
-import { update_role_info, send_poi_update, server_sent_poi_listener } from "../server/socket";
+import { update_role_info, send_poi_update, server_sent_poi_listener, set_turn_timer } from "../server/socket";
 import { getItem, storeItem } from "./../server/storage";
 
 let poi_list = {};
@@ -21,15 +21,23 @@ export default function POIPanel() {
 
     server_sent_poi_listener(update_POIs_from_server);
 
-    useEffect(() => {
-        const old_info = update_role_info(on_role_update);
-        if (old_info) {
-            setTotalPoints(old_info.points);
+    function timerUpdate(phase) {
+        if (phase.name === "Discussion phase" || phase.name === "Action phase") {
+            start_poi_updates();
+        } else {
+            stop_poi_updates();
         }
-        const loaded_pois = loadPOIs();
-        setPOIs(loaded_pois);
-        update_available(loaded_pois);
+    }
 
+    function stop_poi_updates() {
+        if (timerId == 0) {
+            return;
+        }
+        clearInterval(timerId);
+        timerId = 0;
+    }
+
+    function start_poi_updates() {
         // The block of code below needs to run only during the action phase.
         // Use the function "clearInterval(timerId)" when you need to stop the interval from running.
         clearInterval(timerId);
@@ -43,6 +51,22 @@ export default function POIPanel() {
                 }
             })
         }, 1000);
+    }
+
+    useEffect(() => {
+        const old_info = update_role_info(on_role_update);
+        if (old_info) {
+            setTotalPoints(old_info.points);
+        }
+        const loaded_pois = loadPOIs();
+        setPOIs(loaded_pois);
+        update_available(loaded_pois);
+
+        const old_timer = getItem("timer");
+        if (old_timer) {
+            timerUpdate(old_timer);
+        }
+        set_turn_timer(timerUpdate);
     }, []);
 
     function update_POIs_from_server(new_pois) {

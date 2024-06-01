@@ -134,7 +134,8 @@ describe("turn phases and timings", () => {
                             "fuel":           { min: 80, max: 100 },
                             "life_support":   { min: 50, max: 100 },
                             "power":          { min: 30, max: 100 }},
-                        group_name: "team-1" }},
+                        group_name: "team-1",
+                        type: "good" }},
                 "player2": {
                     username: "username2",
                     role: { 
@@ -144,14 +145,15 @@ describe("turn phases and timings", () => {
                             "fuel":           { min: 90, max: 100 },
                             "life_support":   { min: 50, max: 100 },
                             "power":          { min: 45, max: 100 }},
-                        group_name: "team-2" }}},
+                        group_name: "team-2",
+                        type: "e_leader" }}},
             statusBars: {   "crew":           { value: 50 },
                             "ship_health":    { value: 50 },
                             "fuel":           { value: 50 },
                             "life_support":   { value: 50 },
                             "power":          { value: 50 }}};
 
-        // player 2 is a winner
+        // evil team wins
         const game2 = {
             players: {
                 "player1": {
@@ -163,9 +165,10 @@ describe("turn phases and timings", () => {
                             "fuel":           { min: 80, max: 100 },
                             "life_support":   { min: 50, max: 100 },
                             "power":          { min: 30, max: 100 }},
-                        group_name: "team-1" }},
+                        group_name: "team-1",
+                        type: "good" }},
                 "player2": {
-                    username: "username2",
+                    username: "evil_leader",
                     role: { 
                         win_condition: {
                             "crew":           { min: 70, max: 100 },
@@ -173,36 +176,12 @@ describe("turn phases and timings", () => {
                             "fuel":           { min: 90, max: 100 },
                             "life_support":   { min: 50, max: 100 },
                             "power":          { min: 45, max: 100 }},
-                        group_name: "team-2" }}},
-            statusBars: {   "crew":           { value: 75 },
-                            "ship_health":    { value: 80 },
-                            "fuel":           { value: 95 },
-                            "life_support":   { value: 50 },
-                            "power":          { value: 50 }}};
-
-        // player 1 and 2 are winners
-        const game3 = {
-            players: {
-                "player1": {
-                    username: "username1",
-                    role: { 
-                        win_condition: {
-                            "crew":           { min: 5,  max: 100 },
-                            "ship_health":    { min: 20, max: 100 },
-                            "fuel":           { min: 80, max: 100 },
-                            "life_support":   { min: 50, max: 100 },
-                            "power":          { min: 30, max: 100 }},
-                        group_name: "team-1" }},
-                "player2": {
-                    username: "username2",
-                    role: { 
-                        win_condition: {
-                            "crew":           { min: 70, max: 100 },
-                            "ship_health":    { min: 50, max: 100 },
-                            "fuel":           { min: 90, max: 100 },
-                            "life_support":   { min: 50, max: 100 },
-                            "power":          { min: 45, max: 100 }},
-                        group_name: "team-2" }}},
+                        group_name: "evil_team",
+                        type: "e_leader" }},
+                "player3": {
+                    username: "evil_minion",
+                    role: {
+                        type: "e_minion" }}},
             statusBars: {   "crew":           { value: 75 },
                             "ship_health":    { value: 80 },
                             "fuel":           { value: 95 },
@@ -211,10 +190,8 @@ describe("turn phases and timings", () => {
 
         const result1 = get_winners_from_role_win_conditions(game1);
         const result2 = get_winners_from_role_win_conditions(game2);
-        const result3 = get_winners_from_role_win_conditions(game3);
         expect(result1).toEqual({ team: "", names: [] });
-        expect(result2).toEqual({ team: "team-2", names: ["username2"] });
-        expect(result3).toEqual({ team: "team-1", names: ["username1", "username2"] });
+        expect(result2).toEqual({ team: "evil_team", names: ["evil_leader", "evil_minion"] });
     });
 
     test("global win condition checking", () => {
