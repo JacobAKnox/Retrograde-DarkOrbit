@@ -8,9 +8,9 @@
   "explaination": "⬆Fuel",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": 2,
+  "fuel": 0.5,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -21,10 +21,10 @@
   "name": "Maintenance",
   "explaination": "⬆Ship Health",
   "allocated": 0,
-  "ship_health": 2,
+  "ship_health": 0.5,
   "fuel": 0,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -37,8 +37,8 @@
   "allocated": 0,
   "ship_health": 0,
   "fuel": 0,
-  "life_support": 2,
-  "power": 0,
+  "life_support": 0.7,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -50,9 +50,9 @@
   "explaination": "⬆Power ⬇Fuel",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": -2,
+  "fuel": -0.5,
   "life_support": 0,
-  "power": 1,
+  "power": 0.25,
   "crew": 0
 },
 {
@@ -60,10 +60,10 @@
   "name": "Atmospheric Scoop",
   "explaination": "⬆Life Support ⬇Ship Health",
   "allocated": 0,
-  "ship_health": -2,
+  "ship_health": -0.5,
   "fuel": 0,
-  "life_support": 3,
-  "power": 0,
+  "life_support": 0.75,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -71,10 +71,10 @@
   "name": "Barricade",
   "explaination": "⬆Ship Health ⬇Life Support",
   "allocated": 0,
-  "ship_health": 3,
+  "ship_health": 0.75,
   "fuel": 0,
-  "life_support": -2,
-  "power": 0,
+  "life_support": -0.5,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -83,9 +83,9 @@
   "explaination": "⬆Life Support ⬇Fuel",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": -2,
-  "life_support": 2,
-  "power": 0,
+  "fuel": -0.5,
+  "life_support": 0.5,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -93,10 +93,10 @@
   "name": "Welding",
   "explaination": "⬆Ship Health ⬇Fuel",
   "allocated": 0,
-  "ship_health": 2,
-  "fuel": -2,
+  "ship_health": 0.5,
+  "fuel": -0.5,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -105,9 +105,9 @@
   "explaination": "⬆Fuel ⬇Life Support",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": 2,
-  "life_support": -2,
-  "power": 0,
+  "fuel": 0.5,
+  "life_support": -0.5,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -117,8 +117,8 @@
   "allocated": 0,
   "ship_health": 0,
   "fuel": 0,
-  "life_support": -2,
-  "power": 2,
+  "life_support": -0.5,
+  "power": 0.75,
   "crew": 0
 },
 {
@@ -127,9 +127,9 @@
   "explaination": "⬆Fuel ⬇Power",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": 2,
+  "fuel": 0.5,
   "life_support": 0,
-  "power": -2,
+  "power": -0.25,
   "crew": 0
 },
 {
@@ -139,8 +139,8 @@
   "allocated": 0,
   "ship_health": 0,
   "fuel": 0,
-  "life_support": 2,
-  "power": -2,
+  "life_support": 0.5,
+  "power": -0.25,
   "crew": 0
 },
 {
@@ -148,10 +148,10 @@
   "name": "Shields",
   "explaination": "⬆Ship Health ⬇Power",
   "allocated": 0,
-  "ship_health": 2,
+  "ship_health": 0.5,
   "fuel": 0,
   "life_support": 0,
-  "power": -2,
+  "power": -0.25,
   "crew": 0
 },
 {
@@ -159,10 +159,10 @@
   "name": "Shed Weight",
   "explaination": "⬆Fuel ⬇Ship Health",
   "allocated": 0,
-  "ship_health": 2,
-  "fuel": -2,
+  "ship_health": 0.5,
+  "fuel": -0.5,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -170,9 +170,9 @@
   "name": "Heat Recycling",
   "explaination": "⬆Power ⬇Ship Health",
   "allocated": 0,
-  "ship_health": -2,
+  "ship_health": -0.5,
   "fuel": 0,
   "life_support": 0,
-  "power": 2,
+  "power": 0.75,
   "crew": 0
 }]
