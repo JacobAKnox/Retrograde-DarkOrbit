@@ -14,7 +14,7 @@ export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 0,
     DISCUSSION_PHASE_LENGTH: 60000,
     ACTION_PHASE_LENGTH: 20000,
-    GAME_OVER_PHASE_LENGTH: 150000
+    GAME_OVER_PHASE_LENGTH: 15000
 })
 
 // access should probably be wrapped in a function call
