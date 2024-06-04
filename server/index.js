@@ -1,7 +1,7 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
+import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players, get_lobby_by_player } from "./lobbies/lobbies.js";
 import { find_or_create_session } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs, clearMessageQueue } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
@@ -41,8 +41,9 @@ io.use((socket, next) => {
   socket.userID = result.userId;
   socket.roomCode = result.code;
   socket.username = result.username;
-  if (socket.roomCode !== "") {
+  if (socket.roomCode !== "" || socket.roomCode) {
     socket.join(socket.roomCode);
+    join_lobby(socket.roomCode, socket.username, socket.userId);
   }
   setTimeout(() => redirect_user(socket), 500);
   next();
@@ -126,8 +127,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave", (callback) => {
+    socket.leave(socket.roomCode);
     callback(leave_lobby(socket.userID));
     updatePlayerList(socket.roomCode); //added this
+    socket.roomCode = "";
   });
 
   socket.emit("session", {
@@ -138,7 +141,9 @@ io.on("connection", (socket) => {
   // socket.emit("lobby code", socket.roomCode);
 
   socket.on("disconnect", () => {
-    updatePlayerList(socket.roomCode); //added this 
+    // socket.leave(socket.roomCode);
+    // leave_lobby(socket.userID);
+    // updatePlayerList(socket.roomCode); //added this
   });
 
   socket.on("create", (data, callback) => {

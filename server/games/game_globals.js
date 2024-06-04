@@ -167,7 +167,7 @@ export const PER_PLAYER_POWER_INCREASE = 7;
 // this can be a float and won't break anything
 export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 0.05;
 
-export const CREW_DECREASE_RATE = 5;
+export const CREW_DECREASE_RATE = 30;
 
 export const MIN_PLAYERS = process.env.MIN_PLAYERS || 1;
 export const MAX_PLAYERS = process.env.MAX_PLAYERS || 15;

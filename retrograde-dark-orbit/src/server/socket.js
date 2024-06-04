@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 // socket.io interactions :)
 import { io } from 'socket.io-client';
 import { getItem, storeItem } from './storage';
+import { Router } from 'next/router';
 
 const GAME_OVER_PHASE = "Game Over";
 
@@ -75,7 +76,20 @@ export async function create_lobby(username) {
 }
 
 export default function Connector() {
-    useEffect(connect, []);
+    useEffect(() => {
+      connect();
+      if (!window) {
+        return;
+      }
+      function beforeUnload(e) {
+        socket.emitWithAck("leave");  
+      }
+      window.addEventListener("popstate", beforeUnload);
+
+      return () => {
+        window.removeEventListener("popstate", beforeUnload);
+      }
+    }, []);
 }
 
 export async function chat_message(message) {
