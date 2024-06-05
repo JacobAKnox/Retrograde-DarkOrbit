@@ -33,11 +33,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -69,11 +69,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -105,11 +105,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -127,7 +127,7 @@
     "$oid": "663801251b5582db6d9a6f04"
   },
   "name": "Captain",
-  "id": "captaan",
+  "id": "captain",
   "points": 10,
   "type": "good",
   "ability": "captain",
@@ -141,11 +141,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -177,11 +177,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -213,11 +213,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -249,11 +249,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -285,11 +285,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -321,11 +321,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -357,11 +357,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -393,11 +393,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -429,11 +429,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -498,7 +498,7 @@
   "win_condition": {
     "crew": {
       "min": 0,
-      "max": 0
+      "max": 5
     },
     "ship_health": {
       "min": 0,
