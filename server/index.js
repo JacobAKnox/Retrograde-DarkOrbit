@@ -1,8 +1,8 @@
 import express from "express";
 import {createServer} from "node:http";
 import {Server} from "socket.io";
-import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players } from "./lobbies/lobbies.js";
-import { find_or_create_session } from "./sessions/sessions.js";
+import { join_lobby, create_lobby, leave_lobby, get_lobby, get_num_ready_players, get_num_players, get_lobby_by_player } from "./lobbies/lobbies.js";
+import { find_or_create_session, queue_leave, set_update_player_list_callback } from "./sessions/sessions.js";
 import { assign_roles, get_game, get_role_info, setup, start_game, validate_received_user_poi_values, get_player_POIs, set_player_POIs, clearMessageQueue } from "./games/game.js";
 import { set_player_ready } from "./lobbies/lobbies.js";
 import { MIN_PLAYERS, PHASE_STATES } from "./games/game_globals.js";
@@ -41,8 +41,9 @@ io.use((socket, next) => {
   socket.userID = result.userId;
   socket.roomCode = result.code;
   socket.username = result.username;
-  if (socket.roomCode !== "") {
+  if (socket.roomCode !== "" || socket.roomCode) {
     socket.join(socket.roomCode);
+    join_lobby(socket.roomCode, socket.username, socket.userId);
   }
   setTimeout(() => redirect_user(socket), 500);
   next();
@@ -51,11 +52,9 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   // text chat
   socket.on("send chat msg", ({message}) => {
-    console.warn('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
+    console.log('[Room:' + socket.roomCode + ' chat] ' + socket.username + ': ' + message);
     io.in(socket.roomCode).emit("receive chat msg", {username: socket.username, message});
   });
-
-  
 
   // POI updates during action phase
   socket.on("client-sent poi update", (POIs, callback) => {
@@ -128,8 +127,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave", (callback) => {
+    socket.leave(socket.roomCode);
     callback(leave_lobby(socket.userID));
     updatePlayerList(socket.roomCode); //added this
+    socket.roomCode = "";
   });
 
   socket.emit("session", {
@@ -140,7 +141,8 @@ io.on("connection", (socket) => {
   // socket.emit("lobby code", socket.roomCode);
 
   socket.on("disconnect", () => {
-    updatePlayerList(socket.roomCode); //added this 
+    socket.leave(socket.roomCode);
+    queue_leave(socket.sessionID);
   });
 
   socket.on("create", (data, callback) => {
@@ -242,7 +244,7 @@ server.listen(PORT, async () => {
   set_status_bar_update(updateStatusBar);
   winners_update(sendWinnersToClient);
   message_queue_send(sendQueuedMessagesToClient);
-  console.warn(`server running at http://localhost:${PORT}`);
+  console.log(`server running at http://localhost:${PORT}`);
 });
 
 export function closeServer() {
@@ -266,6 +268,7 @@ function sendWinnersToClient(lobbyCode, winners) {
 }
 
 //update player lplayer
+set_update_player_list_callback(updatePlayerList);
 function updatePlayerList(lobbyCode) {
   const lobby = get_lobby(lobbyCode);
   
@@ -280,7 +283,6 @@ function updatePlayerList(lobbyCode) {
       ready: player.ready_state 
   }));
 
-  console.error(`Emitting player list for lobby ${lobbyCode}:`, playerList); 
   io.in(lobbyCode).emit('player_list_updated', playerList);
 }
 
@@ -294,13 +296,10 @@ function sleep(ms) {
 // Message queue is cleared once all messages have been sent.
 function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
-  if(game && game.messageQueue) {
-    for(message of game.messageQueue) {
-      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", message); });
+  if(game && game.messageQueue && game.messageQueue.length > 0) {
+    for(let message of game.messageQueue) {
+      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", {username: "server", message: message}); });
     }
     clearMessageQueue(lobbyCode);
-  }
-  else {
-    io.in(lobbyCode).emit("receive chat msg", "ERROR: No game or no messageQueue");
   }
 }

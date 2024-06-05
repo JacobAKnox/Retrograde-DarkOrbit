@@ -44,7 +44,6 @@ export default function InformationBar() {
 
     function on_role_update(role) {
         if (!role || !role.win_condition) {return;}
-        console.log(role);
         setWinCon(role.win_condition);
     }
 

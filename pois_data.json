@@ -1,79 +1,16 @@
-[{
-  "_id": {
-    "$oid": "663abbc44a680990decf637f"
-  },
-  "id": 1,
-  "name": "crew",
-  "allocated": 0,
-  "ship_health": 0,
-  "fuel": 0,
-  "life_support": 0,
-  "power": 0,
-  "crew": 2
-},
-{
-  "_id": {
-    "$oid": "663abcb34a680990decf6388"
-  },
-  "id": 2,
-  "name": "health",
-  "allocated": 0,
-  "ship_health": 2,
-  "fuel": 0,
-  "life_support": 0,
-  "power": 0,
-  "crew": 0
-},
-{
-  "_id": {
-    "$oid": "663abd4a4a680990decf6389"
-  },
-  "id": 3,
-  "name": "fuel",
-  "allocated": 0,
-  "ship_health": 0,
-  "fuel": 2,
-  "life_support": 0,
-  "power": 0,
-  "crew": 0
-},
-{
-  "_id": {
-    "$oid": "663abd644a680990decf638a"
-  },
-  "id": 4,
-  "name": "life",
-  "allocated": 0,
-  "ship_health": 0,
-  "fuel": 0,
-  "life_support": 2,
-  "power": 0,
-  "crew": 0
-},
-{
-  "_id": {
-    "$oid": "663abdb94a680990decf638b"
-  },
-  "id": 5,
-  "name": "power",
-  "allocated": 0,
-  "ship_health": 0,
-  "fuel": 0,
-  "life_support": 0,
-  "power": 2,
-  "crew": 0
-},
+[
 {
   "_id": {
     "$oid": "663bd7d244c8a107ad182c18"
   },
   "id": 6,
-  "name": "mining",
+  "name": "Mining",
+  "explaination": "⬆Fuel",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": 2,
+  "fuel": 0.5,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -81,12 +18,13 @@
     "$oid": "663bd7d244c8a107ad182c19"
   },
   "id": 7,
-  "name": "maintenance",
+  "name": "Maintenance",
+  "explaination": "⬆Ship Health",
   "allocated": 0,
-  "ship_health": 2,
+  "ship_health": 0.5,
   "fuel": 0,
   "life_support": 0,
-  "power": 0,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -94,12 +32,13 @@
     "$oid": "663bd7d244c8a107ad182c1a"
   },
   "id": 8,
-  "name": "hydroponics",
+  "name": "Hydroponics",
+  "explaination": "⬆Llife Support",
   "allocated": 0,
   "ship_health": 0,
   "fuel": 0,
-  "life_support": 2,
-  "power": 0,
+  "life_support": 0.7,
+  "power": -0.5,
   "crew": 0
 },
 {
@@ -107,37 +46,133 @@
     "$oid": "663bd7d244c8a107ad182c1b"
   },
   "id": 9,
-  "name": "generator",
+  "name": "Generator",
+  "explaination": "⬆Power ⬇Fuel",
   "allocated": 0,
   "ship_health": 0,
-  "fuel": -2,
+  "fuel": -0.5,
   "life_support": 0,
-  "power": 1,
+  "power": 0.25,
   "crew": 0
 },
 {
-  "_id": {
-    "$oid": "663bd7d244c8a107ad182c1c"
-  },
   "id": 10,
-  "name": "atmospheric scoop",
+  "name": "Atmospheric Scoop",
+  "explaination": "⬆Life Support ⬇Ship Health",
   "allocated": 0,
-  "ship_health": -2,
+  "ship_health": -0.5,
   "fuel": 0,
-  "life_support": 3,
-  "power": 0,
+  "life_support": 0.75,
+  "power": -0.5,
   "crew": 0
 },
 {
-  "_id": {
-    "$oid": "663bd7d244c8a107ad182c1d"
-  },
   "id": 11,
-  "name": "barricade",
+  "name": "Barricade",
+  "explaination": "⬆Ship Health ⬇Life Support",
   "allocated": 0,
-  "ship_health": 3,
+  "ship_health": 0.75,
   "fuel": 0,
-  "life_support": -2,
-  "power": 0,
+  "life_support": -0.5,
+  "power": -0.5,
+  "crew": 0
+},
+{
+  "id": 12,
+  "name": "Fuel Cells",
+  "explaination": "⬆Life Support ⬇Fuel",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": -0.5,
+  "life_support": 0.5,
+  "power": -0.5,
+  "crew": 0
+},
+{
+  "id": 13,
+  "name": "Welding",
+  "explaination": "⬆Ship Health ⬇Fuel",
+  "allocated": 0,
+  "ship_health": 0.5,
+  "fuel": -0.5,
+  "life_support": 0,
+  "power": -0.5,
+  "crew": 0
+},
+{
+  "id": 14,
+  "name": "Electrolysis",
+  "explaination": "⬆Fuel ⬇Life Support",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0.5,
+  "life_support": -0.5,
+  "power": -0.5,
+  "crew": 0
+},
+{
+  "id": 15,
+  "name": "Bio Fuels",
+  "explaination": "⬆Power ⬇Life Support",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": -0.5,
+  "power": 0.75,
+  "crew": 0
+},
+{
+  "id": 16,
+  "name": "Divert Fuel",
+  "explaination": "⬆Fuel ⬇Power",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0.5,
+  "life_support": 0,
+  "power": -0.25,
+  "crew": 0
+},
+{
+  "id": 17,
+  "name": "Grow Lamps",
+  "explaination": "⬆Life Support ⬇Power",
+  "allocated": 0,
+  "ship_health": 0,
+  "fuel": 0,
+  "life_support": 0.5,
+  "power": -0.25,
+  "crew": 0
+},
+{
+  "id": 18,
+  "name": "Shields",
+  "explaination": "⬆Ship Health ⬇Power",
+  "allocated": 0,
+  "ship_health": 0.5,
+  "fuel": 0,
+  "life_support": 0,
+  "power": -0.25,
+  "crew": 0
+},
+{
+  "id": 19,
+  "name": "Shed Weight",
+  "explaination": "⬆Fuel ⬇Ship Health",
+  "allocated": 0,
+  "ship_health": 0.5,
+  "fuel": -0.5,
+  "life_support": 0,
+  "power": -0.5,
+  "crew": 0
+},
+{
+  "id": 20,
+  "name": "Heat Recycling",
+  "explaination": "⬆Power ⬇Ship Health",
+  "allocated": 0,
+  "ship_health": -0.5,
+  "fuel": 0,
+  "life_support": 0,
+  "power": 0.75,
   "crew": 0
 }]
