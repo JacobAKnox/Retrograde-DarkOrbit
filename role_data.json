@@ -446,7 +446,7 @@
   "win_condition": {
     "crew": {
       "min": 0,
-      "max": 5
+      "max": 10
     },
     "ship_health": {
       "min": 0,
@@ -739,42 +739,6 @@
     "ship_health": {
       "min": 0,
       "max": 10
-    },
-    "fuel": {
-      "min": 0,
-      "max": 100
-    },
-    "life_support": {
-      "min": 0,
-      "max": 100
-    },
-    "power": {
-      "min": 0,
-      "max": 100
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "66297cceb24e4abc71dbbb74"
-  },
-  "name": "deafault_role",
-  "id": "default_role",
-  "points": 0,
-  "type": "good",
-  "ability": "default",
-  "ability_text": "no ability",
-  "win_group": "",
-  "group_name": "",
-  "win_text": "Do not use",
-  "win_condition": {
-    "crew": {
-      "min": 0,
-      "max": 100
-    },
-    "ship_health": {
-      "min": 0,
-      "max": 100
     },
     "fuel": {
       "min": 0,

@@ -12,7 +12,7 @@ export const PHASE_STATES = Object.freeze({
 // time in milliseconds
 export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 0,
-    DISCUSSION_PHASE_LENGTH: 60000,
+    DISCUSSION_PHASE_LENGTH: 45000,
     ACTION_PHASE_LENGTH: 20000,
     GAME_OVER_PHASE_LENGTH: 15000
 })
@@ -165,7 +165,7 @@ export const default_role_info = Object.freeze({
 export const PER_PLAYER_POWER_INCREASE = 7;
 
 // this can be a float and won't break anything
-export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 0.05;
+export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 0.25;
 
 export const CREW_DECREASE_RATE = 30;
 
