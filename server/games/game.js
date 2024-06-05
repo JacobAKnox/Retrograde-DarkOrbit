@@ -177,7 +177,6 @@ function shuffle(array) {
     }
   
     return array;
-
   }
 
   export function shuffle_pois(){
