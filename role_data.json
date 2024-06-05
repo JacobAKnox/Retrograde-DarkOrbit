@@ -1,57 +1,5 @@
 [{
   "_id": {
-    "$oid": "65e3cbecc68c11930879148e"
-  },
-  "name": "test_role1_database",
-  "id": "test1",
-  "points": 9
-},
-{
-  "_id": {
-    "$oid": "65e3cc5dc68c11930879148f"
-  },
-  "name": "test_role2",
-  "id": "test2",
-  "points": 10
-},
-{
-  "_id": {
-    "$oid": "66297cceb24e4abc71dbbb6e"
-  },
-  "name": "Crew Member",
-  "id": "crew",
-  "points": 10,
-  "type": "good",
-  "ability": "default",
-  "ability_text": "no ability",
-  "win_group": "good",
-  "group_name": "Ship Crew",
-  "win_text": "Temp Text",
-  "win_condition": {
-    "crew": {
-      "min": 5,
-      "max": 100
-    },
-    "ship_health": {
-      "min": 20,
-      "max": 100
-    },
-    "fuel": {
-      "min": 80,
-      "max": 100
-    },
-    "life_support": {
-      "min": 50,
-      "max": 100
-    },
-    "power": {
-      "min": 30,
-      "max": 100
-    }
-  }
-},
-{
-  "_id": {
     "$oid": "663801251b5582db6d9a6f02"
   },
   "name": "Doctor",
@@ -69,11 +17,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -105,11 +53,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -127,7 +75,7 @@
     "$oid": "663801251b5582db6d9a6f04"
   },
   "name": "Captain",
-  "id": "captaan",
+  "id": "captain",
   "points": 10,
   "type": "good",
   "ability": "captain",
@@ -141,11 +89,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -177,11 +125,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -213,11 +161,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -249,11 +197,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -285,11 +233,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -321,11 +269,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -357,11 +305,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -393,11 +341,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -429,11 +377,11 @@
       "max": 100
     },
     "ship_health": {
-      "min": 20,
+      "min": 35,
       "max": 100
     },
     "fuel": {
-      "min": 80,
+      "min": 60,
       "max": 100
     },
     "life_support": {
@@ -498,7 +446,7 @@
   "win_condition": {
     "crew": {
       "min": 0,
-      "max": 0
+      "max": 5
     },
     "ship_health": {
       "min": 0,

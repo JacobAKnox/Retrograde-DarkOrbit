@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 // socket.io interactions :)
 import { io } from 'socket.io-client';
 import { getItem, storeItem } from './storage';
+import { Router } from 'next/router';
 
 const GAME_OVER_PHASE = "Game Over";
 
@@ -66,16 +67,29 @@ export async function leave_lobby() {
     return await socket.emitWithAck('leave');
 }
 
-socket.on("receive chat msg", (message) => {
-    console.log(message, socket.id);
-})
+// socket.on("receive chat msg", (message) => {
+//     console.log(message, socket.id);
+// })
 
 export async function create_lobby(username) {
     return await socket.emitWithAck('create', {username});
 }
 
 export default function Connector() {
-    useEffect(connect, []);
+    useEffect(() => {
+      connect();
+      if (!window) {
+        return;
+      }
+      function beforeUnload(e) {
+        socket.emitWithAck("leave");  
+      }
+      window.addEventListener("popstate", beforeUnload);
+
+      return () => {
+        window.removeEventListener("popstate", beforeUnload);
+      }
+    }, []);
 }
 
 export async function chat_message(message) {

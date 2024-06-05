@@ -14,7 +14,7 @@ export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 0,
     DISCUSSION_PHASE_LENGTH: 60000,
     ACTION_PHASE_LENGTH: 20000,
-    GAME_OVER_PHASE_LENGTH: 150000
+    GAME_OVER_PHASE_LENGTH: 15000
 })
 
 // access should probably be wrapped in a function call
@@ -32,11 +32,11 @@ export function get_new_status_bars() {
 }
 
 const STATUS_BAR_TEMPLATE = Object.freeze({
-    "crew": {name: "Crew", value: 50, max_value: 100},
-    "ship_health": {name: "Ship Health", value: 50, max_value: 100},
-    "fuel": {name: "Fuel", value: 50, max_value: 100},
-    "life_support": {name: "Life Support", value: 50, max_value: 100},
-    "power": {name: "Power", value: 50, max_value: 100}
+  "crew": {name: "Crew", value: 95, max_value: 100},
+  "ship_health": {name: "Ship Health", value: 25, max_value: 100},
+  "fuel": {name: "Fuel", value: 40, max_value: 100},
+  "life_support": {name: "Life Support", value: 80, max_value: 100},
+  "power": {name: "Power", value: 15, max_value: 100}
 });
 
 export const default_role_info = Object.freeze({
@@ -162,12 +162,12 @@ export const default_role_info = Object.freeze({
     }
 });
 
-export const PER_PLAYER_POWER_INCREASE = 5;
+export const PER_PLAYER_POWER_INCREASE = 7;
 
 // this can be a float and won't break anything
-export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 1;
+export const LIFE_SUPPORT_DECREASE_MULTIPLIER = 0.05;
 
-export const CREW_DECREASE_RATE = 1;
+export const CREW_DECREASE_RATE = 30;
 
 export const MIN_PLAYERS = process.env.MIN_PLAYERS || 1;
 export const MAX_PLAYERS = process.env.MAX_PLAYERS || 15;

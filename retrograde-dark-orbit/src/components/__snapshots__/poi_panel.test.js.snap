@@ -55,6 +55,13 @@ exports[`chat_box component test 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              class="flex justify-center p-1 text-md"
+            >
+              <p
+                class="text-center text-wrap break-words"
+              />
+            </div>
           </div>
           <div
             class="rounded-xl p-2 m-2 bg-slate-700"
@@ -91,6 +98,13 @@ exports[`chat_box component test 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              class="flex justify-center p-1 text-md"
+            >
+              <p
+                class="text-center text-wrap break-words"
+              />
+            </div>
           </div>
           <div
             class="rounded-xl p-2 m-2 bg-slate-700"
@@ -126,6 +140,13 @@ exports[`chat_box component test 1`] = `
                   +
                 </div>
               </div>
+            </div>
+            <div
+              class="flex justify-center p-1 text-md"
+            >
+              <p
+                class="text-center text-wrap break-words"
+              />
             </div>
           </div>
         </div>
@@ -183,6 +204,13 @@ exports[`chat_box component test 1`] = `
               </div>
             </div>
           </div>
+          <div
+            class="flex justify-center p-1 text-md"
+          >
+            <p
+              class="text-center text-wrap break-words"
+            />
+          </div>
         </div>
         <div
           class="rounded-xl p-2 m-2 bg-slate-700"
@@ -219,6 +247,13 @@ exports[`chat_box component test 1`] = `
               </div>
             </div>
           </div>
+          <div
+            class="flex justify-center p-1 text-md"
+          >
+            <p
+              class="text-center text-wrap break-words"
+            />
+          </div>
         </div>
         <div
           class="rounded-xl p-2 m-2 bg-slate-700"
@@ -254,6 +289,13 @@ exports[`chat_box component test 1`] = `
                 +
               </div>
             </div>
+          </div>
+          <div
+            class="flex justify-center p-1 text-md"
+          >
+            <p
+              class="text-center text-wrap break-words"
+            />
           </div>
         </div>
       </div>
