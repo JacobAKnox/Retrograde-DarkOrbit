@@ -128,6 +128,7 @@ io.on("connection", (socket) => {
 
   socket.on("leave", (callback) => {
     socket.leave(socket.roomCode);
+    if (get_game(socket.roomCode)) {return;}
     callback(leave_lobby(socket.userID));
     updatePlayerList(socket.roomCode); //added this
     socket.roomCode = "";

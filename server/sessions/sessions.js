@@ -1,3 +1,4 @@
+import { get_game } from "../games/game.js";
 import { get_lobby_by_player, get_username, leave_lobby } from "../lobbies/lobbies.js";
 
 let sessionStore = {}
@@ -36,6 +37,9 @@ export function queue_leave(sessionId, sessions=sessionStore) {
     }
     console.log(session);
     const code = get_lobby_by_player(session.userId);
+    if (get_game(code)) {
+      return;
+    }
     leave_lobby(session.userId);
     updatePlayerListCallback(code);
   }, 5000);
