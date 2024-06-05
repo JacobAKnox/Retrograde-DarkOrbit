@@ -4,7 +4,6 @@ import { MAX_PLAYERS } from "../games/game_globals.js";
 let lobbies = {"ABCD": {}, "WXYZ": {}};
 
 export function join_lobby(lobby_code, username, user_id, lobby_list=lobbies) {
-
     if (!(lobby_code in lobby_list)) {
         return{status: 400, message: `No lobby with code ${lobby_code}`};
     }
@@ -59,7 +58,6 @@ export function leave_lobby(user_id, lobby_list=lobbies) {
     if (lobby_id.length === 0) {
         return {status: 400, message: `You are not in a lobby`};
     }
-
     delete lobby_list[lobby_id[0]][user_id];
     if (Object.keys(lobby_list[lobby_id[0]]).length === 0) {
         delete lobby_list[lobby_id[0]];
