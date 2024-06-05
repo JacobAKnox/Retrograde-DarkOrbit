@@ -38,5 +38,5 @@ export function queue_leave(sessionId, sessions=sessionStore) {
     const code = get_lobby_by_player(session.userId);
     leave_lobby(session.userId);
     updatePlayerListCallback(code);
-  }, 1000);
+  }, 5000);
 }
