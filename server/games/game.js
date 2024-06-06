@@ -351,3 +351,12 @@ export function clearMessageQueue(game_code, game_list = games) {
     game.messageQueue = [];
   }
 }
+
+// add "book ends" to message queue for easier reading in chat
+export function bookendMessageQueue(game_code, game_list = games) {
+  let game = get_game(game_code, game_list);
+  if(game && game.messageQueue) {
+    game.messageQueue.unshift("================================");
+    game.messageQueue.push("================================");
+  }
+}
