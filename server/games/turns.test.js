@@ -27,7 +27,7 @@ describe("turn phases and timings", () => {
     test("phases", async () => {
         const sleep_mock = jest.fn(async () => {});
 
-        let game = {    players: { "player": { username: "username", role: { win_condition:{ "crew": { min: 90, max: 100 }}}}},
+        let game = {    players: { "player": { username: "username", role: { type: "e_leader", win_condition:{ "crew": { min: 90, max: 100 }}}}},
                         currentState: {},
                         statusBars: {"crew": 5 },
                         pois: PLAYER_INITIAL_POIS};
@@ -113,7 +113,7 @@ describe("turn phases and timings", () => {
     });
 
     test("should call automatic status updates during server processing", async () => {
-        let game = {    players: { "player": { username: "username", role: { win_condition:{ "crew": { min: 90, max: 100 }}}}},
+        let game = {    players: { "player": { username: "username", role: { type: "e_leader", win_condition:{ "crew": { min: 90, max: 100 }}}}},
                         currentState: PHASE_STATES.SERVER_PROCESSING_PHASE,
                         statusBars: {"crew": 5 }};
         const lobbyCode = "testCode";
@@ -188,10 +188,43 @@ describe("turn phases and timings", () => {
                             "life_support":   { value: 50 },
                             "power":          { value: 50 }}};
 
+        // a good guy wins
+        const game3 = {
+            players: {
+                "player1": {
+                    username: "username1",
+                    role: { 
+                        win_condition: {
+                            "crew":           { min: 5,  max: 60 },
+                            "ship_health":    { min: 20, max: 100 },
+                            "fuel":           { min: 40, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 30, max: 100 }},
+                        group_name: "team-1",
+                        type: "good" }},
+                "player2": {
+                    username: "username2",
+                    role: { 
+                        win_condition: {
+                            "crew":           { min: 70, max: 100 },
+                            "ship_health":    { min: 50, max: 100 },
+                            "fuel":           { min: 90, max: 100 },
+                            "life_support":   { min: 50, max: 100 },
+                            "power":          { min: 45, max: 100 }},
+                        group_name: "team-2",
+                        type: "e_leader" }}},
+            statusBars: {   "crew":           { value: 50 },
+                            "ship_health":    { value: 50 },
+                            "fuel":           { value: 50 },
+                            "life_support":   { value: 50 },
+                            "power":          { value: 50 }}};
+
         const result1 = get_winners_from_role_win_conditions(game1);
         const result2 = get_winners_from_role_win_conditions(game2);
+        const result3 = get_winners_from_role_win_conditions(game3);
         expect(result1).toEqual({ team: "", names: [] });
         expect(result2).toEqual({ team: "evil_team", names: ["evil_leader", "evil_minion"] });
+        expect(result3).toEqual({ team: "team-1", names: ["username1"] });
     });
 
     test("global win condition checking", () => {

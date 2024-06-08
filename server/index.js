@@ -43,7 +43,6 @@ io.use((socket, next) => {
   socket.username = result.username;
   if (socket.roomCode !== "" || socket.roomCode) {
     socket.join(socket.roomCode);
-    join_lobby(socket.roomCode, socket.username, socket.userId);
   }
   setTimeout(() => redirect_user(socket), 500);
   next();
@@ -122,6 +121,10 @@ io.on("connection", (socket) => {
       socket.username = data.username;
       socket.roomCode = data.code;
       updatePlayerList(socket.roomCode); //added this
+      socket.emit("session", {
+        sessionID: socket.sessionID,
+        userID: socket.userID
+      });    
     }
     callback(result);
   });
@@ -133,13 +136,6 @@ io.on("connection", (socket) => {
     updatePlayerList(socket.roomCode); //added this
     socket.roomCode = "";
   });
-
-  socket.emit("session", {
-    sessionID: socket.sessionID,
-    userID: socket.userID
-  });
-
-  // socket.emit("lobby code", socket.roomCode);
 
   socket.on("disconnect", () => {
     socket.leave(socket.roomCode);
@@ -179,8 +175,6 @@ io.on("connection", (socket) => {
     }
     try_start_game(socket);
   });
-
-
 
   async function try_start_game(socket) {
     if (socket.roomCode === "") {
@@ -234,7 +228,6 @@ io.on("connection", (socket) => {
   socket.on("use_ability", (data) => {
     use_ability(socket.roomCode, socket.userID, data);
   });
-
 });
 
 const PORT = process.env.PORT | 4000;
@@ -299,7 +292,7 @@ function sendQueuedMessagesToClient(lobbyCode) {
   let game = get_game(lobbyCode);
   if(game && game.messageQueue && game.messageQueue.length > 0) {
     for(let message of game.messageQueue) {
-      sleep(350).then(() => { io.in(lobbyCode).emit("receive chat msg", {username: "server", message: message}); });
+      sleep(500).then(() => { io.in(lobbyCode).emit("receive chat msg", {username: "server", message: message}); });
     }
     clearMessageQueue(lobbyCode);
   }

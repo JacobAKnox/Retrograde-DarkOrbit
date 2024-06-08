@@ -18,6 +18,7 @@ export function find_or_create_session(sessionId, sessions=sessionStore) {
           session.code = code;
           session.username = get_username(session.userId);
         }
+        connected[sessionId] = session;
         return session;
       }
     }
@@ -35,12 +36,13 @@ export function queue_leave(sessionId, sessions=sessionStore) {
     if (sessionId in connected) {
       return;
     }
-    console.log(session);
     const code = get_lobby_by_player(session.userId);
     if (get_game(code)) {
       return;
     }
     leave_lobby(session.userId);
     updatePlayerListCallback(code);
-  }, 5000);
+    session.code = "";
+    session.username = "";
+  }, 2500);
 }

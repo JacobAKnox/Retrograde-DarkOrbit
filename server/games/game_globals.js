@@ -13,7 +13,7 @@ export const PHASE_STATES = Object.freeze({
 export const PHASE_TIMINGS = Object.freeze({
     INFORMATION_PHASE_LENGTH: 0,
     DISCUSSION_PHASE_LENGTH: 45000,
-    ACTION_PHASE_LENGTH: 20000,
+    ACTION_PHASE_LENGTH: 15000,
     GAME_OVER_PHASE_LENGTH: 15000
 })
 
@@ -32,7 +32,7 @@ export function get_new_status_bars() {
 }
 
 const STATUS_BAR_TEMPLATE = Object.freeze({
-  "crew": {name: "Crew", value: 95, max_value: 100},
+  "crew": {name: "Crew", value: 96, max_value: 100},
   "ship_health": {name: "Ship Health", value: 25, max_value: 100},
   "fuel": {name: "Fuel", value: 40, max_value: 100},
   "life_support": {name: "Life Support", value: 80, max_value: 100},
